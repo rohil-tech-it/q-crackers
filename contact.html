@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — Q Crackers</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css"> 
+  <!-- FAVICON / TAB LOGO -->
+  <link rel="icon" type="image/png" href="./images/logo-removebg-preview.png">
+  <style>
+    .live-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(46, 204, 113, 0.15);
+      color: #2ecc71;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .live-indicator .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #2ecc71;
+      animation: blink-dot 1.5s infinite;
+    }
+
+    @keyframes blink-dot {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.2;
+      }
+    }
+
+    .settings-sync-badge {
+      display: inline-block;
+      background: #2ecc71;
+      color: #fff;
+      font-size: 0.6rem;
+      padding: 2px 10px;
+      border-radius: 999px;
+      margin-left: 8px;
+      vertical-align: middle;
+      animation: pulse-badge 2s infinite;
+    }
+
+    @keyframes pulse-badge {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ===== TOP BAR ===== -->
+  <div class="top-bar">
+    <div class="container top-bar-inner">
+      <span class="top-bar-msg" id="topBarMsg">Welcome to Q Crackers — Premium Sivakasi Fireworks, delivered across
+        Tamil Nadu.</span>
+      <div class="top-bar-contacts">
+        <a href="tel:+919655586461" id="headerPhone"><i class="fas fa-phone"></i> +91 96555 86461</a>
+        <a href="mailto:hello@qcrackers.in" id="headerEmail"><i class="fas fa-envelope"></i>qcrackerss@gmail.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="nav-top">
+      <a href="index.html" class="logo"> <img src="images/logo-removebg-preview.png" alt="Q Crackers Logo"
+          class="logo-img"> </a>
+      <div class="nav-top-right">
+        <a href="tel:+919655586461" class="nav-top-phone" id="navPhone"><i class="fas fa-phone"></i> +91 96555 86461</a>
+        <button class="header-cart" id="open-cart-btn">
+          <i class="fas fa-shopping-cart"></i>
+          <span id="header-cart-total">₹0</span>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </button>
+      </div>
+    </div>
+    <div class="nav-bottom">
+      <div class="all-categories">
+        <button class="all-categories-btn" id="all-cat-btn">
+          All Categories <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="all-categories-menu" id="all-cat-menu">
+          <a href="products.html">Sparklers</a>
+          <a href="products.html">Aerial Shots</a>
+          <a href="products.html">Ground Chakkars</a>
+          <a href="products.html">Sound Crackers</a>
+          <a href="products.html">Rockets</a>
+          <a href="products.html">Gift Boxes</a>
+        </div>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html" class="active">Contact Us</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <a href="assets/pdf/Q-Crackers-Price-List.pdf" target="_blank" download class="btn btn-primary"
+          id="priceListBtn">
+          Download Price List
+        </a>
+        <button class="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== PAGE BANNER ===== -->
+  <section class="contact-banner">
+    <div class="container">
+      <div class="banner-content">
+        <span class="eyebrow"><i class="fas fa-envelope"></i> Get in Touch</span>
+        <h1 style="color: var(--bg);">Let's Talk <span class="accent">Fireworks</span></h1>
+        <p id="contactDescription">Have questions? Need bulk pricing? We're here to help — reach out to us anytime.</p>
+        <div class="banner-stats">
+          <span><i class="fas fa-clock"></i> Quick Response</span>
+          <span><i class="fas fa-headset"></i> 24/7 Support</span>
+          <span><i class="fas fa-check-circle"></i> 100% Satisfaction</span>
+        </div>
+        <div style="margin-top:12px;">
+          <span class="live-indicator">
+            <span class="dot"></span> Live from Settings
+          </span>
+          <span class="settings-sync-badge"><i class="fas fa-sync-alt fa-fw"></i> Auto-Sync</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section class="section contact-section">
+    <div class="container contact-grid">
+      <!-- Left Side - Contact Info -->
+      <div class="contact-info reveal">
+        <span class="eyebrow">Reach Us Directly</span>
+        <h2>We Reply <span class="accent">Fast</span> on WhatsApp</h2>
+        <p>Our team is ready to assist you with orders, enquiries, and celebrations.</p>
+
+        <div class="contact-info-grid">
+          <div class="contact-info-card">
+            <div class="contact-info-icon">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="contact-info-detail">
+              <span class="contact-info-label">Call / WhatsApp</span>
+              <a href="tel:+919655586461" id="contactPhone">+91 96555 86461</a>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-info-detail">
+              <span class="contact-info-label">Email Us</span>
+              <a href="mailto:hello@qcrackers.in" id="contactEmail">hello@qcrackers.in</a>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="contact-info-detail">
+              <span class="contact-info-label">Visit Us</span>
+              <span id="contactAddress">Sivakasi, Tamil Nadu, India</span>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="contact-info-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="contact-info-detail">
+              <span class="contact-info-label">Working Hours</span>
+              <span id="contactHours">Mon–Sat, 9:00 AM – 8:00 PM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="contact-social">
+          <span class="contact-social-label">Follow Us</span>
+          <div class="contact-social-icons">
+            <a href="#" class="cs-icon facebook" id="contactFacebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="cs-icon instagram" id="contactInstagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="cs-icon youtube" id="contactYouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="cs-icon whatsapp" id="contactWhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+
+        <!-- WhatsApp Button -->
+        <a href="https://wa.me/919655586461" class="btn btn-primary whatsapp-btn" id="whatsappChatBtn">
+          <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+        </a>
+      </div>
+
+      <!-- Right Side - Form -->
+      <div class="contact-form-wrapper reveal">
+        <div class="form-card">
+          <h3>Send Us a Message</h3>
+          <p>We'll get back to you within 24 hours</p>
+          <form id="contact-form">
+            <div class="field">
+              <label for="name"><i class="fas fa-user"></i> Full Name</label>
+              <input type="text" id="name" required placeholder="Your full name">
+            </div>
+            <div class="field">
+              <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+              <input type="tel" id="phone" required placeholder="+91 96555 86461">
+            </div>
+            <div class="field">
+              <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+              <input type="email" id="email" placeholder="your@email.com">
+            </div>
+            <div class="field">
+              <label for="subject"><i class="fas fa-tag"></i> What's This About?</label>
+              <select id="subject">
+                <option>General Enquiry</option>
+                <option>Bulk / Wholesale Order</option>
+                <option>Order Status</option>
+                <option>Complaint / Feedback</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="message"><i class="fas fa-comment"></i> Message</label>
+              <textarea id="message" required placeholder="Tell us what you need..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary submit-btn">
+              <i class="fas fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MAP SECTION ===== -->
+  <section class="map-section">
+    <div class="container">
+      <div class="map-wrapper">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1f15718.2345678901!2d77.8!3d9.45!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b06d3a5a5a5a5a5%3A0x0!2sSivakasi%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1234567890"
+          width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <div class="map-overlay">
+          <span><i class="fas fa-map-pin"></i> Find Us in Sivakasi</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="footer-logo">
+            <span class="footer-logo-mark">Q</span>
+            <span class="footer-logo-text">Crackers</span></span>
+          </a>
+          <p class="footer-desc" id="footerDesc">Premium Sivakasi fireworks, delivered safely across
+            Tamil Nadu.
+            Celebrate bigger, celebrate brighter.</p>
+          <div class="footer-social">
+            <a href="#" class="social-icon facebook" id="footerFacebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-icon instagram" id="footerInstagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-icon youtube" id="footerYouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" class="social-icon whatsapp" id="footerWhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4><i class="fas fa-compass"></i> Quick Links</h4>
+          <ul>
+            <li><a href="products.html"><i class="fas fa-fire"></i> Products</a></li>
+            <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4><i class="fas fa-headset"></i> Support</h4>
+          <ul>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact Us</a></li>
+            <li><a href="#"><i class="fas fa-truck"></i> Track Order</a></li>
+            <li><a href="#"><i class="fas fa-box"></i> Shipping Info</a></li>
+            <li><a href="#"><i class="fas fa-shield-alt"></i> Safety Guidelines</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4><i class="fas fa-phone-alt"></i> Get in Touch</h4>
+          <ul class="contact-list">
+            <li>
+              <div class="contact-icon"><i class="fas fa-phone"></i></div>
+              <div class="contact-detail">
+                <span class="contact-label">Call Us</span>
+                <a href="tel:+919655586461" id="footerPhone">+91 96555 86461</a>
+              </div>
+            </li>
+            <li>
+              <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+              <div class="contact-detail">
+                <span class="contact-label">Email Us</span>
+                <a href="mailto:hello@qcrackers.in" id="footerEmail">hello@qcrackers.in</a>
+              </div>
+            </li>
+            <li>
+              <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+              <div class="contact-detail">
+                <span class="contact-label">Visit Us</span>
+                <span id="footerAddress">Sivakasi, Tamil Nadu</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-bottom-left">
+          <span>© 2026 <strong>Q Crackers</strong>. All rights reserved.</span>
+        </div>
+        <div class="footer-bottom-right">
+          <span><i class="fas fa-shield-alt" style="color:var(--yellow);"></i> 100% Safe</span>
+          <span><i class="fas fa-truck-fast" style="color:var(--yellow);"></i> Fast Delivery</span>
+          <span><i class="fas fa-star" style="color:var(--yellow);"></i> Premium Quality</span>
+        </div>
+      </div>
+      <div class="footer-disclaimer">
+        <span>Developed by Rohil Technologies</span>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- ===== BACK TO TOP ===== -->
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+
+  <!-- ===== SOCIAL FLOATING ICONS ===== -->
+  <div class="social-float">
+    <a href="tel:+919655586461" class="sf-phone" id="sfPhone" aria-label="Call">
+      <i class="fas fa-phone"></i>
+    </a>
+    <a href="https://wa.me/919655586461" class="sf-whatsapp" id="sfWhatsApp" aria-label="WhatsApp">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+    <a href="https://www.instagram.com/q_crackers_official/" class="sf-instagram" id="sfInstagram"
+      aria-label="Instagram">
+      <i class="fab fa-instagram"></i>
+    </a>
+    <a href="https://www.facebook.com/profile.php?id=100092128860200" class="sf-facebook" id="sfFacebook"
+      aria-label="Facebook">
+      <i class="fab fa-facebook-f"></i>
+    </a>
+  </div>
+
+  <!-- ============================================================
+  FIREBASE — AUTO-SYNC
+  ============================================================ -->
+  <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
+        "firebase/firestore": "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "firebase/app";
+    import { getFirestore, doc, onSnapshot } from "firebase/firestore";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
+      authDomain: "qcrackers.firebaseapp.com",
+      projectId: "qcrackers",
+      storageBucket: "qcrackers.firebasestorage.app",
+      messagingSenderId: "491899224672",
+      appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // ============================================================
+    // DOM ELEMENTS
+    // ============================================================
+    const elements = {
+      // Top Bar
+      topBarMsg: document.getElementById('topBarMsg'),
+      headerPhone: document.getElementById('headerPhone'),
+      headerEmail: document.getElementById('headerEmail'),
+
+      // Navigation
+      navPhone: document.getElementById('navPhone'),
+
+      // Contact Info
+      contactPhone: document.getElementById('contactPhone'),
+      contactEmail: document.getElementById('contactEmail'),
+      contactAddress: document.getElementById('contactAddress'),
+      contactHours: document.getElementById('contactHours'),
+      contactDescription: document.getElementById('contactDescription'),
+
+      // Contact Social
+      contactFacebook: document.getElementById('contactFacebook'),
+      contactInstagram: document.getElementById('contactInstagram'),
+      contactYouTube: document.getElementById('contactYouTube'),
+      contactWhatsApp: document.getElementById('contactWhatsApp'),
+
+      // WhatsApp Chat Button
+      whatsappChatBtn: document.getElementById('whatsappChatBtn'),
+
+      // Footer
+      footerBrandName: document.getElementById('footerBrandName'),
+      footerDesc: document.getElementById('footerDesc'),
+      footerPhone: document.getElementById('footerPhone'),
+      footerEmail: document.getElementById('footerEmail'),
+      footerAddress: document.getElementById('footerAddress'),
+      footerFacebook: document.getElementById('footerFacebook'),
+      footerInstagram: document.getElementById('footerInstagram'),
+      footerYouTube: document.getElementById('footerYouTube'),
+      footerWhatsApp: document.getElementById('footerWhatsApp'),
+
+      // Floating
+      sfPhone: document.getElementById('sfPhone'),
+      sfWhatsApp: document.getElementById('sfWhatsApp'),
+      sfInstagram: document.getElementById('sfInstagram'),
+      sfFacebook: document.getElementById('sfFacebook'),
+
+      // Price List
+      priceListBtn: document.getElementById('priceListBtn'),
+    };
+
+    // ============================================================
+    // HELPERS
+    // ============================================================
+    const cleanPhone = (phone) => {
+      if (!phone) return '';
+      return phone.replace(/[^0-9+]/g, '');
+    };
+
+    const formatPhoneForDisplay = (phone) => {
+      if (!phone) return '+91 96555 86461';
+      const cleaned = cleanPhone(phone);
+      if (cleaned.startsWith('91') && cleaned.length === 12) {
+        return `+91 ${cleaned.slice(2, 7)} ${cleaned.slice(7)}`;
+      }
+      return phone;
+    };
+
+    const formatPhoneForLink = (phone) => {
+      if (!phone) return '+919655586460';
+      const cleaned = cleanPhone(phone);
+      if (cleaned.startsWith('91')) return `+${cleaned}`;
+      if (cleaned.startsWith('+')) return cleaned;
+      return `+${cleaned}`;
+    };
+
+    const formatWhatsAppLink = (number) => {
+      if (!number) return 'https://wa.me/919655586460';
+      const cleaned = number.replace(/[^0-9]/g, '');
+      return `https://wa.me/${cleaned}`;
+    };
+
+    // ============================================================
+    // UPDATE UI FROM FIREBASE
+    // ============================================================
+    function updateUI(data) {
+      console.log('🔄 Contact page updating from Firebase:', data);
+
+      // Store Name
+      if (data.storeName) {
+        if (elements.topBarMsg) {
+          elements.topBarMsg.textContent = `Welcome to ${data.storeName} — Premium Sivakasi Fireworks, delivered across Tamil Nadu.`;
+        }
+        if (elements.footerBrandName) {
+          elements.footerBrandName.textContent = data.storeName;
+        }
+      }
+
+      // Store Phone
+      if (data.storePhone) {
+        const display = formatPhoneForDisplay(data.storePhone);
+        const link = formatPhoneForLink(data.storePhone);
+
+        // Top Bar Phone
+        if (elements.headerPhone) {
+          elements.headerPhone.innerHTML = `<i class="fas fa-phone"></i> ${display}`;
+          elements.headerPhone.href = `tel:${link}`;
+        }
+        // Nav Phone
+        if (elements.navPhone) {
+          elements.navPhone.innerHTML = `<i class="fas fa-phone"></i> ${display}`;
+          elements.navPhone.href = `tel:${link}`;
+        }
+        // Contact Phone
+        if (elements.contactPhone) {
+          elements.contactPhone.textContent = display;
+          elements.contactPhone.href = `tel:${link}`;
+        }
+        // Footer Phone
+        if (elements.footerPhone) {
+          elements.footerPhone.textContent = display;
+          elements.footerPhone.href = `tel:${link}`;
+        }
+        // Floating Phone
+        if (elements.sfPhone) {
+          elements.sfPhone.href = `tel:${link}`;
+        }
+      }
+
+      // Store Email
+      if (data.storeEmail) {
+        if (elements.headerEmail) {
+          elements.headerEmail.innerHTML = `<i class="fas fa-envelope"></i>${data.storeEmail}`;
+          elements.headerEmail.href = `mailto:${data.storeEmail}`;
+        }
+        if (elements.contactEmail) {
+          elements.contactEmail.textContent = data.storeEmail;
+          elements.contactEmail.href = `mailto:${data.storeEmail}`;
+        }
+        if (elements.footerEmail) {
+          elements.footerEmail.textContent = data.storeEmail;
+          elements.footerEmail.href = `mailto:${data.storeEmail}`;
+        }
+      }
+
+      // Store Address
+      if (data.storeAddress) {
+        if (elements.contactAddress) {
+          elements.contactAddress.textContent = data.storeAddress;
+        }
+        if (elements.footerAddress) {
+          elements.footerAddress.textContent = data.storeAddress;
+        }
+      }
+
+      // Store Hours
+      if (data.storeHours && elements.contactHours) {
+        elements.contactHours.textContent = data.storeHours;
+      }
+
+      // Contact Description
+      if (data.contactDescription && elements.contactDescription) {
+        elements.contactDescription.textContent = data.contactDescription;
+      }
+
+      // Footer Description
+      if (data.footerDescription && elements.footerDesc) {
+        elements.footerDesc.textContent = data.footerDescription;
+      }
+
+      // ============================================================
+      // SOCIAL MEDIA LINKS
+      // ============================================================
+
+      // Facebook
+      if (data.facebookUrl) {
+        if (elements.contactFacebook) elements.contactFacebook.href = data.facebookUrl;
+        if (elements.footerFacebook) elements.footerFacebook.href = data.facebookUrl;
+        if (elements.sfFacebook) elements.sfFacebook.href = data.facebookUrl;
+      }
+
+      // Instagram
+      if (data.instagramUrl) {
+        if (elements.contactInstagram) elements.contactInstagram.href = data.instagramUrl;
+        if (elements.footerInstagram) elements.footerInstagram.href = data.instagramUrl;
+        if (elements.sfInstagram) elements.sfInstagram.href = data.instagramUrl;
+      }
+
+      // YouTube
+      if (data.youtubeUrl) {
+        if (elements.contactYouTube) elements.contactYouTube.href = data.youtubeUrl;
+        if (elements.footerYouTube) elements.footerYouTube.href = data.youtubeUrl;
+      }
+
+      // ============================================================
+      // WHATSAPP
+      // ============================================================
+      if (data.whatsappNumber) {
+        const waLink = formatWhatsAppLink(data.whatsappNumber);
+
+        // Contact WhatsApp Icon
+        if (elements.contactWhatsApp) {
+          elements.contactWhatsApp.href = waLink;
+        }
+
+        // Footer WhatsApp
+        if (elements.footerWhatsApp) {
+          elements.footerWhatsApp.href = waLink;
+        }
+
+        // Floating WhatsApp
+        if (elements.sfWhatsApp) {
+          elements.sfWhatsApp.href = waLink;
+        }
+
+        // WhatsApp Chat Button
+        if (elements.whatsappChatBtn) {
+          elements.whatsappChatBtn.href = waLink;
+        }
+      }
+
+      // Price List PDF
+      if (data.pdfFileName && elements.priceListBtn) {
+        elements.priceListBtn.href = `assets/pdf/${data.pdfFileName}`;
+      }
+
+      console.log('✅ Contact page updated successfully');
+    }
+
+    // ============================================================
+    // LISTEN TO FIREBASE — REAL-TIME AUTO-SYNC
+    // ============================================================
+    const docRef = doc(db, 'storeSettings', 'settings');
+
+    onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        console.log('✅ Firebase data received on Contact page:', data);
+        updateUI(data);
+      } else {
+        console.log('📄 No settings found, using defaults');
+        updateUI({
+          storeName: 'Q Crackers',
+          storePhone: '+91 96555 86461',
+          storeEmail: 'qcrackerss@gmail.com',
+          storeAddress: 'Sivakasi, Tamil Nadu, India',
+          storeHours: 'Mon–Sat, 9:00 AM – 8:00 PM',
+          contactDescription: 'Have questions? Need bulk pricing? We\'re here to help — reach out to us anytime.',
+          footerDescription: 'Premium Sivakasi fireworks, delivered safely across Tamil Nadu. Celebrate bigger, celebrate brighter.u. Celebrate bigger, celebrate brighter.',
+          facebookUrl: '#',
+          instagramUrl: '#',
+          youtubeUrl: '#',
+          whatsappNumber: '919655586460'
+        });
+      }
+    }, (error) => {
+      console.error('❌ Firebase error:', error);
+    });
+
+    console.log('🚀 Q Crackers Contact — Auto-Sync from Firebase enabled!');
+
+    // ============================================================
+    // CONTACT FORM HANDLER
+    // ============================================================
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value.trim();
+
+      if (!name || !phone || !message) {
+        alert('⚠️ Please fill in all required fields (Name, Phone, Message)');
+        return;
+      }
+
+      // Build WhatsApp message
+      const waMsg = `*📩 New Enquiry from Q Crackers Website*
+
+*Name:* ${name}
+*Phone:* ${phone}
+*Email:* ${email || 'Not provided'}
+*Subject:* ${subject}
+*Message:* ${message}`;
+
+      const encodedMsg = encodeURIComponent(waMsg);
+
+      // Get WhatsApp number from Firebase data or use default
+      const waNumber = '919655586460'; // Will be updated by Firebase sync
+      const waUrl = `https://wa.me/${waNumber}?text=${encodedMsg}`;
+
+      // Open WhatsApp with pre-filled message
+      window.open(waUrl, '_blank');
+
+      // Reset form
+      this.reset();
+      alert('✅ Message sent! We\'ll get back to you shortly.');
+    });
+
+    // ============================================================
+    // BACK TO TOP
+    // ============================================================
+    const backToTopBtn = document.getElementById('back-to-top');
+    if (backToTopBtn) {
+      window.addEventListener('scroll', () => {
+        backToTopBtn.classList.toggle('visible', window.scrollY > 300);
+      });
+      backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // ============================================================
+    // HAMBURGER MENU
+    // ============================================================
+    const hamburger = document.querySelector('.hamburger');
+    const mainNav = document.querySelector('.main-nav');
+    if (hamburger && mainNav) {
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('active');
+        mainNav.classList.toggle('open');
+      });
+    }
+
+    // ============================================================
+    // ALL CATEGORIES
+    // ============================================================
+    const catBtn = document.getElementById('all-cat-btn');
+    const catMenu = document.getElementById('all-cat-menu');
+    if (catBtn && catMenu) {
+      catBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        catMenu.classList.toggle('open');
+        catBtn.querySelector('i').classList.toggle('fa-chevron-down');
+        catBtn.querySelector('i').classList.toggle('fa-chevron-up');
+      });
+      document.addEventListener('click', () => {
+        catMenu.classList.remove('open');
+        if (catBtn.querySelector('i')) {
+          catBtn.querySelector('i').classList.remove('fa-chevron-up');
+          catBtn.querySelector('i').classList.add('fa-chevron-down');
+        }
+      });
+    }// ============================================================
+    // Q CRACKERS — shared front-end behaviour
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function () {
+
+      /* ============================================================
+         🔥 ALL CATEGORIES DROPDOWN - WORKS ON ALL PAGES
+         ============================================================ */
+      const catBtn = document.getElementById('all-cat-btn');
+      const catMenu = document.getElementById('all-cat-menu');
+
+      if (catBtn && catMenu) {
+        // Toggle dropdown on button click
+        catBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          this.classList.toggle('active');
+          catMenu.classList.toggle('open');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+          if (!catBtn.contains(e.target) && !catMenu.contains(e.target)) {
+            catBtn.classList.remove('active');
+            catMenu.classList.remove('open');
+          }
+        });
+
+        // Close dropdown when clicking a link inside
+        catMenu.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            catBtn.classList.remove('active');
+            catMenu.classList.remove('open');
+          });
+        });
+      } else {
+        console.log('⚠️ All Categories elements not found on this page');
+      }
+
+      /* ============================================================
+         🔥 HAMBURGER MENU TOGGLE - WORKS ON ALL PAGES
+         ============================================================ */
+      const hamburger = document.querySelector('.hamburger');
+      const mainNav = document.querySelector('.main-nav');
+
+      if (hamburger && mainNav) {
+        hamburger.addEventListener('click', function (e) {
+          e.stopPropagation();
+          this.classList.toggle('active');
+          mainNav.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function (e) {
+          if (!hamburger.contains(e.target) && !mainNav.contains(e.target)) {
+            hamburger.classList.remove('active');
+            mainNav.classList.remove('active');
+          }
+        });
+
+        mainNav.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            hamburger.classList.remove('active');
+            mainNav.classList.remove('active');
+          });
+        });
+      }
+
+      /* ============================================================
+         🔥 ACTIVE NAV LINK HIGHLIGHT
+         ============================================================ */
+      const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('.main-nav a').forEach(function (link) {
+        const linkPath = link.getAttribute('href');
+        if (linkPath === currentPath) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      /* ============================================================
+         🔥 FAQ ACCORDION
+         ============================================================ */
+      document.querySelectorAll('.accordion-item').forEach(function (item) {
+        const q = item.querySelector('.accordion-q');
+        if (!q) return;
+        q.addEventListener('click', function () {
+          const isOpen = item.classList.contains('open');
+          document.querySelectorAll('.accordion-item.open').forEach(function (el) {
+            if (el !== item) el.classList.remove('open');
+          });
+          item.classList.toggle('open', !isOpen);
+        });
+      });
+
+      /* ============================================================
+         🔥 SCROLL REVEAL
+         ============================================================ */
+      const revealEls = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && revealEls.length) {
+        const io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              io.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+        revealEls.forEach(function (el) { io.observe(el); });
+      } else {
+        revealEls.forEach(function (el) { el.classList.add('in-view'); });
+      }
+
+      /* ============================================================
+         🔥 BACK TO TOP BUTTON
+         ============================================================ */
+      const backToTop = document.getElementById('back-to-top');
+      if (backToTop) {
+        window.addEventListener('scroll', function () {
+          backToTop.classList.toggle('show', window.scrollY > 400);
+        });
+        backToTop.addEventListener('click', function () {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      console.log('✅ Q Crackers JS loaded successfully!');
+    });
+  </script>
+  <script>
+    // ============================================================
+    // ALL CATEGORIES DROPDOWN - FIX
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function () {
+      const allCatBtn = document.getElementById('all-cat-btn');
+      const allCatMenu = document.getElementById('all-cat-menu');
+
+      if (allCatBtn && allCatMenu) {
+        // Toggle dropdown on button click
+        allCatBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          allCatMenu.classList.toggle('open');
+          allCatBtn.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+          if (!allCatBtn.contains(e.target) && !allCatMenu.contains(e.target)) {
+            allCatMenu.classList.remove('open');
+            allCatBtn.classList.remove('active');
+          }
+        });
+
+        // Close dropdown when clicking a category link
+        allCatMenu.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            allCatMenu.classList.remove('open');
+            allCatBtn.classList.remove('active');
+          });
+        });
+
+        console.log('✅ All Categories dropdown initialized!');
+      } else {
+        console.warn('⚠️ All Categories button or menu not found!');
+      }
+    });
+
+    // ============================================================
+    // 8. CART MANAGER (PERSISTENT CART WITH BADGE)
+    // ============================================================
+    var CartManager = {
+      STORAGE_KEY: 'qcrackers_cart',
+
+      getCart: function () {
+        try {
+          var data = localStorage.getItem(this.STORAGE_KEY);
+          return data ? JSON.parse(data) : {};
+        } catch (e) {
+          return {};
+        }
+      },
+
+      saveCart: function (cart) {
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cart));
+        this.updateCartBadge();  // ✅ Updates badge when cart changes
+      },
+
+      // ... other methods ...
+
+      updateCartBadge: function () {
+        var total = this.getTotalItems();
+        var badges = document.querySelectorAll('.cart-badge');
+        badges.forEach(function (badge) {
+          badge.textContent = total;
+          badge.style.display = total > 0 ? 'flex' : 'none';  // ✅ Shows/hides badge
+        });
+
+        // Update header cart total
+        var headerCartTotal = document.getElementById('header-cart-total');
+        if (headerCartTotal) {
+          if (total > 0) {
+            headerCartTotal.textContent = '₹' + total;
+          } else {
+            headerCartTotal.textContent = '₹0';
+          }
+        }
+      },
+
+      // ... rest ...
+    };
+
+    // Initialize cart badge on page load
+    document.addEventListener('DOMContentLoaded', function () {
+      CartManager.updateCartBadge();  // ✅ Shows badge on load
+    });
+  </script>
+  <script src="script.js"></script>
+</body>
+
+</html>

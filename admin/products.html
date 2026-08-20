@@ -1,0 +1,2125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Products | Q Crackers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FAVICON / TAB LOGO -->
+    <link rel="icon" type="image/png" href="../images/logo-removebg-preview.png">
+    <style>
+        /* ============================================================
+           COMPLETE STYLES - Admin Panel Style
+           ============================================================ */
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #ffffff;
+            --bg-white: #ffffff;
+            --bg-elevated: #fff8f6;
+            --card: #e60000;
+            --card-hover: #c40000;
+            --border: rgba(230, 0, 0, 0.12);
+            --border-strong: rgba(230, 0, 0, 0.30);
+            --yellow: #ffd400;
+            --yellow-bright: #fff04d;
+            --ember: #ff0000;
+            --ember-soft: rgba(255, 0, 0, 0.15);
+            --text: #1f1f1f;
+            --text-muted: #555555;
+            --text-dim: #888888;
+            --radius: 14px;
+            --radius-sm: 8px;
+            --max-w: 1200px;
+            --shadow-glow: 0 0 30px rgba(230, 0, 0, 0.25);
+            --sidebar-width: 260px;
+            --header-height: 70px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #faf5f2;
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #8B0000 0%, #cc0000 40%, #e60000 70%, #8B0000 100%);
+            color: #f5e6e6;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            border-right: 2px solid var(--border-strong);
+            flex-shrink: 0;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar-brand {
+            padding: 24px 22px 20px;
+            border-bottom: 1px solid rgba(255, 212, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-brand .brand-icon {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 0 2px rgba(255, 212, 0, 0.4);
+        }
+
+        .sidebar-brand .brand-icon img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .sidebar-brand .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #8B0000;
+            box-shadow: 0 0 0 2px rgba(255, 212, 0, 0.4);
+        }
+
+        .sidebar-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .sidebar-brand .brand-text span {
+            color: var(--yellow);
+        }
+
+        .sidebar-brand .brand-sub {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 18px 14px;
+        }
+
+        .sidebar-nav .nav-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--white);
+            padding: 8px 12px 12px;
+            font-weight: 600;
+        }
+
+        .sidebar-nav .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-bottom: 2px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+
+        .sidebar-nav .nav-item i {
+            width: 20px;
+            font-size: 1rem;
+            color: #fff;
+            transition: color 0.2s;
+        }
+
+        .sidebar-nav .nav-item:hover {
+            background: rgba(255, 212, 0, 0.15);
+            color: #fff;
+        }
+
+        .sidebar-nav .nav-item:hover i {
+            color: var(--yellow);
+        }
+
+        .sidebar-nav .nav-item.active {
+            background: rgba(255, 212, 0, 0.2);
+            color: var(--yellow);
+            border-right: 3px solid var(--yellow);
+        }
+
+        .sidebar-nav .nav-item.active i {
+            color: var(--yellow);
+        }
+
+        .sidebar-nav .nav-item .badge {
+            margin-left: auto;
+            background: var(--yellow);
+            color: #8B0000;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 999px;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px 24px;
+            border-top: 1px solid rgba(255, 212, 0, 0.15);
+        }
+
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-footer .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #8B0000;
+        }
+
+        .sidebar-footer .user-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .sidebar-footer .user-email {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sidebar-footer .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+        }
+
+        .sidebar-footer .logout-btn:hover {
+            background: rgba(255, 212, 0, 0.15);
+            color: var(--yellow);
+        }
+
+        .sidebar-footer .logout-btn i {
+            font-size: 1rem;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-header {
+            height: var(--header-height);
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-header .page-title h2 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--text);
+        }
+
+        .top-header .page-title h2 span {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.85rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .header-actions .search-box {
+            position: relative;
+        }
+
+        .header-actions .search-box input {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 8px 18px 8px 40px;
+            font-size: 0.85rem;
+            color: var(--text);
+            outline: none;
+            width: 220px;
+            transition: all 0.3s ease;
+        }
+
+        .header-actions .search-box input:focus {
+            border-color: var(--yellow);
+            box-shadow: 0 0 0 3px rgba(255, 212, 0, 0.2);
+            width: 260px;
+        }
+
+        .header-actions .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+        }
+
+        .hamburger-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .hamburger-menu:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .page-content {
+            padding: 28px 30px 40px;
+            flex: 1;
+        }
+
+        /* ===== PRODUCTS GRID ===== */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .item-card {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 16px;
+            text-align: center;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-strong);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .item-card .item-image {
+            width: 100%;
+            height: 150px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--bg-elevated), #f0ebe6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: var(--text-dim);
+            margin-bottom: 12px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .item-card .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius-sm);
+            transition: transform 0.3s ease;
+        }
+
+        .item-card .item-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .item-card .item-image .image-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--bg-elevated), #f0ebe6);
+            font-size: 2.5rem;
+            color: var(--text-dim);
+        }
+
+        .item-card .item-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text);
+            margin-top: 8px;
+            min-height: 38px;
+            word-break: break-word;
+        }
+
+        .item-card .product-category {
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            background: var(--bg-elevated);
+            padding: 2px 10px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .item-card .product-price {
+            font-weight: 700;
+            color: var(--card);
+            font-size: 1rem;
+        }
+
+        .item-card .product-old-price {
+            text-decoration: line-through;
+            color: var(--text-dim);
+            font-size: 0.75rem;
+            margin-left: 6px;
+        }
+
+        .item-card .item-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        .action-btn.delete:hover {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        .action-btn.edit:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .btn-primary {
+            padding: 8px 20px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
+            color: #1a0505;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 212, 0, 0.3);
+        }
+
+        .btn-danger {
+            padding: 8px 20px;
+            border-radius: 999px;
+            background: rgba(231, 76, 60, 0.15);
+            color: #e74c3c;
+            font-weight: 600;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .btn-danger:hover {
+            background: rgba(231, 76, 60, 0.25);
+        }
+
+        .loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .loading-spinner i {
+            font-size: 2rem;
+            color: var(--yellow);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-dim);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--border-strong);
+            margin-bottom: 16px;
+        }
+
+        .sync-status {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sync-status .live {
+            color: #2ecc71;
+        }
+
+        .sync-status .offline {
+            color: #e74c3c;
+        }
+
+        /* ============================================================
+           LIGHTBOX ZOOM
+           ============================================================ */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .lightbox-overlay.active {
+            display: flex;
+        }
+
+        .lightbox-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.3s ease;
+            cursor: zoom-out;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #fff;
+            font-size: 40px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            background: none;
+            border: none;
+            z-index: 10000;
+        }
+
+        .lightbox-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 20px;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+           EDIT MODAL WITH IMAGE UPLOAD
+           ============================================================ */
+        .edit-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 99999;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        .edit-modal.active {
+            display: flex;
+        }
+
+        .edit-modal-content {
+            background: #ffffff;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideUp 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .edit-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .edit-modal-header h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .edit-modal-header h2 i {
+            color: var(--yellow);
+            margin-right: 8px;
+        }
+
+        .edit-modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .edit-modal-close:hover {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+
+        .edit-modal-body .form-group {
+            margin-bottom: 18px;
+        }
+
+        .edit-modal-body .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .edit-modal-body .form-group input,
+        .edit-modal-body .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: var(--text);
+            background: var(--bg-white);
+            transition: border-color 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .edit-modal-body .form-group input:focus,
+        .edit-modal-body .form-group select:focus {
+            outline: none;
+            border-color: var(--yellow);
+            box-shadow: 0 0 0 3px rgba(255, 212, 0, 0.15);
+        }
+
+        /* Category with Add New Button */
+        .category-input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .category-input-group select {
+            flex: 1;
+        }
+
+        .category-input-group .btn-add-category {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px dashed var(--border-strong);
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .category-input-group .btn-add-category:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+            background: rgba(255, 212, 0, 0.05);
+        }
+
+        /* Image Upload Styles */
+        .image-upload-container {
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .image-upload-container:hover {
+            border-color: var(--yellow);
+            background: rgba(255, 212, 0, 0.05);
+        }
+
+        .image-upload-container .upload-preview {
+            width: 100%;
+            height: 150px;
+            object-fit: contain;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .image-upload-container .upload-preview.show {
+            display: block;
+        }
+
+        .image-upload-container .upload-placeholder {
+            color: var(--text-dim);
+        }
+
+        .image-upload-container .upload-placeholder i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 8px;
+            color: var(--border-strong);
+        }
+
+        .image-upload-container .upload-placeholder span {
+            font-size: 0.85rem;
+        }
+
+        .image-upload-container input[type="file"] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .image-upload-container .remove-image {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(231, 76, 60, 0.9);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            z-index: 10;
+            transition: all 0.2s;
+        }
+
+        .image-upload-container .remove-image:hover {
+            background: #e74c3c;
+            transform: scale(1.1);
+        }
+
+        .image-upload-container .remove-image.show {
+            display: flex;
+        }
+
+        .upload-progress {
+            width: 100%;
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-top: 10px;
+            display: none;
+            overflow: hidden;
+        }
+
+        .upload-progress .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--yellow), var(--yellow-bright));
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .upload-progress.show {
+            display: block;
+        }
+
+        .edit-modal-body .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .edit-modal-footer {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .edit-modal-footer .btn {
+            padding: 10px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .edit-modal-footer .btn-cancel {
+            background: var(--bg-elevated);
+            color: var(--text-muted);
+        }
+
+        .edit-modal-footer .btn-cancel:hover {
+            background: #ddd;
+        }
+
+        .edit-modal-footer .btn-save {
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
+            color: #1a0505;
+        }
+
+        .edit-modal-footer .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 212, 0, 0.3);
+        }
+
+        .edit-modal-footer .btn-save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        @media (max-width: 600px) {
+            .edit-modal-body .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .edit-modal-content {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .edit-modal-footer {
+                flex-direction: column;
+            }
+
+            .edit-modal-footer .btn {
+                width: 100%;
+                text-align: center;
+            }
+
+            .category-input-group {
+                flex-direction: column;
+            }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                height: 100vh;
+                transition: left 0.3s ease;
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .hamburger-menu {
+                display: flex !important;
+            }
+
+            .top-header {
+                padding: 0 16px;
+            }
+
+            .page-content {
+                padding: 20px 16px;
+            }
+
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .lightbox-overlay img {
+                max-width: 95%;
+                max-height: 85%;
+            }
+
+            .lightbox-close {
+                top: 15px;
+                right: 20px;
+                font-size: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .items-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+            }
+
+            .item-card .item-image {
+                height: 100px;
+            }
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: #333;
+            color: #fff;
+            font-size: 0.9rem;
+            z-index: 99999;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast.show {
+            display: block !important;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #2ecc71;
+        }
+
+        .toast.error {
+            background: #e74c3c;
+        }
+
+        .toast.info {
+            background: #3498db;
+        }
+
+        /* Admin actions bar */
+        .admin-actions-bar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .admin-actions-bar .btn {
+            font-size: 0.8rem;
+            padding: 8px 16px;
+        }
+
+        .admin-actions-bar .btn i {
+            margin-right: 6px;
+        }
+
+        /* Uploading text */
+        .uploading-text {
+            display: none;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .uploading-text.show {
+            display: block;
+        }
+
+        /* Category management badge */
+        .category-badge {
+            display: inline-block;
+            background: rgba(255, 212, 0, 0.1);
+            color: var(--yellow);
+            padding: 2px 10px;
+            border-radius: 999px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR OVERLAY -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <img src="../images/logo-removebg-preview.png" alt="Q Crackers Logo">
+            </div>
+
+            <div>
+                <div class="brand-text">Q <span>Crackers</span></div>
+                <span class="brand-sub">Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main Menu</div>
+
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </a>
+            <a href="orders.html" class="nav-item">
+                <i class="fas fa-shopping-bag"></i> Orders
+                <span class="badge" id="orderBadge">0</span>
+            </a>
+            <a href="admin-products.html" class="nav-item active">
+                <i class="fas fa-box"></i> Products
+                <span class="badge" id="productBadge">0</span>
+            </a>
+
+            <div class="nav-label" style="margin-top:20px;">Settings</div>
+
+            <a href="settings.html" class="nav-item">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">A</div>
+                <div>
+                    <div class="user-name">Admin</div>
+                    <div class="user-email">admin@gmail.com</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
+        <header class="top-header">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <button class="hamburger-menu" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+                <div class="page-title">
+                    <h2>Products <span>— admin catalog management</span></h2>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search products..." id="globalSearch" onkeyup="filterProducts()">
+                </div>
+                <span class="sync-status" id="syncStatus">
+                    <i class="fas fa-circle live" id="syncStatusIcon"></i>
+                    <span id="syncStatusText">Live</span>
+                </span>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <div
+                style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+                <div>
+                    <h3 style="font-weight:600;font-size:1.1rem;">
+                        All Products
+                        <span id="productCount"
+                            style="font-weight:400;font-size:0.85rem;color:var(--text-muted);"></span>
+                    </h3>
+                    <div class="sync-status">
+                        <i class="fas fa-circle live" id="statusDot"></i>
+                        <span id="statusText">Live from Firebase</span>
+                        <span style="margin-left:8px;font-size:0.65rem;color:var(--text-dim);" id="productTotal"></span>
+                    </div>
+                </div>
+                <div class="admin-actions-bar">
+                    <button class="btn-primary" onclick="refreshProducts()">
+                        <i class="fas fa-sync"></i> Sync
+                    </button>
+                    <button class="btn-primary" onclick="openAddModal()">
+                        <i class="fas fa-plus"></i> Add Product
+                    </button>
+                    <button class="btn-danger"
+                        onclick="if(confirm('Delete ALL products? This cannot be undone!')) deleteAllProducts()">
+                        <i class="fas fa-trash"></i> Delete All
+                    </button>
+                </div>
+            </div>
+
+            <div id="loadingState" class="loading-spinner">
+                <i class="fas fa-spinner"></i>
+                <span style="margin-left:12px;color:var(--text-muted);">Loading products from Firebase...</span>
+            </div>
+
+            <div id="productsGrid" class="items-grid" style="display:none;"></div>
+
+            <div id="emptyState" class="empty-state" style="display:none;">
+                <i class="fas fa-box-open"></i>
+                <h3>No Products Found</h3>
+                <p style="color:var(--text-muted);">Click "Add Product" to start building your catalog.</p>
+                <button class="btn-primary" onclick="openAddModal()" style="margin-top:16px;">
+                    <i class="fas fa-plus"></i> Add First Product
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===== LIGHTBOX ZOOM ===== -->
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <img id="lightboxImage" src="" alt="Product Image">
+        <div class="lightbox-counter" id="lightboxCounter"></div>
+    </div>
+
+    <!-- ===== EDIT MODAL WITH DYNAMIC CATEGORY ===== -->
+    <div class="edit-modal" id="editModal">
+        <div class="edit-modal-content">
+            <div class="edit-modal-header">
+                <h2><i class="fas fa-pen"></i> Edit Product</h2>
+                <button class="edit-modal-close" onclick="closeEditModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="edit-modal-body">
+                <input type="hidden" id="editProductId">
+
+                <!-- Product Image Upload -->
+                <div class="form-group">
+                    <label>Product Image</label>
+                    <div class="image-upload-container" id="imageUploadContainer">
+                        <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)">
+                        <img id="uploadPreview" class="upload-preview" src="" alt="Preview">
+                        <div class="upload-placeholder" id="uploadPlaceholder">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Click or drag to upload image</span>
+                        </div>
+                        <button class="remove-image" id="removeImageBtn" onclick="removeImage()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <div class="upload-progress" id="uploadProgress">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="uploading-text" id="uploadingText">Uploading image...</div>
+                    </div>
+                    <p style="font-size:0.7rem;color:var(--text-dim);margin-top:4px;">
+                        Supported: JPG, PNG, WEBP (Max 2MB)
+                    </p>
+                </div>
+
+                <!-- Product Name -->
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="editProductName" placeholder="Enter product name...">
+                </div>
+
+                <!-- Category with Add New Button -->
+                <div class="form-group">
+                    <label>Category *</label>
+                    <div class="category-input-group">
+                        <select id="editProductCategory">
+                            <!-- Static categories will be populated by JavaScript -->
+                        </select>
+                        <button class="btn-add-category" onclick="addNewCategory()" title="Add new category">
+                            <i class="fas fa-plus"></i> New
+                        </button>
+                    </div>
+                    <div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;" id="categoryTags">
+                        <!-- Category tags will be shown here -->
+                    </div>
+                </div>
+
+                <!-- Price & MRP Row -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Price (₹) *</label>
+                        <input type="number" id="editProductPrice" placeholder="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label>MRP / Old Price (₹)</label>
+                        <input type="number" id="editProductOldPrice" placeholder="0" min="0">
+                    </div>
+                </div>
+
+                <!-- Sub/Unit -->
+                <div class="form-group">
+                    <label>Unit / Quantity</label>
+                    <input type="text" id="editProductSub" placeholder="e.g., 1 Pkt, 1 Box, 1 Bag">
+                </div>
+
+                <!-- Order Index -->
+                <div class="form-group">
+                    <label>Order Index</label>
+                    <input type="number" id="editProductOrder" placeholder="0" min="0">
+                </div>
+            </div>
+            <div class="edit-modal-footer">
+                <button class="btn btn-cancel" onclick="closeEditModal()">Cancel</button>
+                <button class="btn btn-save" id="saveBtn" onclick="saveProduct()">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js",
+                "firebase/storage": "https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        // ============================================================
+        // FIREBASE IMPORTS
+        // ============================================================
+        import { initializeApp } from "firebase/app";
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            onSnapshot,
+            query,
+            orderBy,
+            doc,
+            updateDoc,
+            deleteDoc,
+            addDoc,
+            writeBatch
+        } from "firebase/firestore";
+        import {
+            getStorage,
+            ref,
+            uploadBytesResumable,
+            getDownloadURL,
+            deleteObject
+        } from "firebase/storage";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
+            authDomain: "qcrackers.firebaseapp.com",
+            projectId: "qcrackers",
+            storageBucket: "qcrackers.firebasestorage.app",
+            messagingSenderId: "491899224672",
+            appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // ============================================================
+        // DOM ELEMENTS
+        // ============================================================
+        const productsGrid = document.getElementById('productsGrid');
+        const loadingState = document.getElementById('loadingState');
+        const emptyState = document.getElementById('emptyState');
+        const productCount = document.getElementById('productCount');
+        const productTotal = document.getElementById('productTotal');
+        const globalSearch = document.getElementById('globalSearch');
+        const orderBadge = document.getElementById('orderBadge');
+        const productBadge = document.getElementById('productBadge');
+
+        let allProducts = [];
+        let unsubscribeProducts = null;
+        let unsubscribeOrders = null;
+        let currentEditId = null;
+        let selectedFile = null;
+        let currentImageUrl = null;
+        let isUploading = false;
+
+        // ============================================================
+        // DEFAULT CATEGORIES
+        // ============================================================
+        const defaultCategories = [
+            'Sound Crackers',
+            'Electric Crackers',
+            'Bijili Crackers',
+            'Flower Pots',
+            'Ground Chakkars',
+            'Rainbow Chakkars',
+            'Childrens Special',
+            'Atom Bombs',
+            'Jaguvar Varities',
+            'Rocket',
+            'Chotta Fancy',
+            'New Wonders',
+            'New Attraction Fancy',
+            'Multishots',
+            'Novelties',
+            'Setout',
+            'Roll Caps',
+            'Sparklers',
+            'New Fancy Sparklers',
+            'Gift Boxes',
+            'Gift Boxes Family Package'
+        ];
+
+        // ============================================================
+        // CATEGORY MANAGEMENT
+        // ============================================================
+        let allCategories = [...defaultCategories];
+
+        function loadCategories() {
+            // Try to load from localStorage
+            const saved = localStorage.getItem('qcrackers_categories');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        allCategories = [...new Set([...defaultCategories, ...parsed])];
+                    }
+                } catch (e) {
+                    console.log('Using default categories');
+                }
+            }
+            renderCategoryDropdown();
+            renderCategoryTags();
+        }
+
+        function saveCategories() {
+            localStorage.setItem('qcrackers_categories', JSON.stringify(allCategories));
+            renderCategoryDropdown();
+            renderCategoryTags();
+        }
+
+        function renderCategoryDropdown() {
+            const select = document.getElementById('editProductCategory');
+            const currentValue = select.value;
+            select.innerHTML = '';
+
+            allCategories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                select.appendChild(option);
+            });
+
+            if (currentValue && allCategories.includes(currentValue)) {
+                select.value = currentValue;
+            }
+        }
+
+        function renderCategoryTags() {
+            const container = document.getElementById('categoryTags');
+            container.innerHTML = '';
+
+            const customCategories = allCategories.filter(c => !defaultCategories.includes(c));
+
+            if (customCategories.length === 0) {
+                container.innerHTML = '<span style="font-size:0.7rem;color:var(--text-dim);">All default categories loaded</span>';
+                return;
+            }
+
+            customCategories.forEach(cat => {
+                const tag = document.createElement('span');
+                tag.className = 'category-badge';
+                tag.innerHTML = `${cat} <i class="fas fa-times" style="cursor:pointer;margin-left:4px;font-size:0.6rem;" onclick="removeCategory('${cat}')"></i>`;
+                tag.title = 'Click × to remove this category';
+                container.appendChild(tag);
+            });
+        }
+
+        window.addNewCategory = function () {
+            const newCategory = prompt('Enter new category name:');
+            if (!newCategory) return;
+
+            const trimmed = newCategory.trim();
+            if (allCategories.includes(trimmed)) {
+                showToast('⚠️ Category already exists!', 'error');
+                return;
+            }
+
+            allCategories.push(trimmed);
+            saveCategories();
+            showToast(`✅ Category "${trimmed}" added!`, 'success');
+        };
+
+        window.removeCategory = function (category) {
+            if (defaultCategories.includes(category)) {
+                showToast('Cannot remove default category.', 'error');
+                return;
+            }
+
+            if (!confirm(`Remove category "${category}"?`)) return;
+
+            allCategories = allCategories.filter(c => c !== category);
+            saveCategories();
+            showToast(`🗑️ Category "${category}" removed`, 'info');
+        };
+
+        // ============================================================
+        // LISTEN TO ORDERS (for badge count only)
+        // ============================================================
+        function listenToOrders() {
+            const ordersRef = collection(db, 'orders');
+            unsubscribeOrders = onSnapshot(ordersRef, (snapshot) => {
+                if (orderBadge) {
+                    orderBadge.textContent = snapshot.size;
+                    orderBadge.style.display = snapshot.size > 0 ? 'inline-block' : 'none';
+                }
+            }, (error) => {
+                console.error('Error listening to orders:', error);
+            });
+        }
+
+        // ============================================================
+        // LISTEN TO PRODUCTS (REAL-TIME SYNC)
+        // ============================================================
+        function listenToProducts() {
+            const q = query(collection(db, 'products'), orderBy('orderIndex', 'asc'));
+
+            loadingState.style.display = 'flex';
+
+            // ✅ Start listening to orders for badge count
+            listenToOrders();
+
+            unsubscribeProducts = onSnapshot(q, (snapshot) => {
+                allProducts = [];
+
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+
+                    // Add new categories from products
+                    if (data.category && !allCategories.includes(data.category)) {
+                        allCategories.push(data.category);
+                        saveCategories();
+                    }
+
+                    allProducts.push({
+                        id: doc.id,
+                        ...data,
+                        imageUrl: data.imageUrl || null
+                    });
+                });
+
+                renderProducts(allProducts);
+                updateSyncStatus(true);
+                loadingState.style.display = 'none';
+
+                // ✅ Update Product Badge
+                if (productBadge) {
+                    productBadge.textContent = allProducts.length;
+                    productBadge.style.display = allProducts.length > 0 ? 'inline-block' : 'none';
+                }
+
+            }, (error) => {
+                console.error('Error listening to products:', error);
+                updateSyncStatus(false);
+                loadingState.style.display = 'none';
+                showToast('⚠️ Error loading products', 'error');
+            });
+        }
+
+        // ============================================================
+        // RENDER PRODUCTS
+        // ============================================================
+        function renderProducts(products) {
+            loadingState.style.display = 'none';
+
+            if (products.length === 0) {
+                productsGrid.style.display = 'none';
+                emptyState.style.display = 'block';
+                productCount.textContent = '(0)';
+                productTotal.textContent = '';
+                return;
+            }
+
+            productsGrid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            productCount.textContent = `(${products.length})`;
+            productTotal.textContent = `— ${products.length} products`;
+
+            productsGrid.innerHTML = products.map(product => {
+                const imageSrc = product.imageUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect width="200" height="200" fill="%23f0ebe6"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-size="14"%3E📷 No Image%3C/text%3E%3C/svg%3E';
+
+                return `
+                <div class="item-card" data-id="${product.id}" data-order="${product.orderIndex || 0}">
+                    <div class="item-image" onclick="openLightbox('${imageSrc}', '${product.name?.replace(/'/g, "\\'") || 'Product'}')">
+                        <img src="${imageSrc}" 
+                             alt="${product.name || 'Product'}" 
+                             loading="lazy"
+                             onerror="this.parentElement.innerHTML='<div class=\\'image-placeholder\\'><i class=\\'fas fa-image\\'></i></div>'">
+                    </div>
+                    <div class="item-name">${product.name || 'Unnamed Product'}</div>
+                    <div class="product-category">${product.category || 'Uncategorized'}</div>
+                    <div class="item-meta">
+                        <!-- ✅ ONLY ORDER INDEX SHOWN -->
+                        <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-top:4px;">
+                            <span style="font-size:0.75rem;color:var(--text-muted);">Order:</span>
+                            <span style="font-size:0.9rem;color:var(--card);font-weight:700;">${product.orderIndex || 'N/A'}</span>
+                        </div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="action-btn edit" onclick="openEditModal('${product.id}')" title="Edit Product">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete" onclick="deleteProduct('${product.id}')" title="Delete Product">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // ============================================================
+        // IMAGE UPLOAD FUNCTIONS
+        // ============================================================
+        window.handleImageSelect = function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            if (!validTypes.includes(file.type)) {
+                showToast('Please upload JPG, PNG, WEBP, or GIF images only.', 'error');
+                return;
+            }
+
+            if (file.size > 2 * 1024 * 1024) {
+                showToast('Image size must be less than 2MB.', 'error');
+                return;
+            }
+
+            selectedFile = file;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const preview = document.getElementById('uploadPreview');
+                const placeholder = document.getElementById('uploadPlaceholder');
+                const removeBtn = document.getElementById('removeImageBtn');
+
+                preview.src = e.target.result;
+                preview.classList.add('show');
+                placeholder.style.display = 'none';
+                removeBtn.classList.add('show');
+            };
+            reader.readAsDataURL(file);
+
+            event.target.value = '';
+        };
+
+        window.removeImage = function () {
+            selectedFile = null;
+            const preview = document.getElementById('uploadPreview');
+            const placeholder = document.getElementById('uploadPlaceholder');
+            const removeBtn = document.getElementById('removeImageBtn');
+            const progress = document.getElementById('uploadProgress');
+            const progressBar = document.getElementById('progressBar');
+
+            preview.classList.remove('show');
+            preview.src = '';
+            placeholder.style.display = 'block';
+            removeBtn.classList.remove('show');
+            progress.classList.remove('show');
+            progressBar.style.width = '0%';
+            document.getElementById('uploadingText').classList.remove('show');
+            document.getElementById('imageInput').value = '';
+        };
+
+        async function uploadImage(file, productId) {
+            return new Promise((resolve, reject) => {
+                const storageRef = ref(storage, `product-images/${productId}/${Date.now()}_${file.name}`);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+
+                const progress = document.getElementById('uploadProgress');
+                const progressBar = document.getElementById('progressBar');
+                const uploadingText = document.getElementById('uploadingText');
+
+                progress.classList.add('show');
+                uploadingText.classList.add('show');
+
+                uploadTask.on('state_changed',
+                    (snapshot) => {
+                        const progressPercent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                        progressBar.style.width = progressPercent + '%';
+                    },
+                    (error) => {
+                        progress.classList.remove('show');
+                        uploadingText.classList.remove('show');
+                        reject(error);
+                    },
+                    async () => {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        progress.classList.remove('show');
+                        uploadingText.classList.remove('show');
+                        resolve(downloadURL);
+                    }
+                );
+            });
+        }
+
+        async function deleteOldImage(imageUrl) {
+            if (!imageUrl) return;
+            try {
+                const oldRef = ref(storage, imageUrl);
+                await deleteObject(oldRef);
+                console.log('Old image deleted');
+            } catch (error) {
+                console.log('No old image to delete or error:', error.message);
+            }
+        }
+
+        // ============================================================
+        // OPEN EDIT MODAL
+        // ============================================================
+        window.openEditModal = function (productId) {
+            const product = allProducts.find(p => p.id === productId);
+            if (!product) {
+                showToast('Product not found!', 'error');
+                return;
+            }
+
+            currentEditId = productId;
+            currentImageUrl = product.imageUrl || null;
+
+            removeImage();
+
+            document.getElementById('editProductId').value = productId;
+            document.getElementById('editProductName').value = product.name || '';
+
+            loadCategories();
+            if (product.category && allCategories.includes(product.category)) {
+                document.getElementById('editProductCategory').value = product.category;
+            } else {
+                document.getElementById('editProductCategory').value = 'Sound Crackers';
+            }
+
+            document.getElementById('editProductPrice').value = product.price || 0;
+            document.getElementById('editProductOldPrice').value = product.oldPrice || 0;
+            document.getElementById('editProductSub').value = product.sub || '';
+            document.getElementById('editProductOrder').value = product.orderIndex || 0;
+
+            if (product.imageUrl) {
+                const preview = document.getElementById('uploadPreview');
+                const placeholder = document.getElementById('uploadPlaceholder');
+                const removeBtn = document.getElementById('removeImageBtn');
+
+                preview.src = product.imageUrl;
+                preview.classList.add('show');
+                placeholder.style.display = 'none';
+                removeBtn.classList.add('show');
+                currentImageUrl = product.imageUrl;
+            }
+
+            document.querySelector('.edit-modal-header h2').innerHTML = `<i class="fas fa-pen"></i> Edit Product`;
+            document.querySelector('.edit-modal-footer .btn-save').innerHTML = `<i class="fas fa-save"></i> Save Changes`;
+
+            document.getElementById('editModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        // ============================================================
+        // OPEN ADD MODAL
+        // ============================================================
+        window.openAddModal = function () {
+            currentEditId = null;
+            currentImageUrl = null;
+
+            document.getElementById('editProductId').value = '';
+            document.getElementById('editProductName').value = '';
+            document.getElementById('editProductCategory').value = 'Sound Crackers';
+            document.getElementById('editProductPrice').value = '';
+            document.getElementById('editProductOldPrice').value = '';
+            document.getElementById('editProductSub').value = '';
+            document.getElementById('editProductOrder').value = allProducts.length + 1;
+
+            loadCategories();
+
+            removeImage();
+
+            document.querySelector('.edit-modal-header h2').innerHTML = `<i class="fas fa-plus"></i> Add New Product`;
+            document.querySelector('.edit-modal-footer .btn-save').innerHTML = `<i class="fas fa-plus"></i> Add Product`;
+
+            document.getElementById('editModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        // ============================================================
+        // CLOSE EDIT MODAL
+        // ============================================================
+        window.closeEditModal = function () {
+            document.getElementById('editModal').classList.remove('active');
+            document.body.style.overflow = '';
+            selectedFile = null;
+            removeImage();
+        };
+
+        // ============================================================
+        // SAVE PRODUCT
+        // ============================================================
+        window.saveProduct = async function () {
+            const saveBtn = document.getElementById('saveBtn');
+
+            if (isUploading) return;
+
+            const name = document.getElementById('editProductName').value.trim();
+            const category = document.getElementById('editProductCategory').value;
+            const price = parseInt(document.getElementById('editProductPrice').value) || 0;
+            const oldPrice = parseInt(document.getElementById('editProductOldPrice').value) || 0;
+            const sub = document.getElementById('editProductSub').value.trim() || '1 Pkt';
+            const orderIndex = parseInt(document.getElementById('editProductOrder').value) || 0;
+            const productId = document.getElementById('editProductId').value;
+
+            if (!name) {
+                showToast('Please enter a product name!', 'error');
+                return;
+            }
+
+            saveBtn.disabled = true;
+            isUploading = true;
+
+            try {
+                let imageUrl = currentImageUrl;
+
+                if (selectedFile) {
+                    if (productId && currentImageUrl) {
+                        await deleteOldImage(currentImageUrl);
+                    }
+
+                    const tempId = productId || `temp_${Date.now()}`;
+                    imageUrl = await uploadImage(selectedFile, tempId);
+                }
+
+                const productData = {
+                    name: name,
+                    category: category,
+                    price: price,
+                    oldPrice: oldPrice,
+                    sub: sub,
+                    orderIndex: orderIndex || allProducts.length + 1,
+                    updatedAt: new Date().toISOString()
+                };
+
+                if (imageUrl) {
+                    productData.imageUrl = imageUrl;
+                }
+
+                if (productId) {
+                    await updateDoc(doc(db, 'products', productId), productData);
+                    showToast('✅ Product updated successfully!', 'success');
+                } else {
+                    productData.createdAt = new Date().toISOString();
+                    await addDoc(collection(db, 'products'), productData);
+                    showToast('✅ Product added successfully!', 'success');
+                }
+
+                closeEditModal();
+            } catch (error) {
+                console.error('Error saving product:', error);
+                showToast('❌ Error: ' + error.message, 'error');
+            } finally {
+                saveBtn.disabled = false;
+                isUploading = false;
+            }
+        };
+
+        // ============================================================
+        // DELETE PRODUCT
+        // ============================================================
+        window.deleteProduct = async function (productId) {
+            if (!confirm('Are you sure you want to delete this product?')) return;
+
+            try {
+                const product = allProducts.find(p => p.id === productId);
+
+                if (product && product.imageUrl) {
+                    await deleteOldImage(product.imageUrl);
+                }
+
+                await deleteDoc(doc(db, 'products', productId));
+                showToast('✅ Product deleted successfully!', 'success');
+            } catch (err) {
+                showToast('❌ Error deleting: ' + err.message, 'error');
+            }
+        };
+
+        // ============================================================
+        // DELETE ALL PRODUCTS
+        // ============================================================
+        window.deleteAllProducts = function () {
+            if (!confirm('⚠️ This will delete ALL products from Firebase! Are you sure?')) return;
+            if (!confirm('⚠️ FINAL CONFIRMATION: Delete all products?')) return;
+
+            const batch = writeBatch(db);
+            const productsRef = collection(db, 'products');
+
+            getDocs(productsRef).then((snapshot) => {
+                if (snapshot.empty) {
+                    showToast('No products to delete', 'info');
+                    return;
+                }
+
+                snapshot.forEach((doc) => {
+                    const data = doc.data();
+                    if (data.imageUrl) {
+                        deleteOldImage(data.imageUrl);
+                    }
+                });
+
+                snapshot.forEach((doc) => {
+                    batch.delete(doc.ref);
+                });
+
+                batch.commit().then(() => {
+                    showToast(`🗑️ Deleted ${snapshot.size} products!`, 'success');
+                }).catch(err => {
+                    showToast('❌ Error deleting: ' + err.message, 'error');
+                });
+            }).catch(err => {
+                showToast('❌ Error: ' + err.message, 'error');
+            });
+        };
+
+        // ============================================================
+        // LIGHTBOX ZOOM FUNCTIONS
+        // ============================================================
+        function openLightbox(imageUrl, productName) {
+            const overlay = document.getElementById('lightboxOverlay');
+            const img = document.getElementById('lightboxImage');
+            const counter = document.getElementById('lightboxCounter');
+
+            img.src = imageUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect width="200" height="200" fill="%23f0ebe6"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-size="14"%3E📷 No Image%3C/text%3E%3C/svg%3E';
+            img.alt = productName || 'Product Image';
+            counter.textContent = productName || '';
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const overlay = document.getElementById('lightboxOverlay');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const overlay = document.getElementById('lightboxOverlay');
+            const closeBtn = document.getElementById('lightboxClose');
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeLightbox);
+            }
+
+            if (overlay) {
+                overlay.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        closeLightbox();
+                    }
+                });
+            }
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    closeLightbox();
+                    closeEditModal();
+                }
+            });
+
+            loadCategories();
+        });
+
+        // Make functions global
+        window.openLightbox = openLightbox;
+        window.closeLightbox = closeLightbox;
+        window.openEditModal = openEditModal;
+        window.openAddModal = openAddModal;
+        window.closeEditModal = closeEditModal;
+        window.saveProduct = saveProduct;
+        window.addNewCategory = addNewCategory;
+        window.removeCategory = removeCategory;
+
+        // ============================================================
+        // FILTER PRODUCTS
+        // ============================================================
+        window.filterProducts = function () {
+            const searchTerm = globalSearch.value.toLowerCase().trim();
+            if (searchTerm === '') {
+                renderProducts(allProducts);
+                return;
+            }
+            const filtered = allProducts.filter(p =>
+                (p.name || '').toLowerCase().includes(searchTerm) ||
+                (p.category || '').toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filtered);
+        };
+
+        // ============================================================
+        // REFRESH PRODUCTS
+        // ============================================================
+        window.refreshProducts = function () {
+            showToast('🔄 Syncing products...', 'info');
+            if (unsubscribeProducts) {
+                unsubscribeProducts();
+            }
+            if (unsubscribeOrders) {
+                unsubscribeOrders();
+            }
+            listenToProducts();
+        };
+
+        // ============================================================
+        // UPDATE SYNC STATUS
+        // ============================================================
+        function updateSyncStatus(isLive) {
+            const icon = document.getElementById('syncStatusIcon');
+            const text = document.getElementById('syncStatusText');
+            const dot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+
+            if (isLive) {
+                if (icon) icon.className = 'fas fa-circle live';
+                if (text) text.textContent = 'Live';
+                if (dot) dot.className = 'fas fa-circle live';
+                if (statusText) statusText.textContent = 'Live from Firebase';
+            } else {
+                if (icon) icon.className = 'fas fa-circle offline';
+                if (text) text.textContent = 'Offline';
+                if (dot) dot.className = 'fas fa-circle offline';
+                if (statusText) statusText.textContent = 'Offline — Retrying...';
+            }
+        }
+
+        // ============================================================
+        // TOAST NOTIFICATION
+        // ============================================================
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ============================================================
+        // UI INTERACTIONS
+        // ============================================================
+        document.getElementById('hamburgerBtn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        });
+
+        document.getElementById('sidebarOverlay').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        });
+
+        document.getElementById('globalSearch').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                window.filterProducts();
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        console.log('🚀 Loading admin products from Firebase...');
+        listenToProducts();
+
+        console.log('🌱 Q Crackers Admin Panel Ready with Dynamic Categories');
+        console.log('📦 Orders badge will update in real-time');
+    </script>
+</body>
+
+</html>

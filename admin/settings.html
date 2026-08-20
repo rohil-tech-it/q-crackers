@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Q Crackers — Settings</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <!-- FAVICON / TAB LOGO -->
+    <link rel="icon" type="image/png" href="../images/logo-removebg-preview.png">
+    <style>
+        /* ============================================================
+           Q CRACKERS ADMIN THEME — Settings Page
+           ============================================================ */
+        @import url('https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #ffffff;
+            --bg-white: #ffffff;
+            --bg-elevated: #fff8f6;
+            --card: #e60000;
+            --card-hover: #c40000;
+            --border: rgba(230, 0, 0, 0.12);
+            --border-strong: rgba(230, 0, 0, 0.30);
+            --yellow: #ffd400;
+            --yellow-bright: #fff04d;
+            --ember: #ff0000;
+            --ember-soft: rgba(255, 0, 0, 0.15);
+            --text: #1f1f1f;
+            --text-muted: #555555;
+            --text-dim: #888888;
+            --radius: 14px;
+            --radius-sm: 8px;
+            --max-w: 1200px;
+            --shadow-glow: 0 0 30px rgba(230, 0, 0, 0.25);
+            --sidebar-width: 260px;
+            --header-height: 70px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #faf5f2;
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg,
+                    #8B0000 0%,
+                    #cc0000 40%,
+                    #e60000 70%,
+                    #8B0000 100%);
+            color: #f5e6e6;
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            border-right: 2px solid var(--border-strong);
+            flex-shrink: 0;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .sidebar-brand {
+            padding: 24px 22px 20px;
+            border-bottom: 1px solid rgba(255, 212, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-brand .brand-icon {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            border-radius: 50%;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 0 2px rgba(255, 212, 0, 0.4);
+        }
+
+        .sidebar-brand .brand-icon img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .sidebar-brand .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #8B0000;
+            box-shadow: 0 0 0 2px rgba(255, 212, 0, 0.4);
+        }
+
+        .sidebar-brand .brand-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #fff;
+        }
+
+        .sidebar-brand .brand-text span {
+            color: var(--yellow);
+        }
+
+        .sidebar-brand .brand-sub {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: block;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 18px 14px;
+        }
+
+        .sidebar-nav .nav-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--white);
+            padding: 8px 12px 12px;
+            font-weight: 600;
+        }
+
+        .sidebar-nav .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-bottom: 2px;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
+        }
+
+        .sidebar-nav .nav-item i {
+            width: 20px;
+            font-size: 1rem;
+            color: white;
+            transition: color 0.2s;
+        }
+
+        .sidebar-nav .nav-item:hover {
+            background: rgba(255, 212, 0, 0.15);
+            color: #fff;
+        }
+
+        .sidebar-nav .nav-item:hover i {
+            color: var(--yellow);
+        }
+
+        .sidebar-nav .nav-item.active {
+            background: rgba(255, 212, 0, 0.2);
+            color: var(--yellow);
+            border-right: 3px solid var(--yellow);
+        }
+
+        .sidebar-nav .nav-item.active i {
+            color: var(--yellow);
+        }
+
+        .sidebar-nav .nav-item .badge {
+            margin-left: auto;
+            background: var(--yellow);
+            color: #8B0000;
+            font-size: 0.6rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 999px;
+        }
+
+        .sidebar-footer {
+            padding: 16px 20px 24px;
+            border-top: 1px solid rgba(255, 212, 0, 0.15);
+        }
+
+        .sidebar-footer .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-footer .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: #8B0000;
+        }
+
+        .sidebar-footer .user-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .sidebar-footer .user-email {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .sidebar-footer .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            width: 100%;
+        }
+
+        .sidebar-footer .logout-btn:hover {
+            background: rgba(255, 212, 0, 0.15);
+            color: var(--yellow);
+        }
+
+        .sidebar-footer .logout-btn i {
+            font-size: 1rem;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-header {
+            height: var(--header-height);
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-header .page-title h2 {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--text);
+        }
+
+        .top-header .page-title h2 span {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.85rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .header-actions .search-box {
+            position: relative;
+        }
+
+        .header-actions .search-box input {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 8px 18px 8px 40px;
+            font-size: 0.85rem;
+            color: var(--text);
+            outline: none;
+            width: 220px;
+            transition: all 0.3s ease;
+        }
+
+        .header-actions .search-box input:focus {
+            border-color: var(--yellow);
+            box-shadow: 0 0 0 3px rgba(255, 212, 0, 0.2);
+            width: 260px;
+        }
+
+        .header-actions .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+        }
+
+        .notification-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            position: relative;
+        }
+
+        .notification-btn:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        .notification-btn .dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #e74c3c;
+            border: 2px solid var(--bg-white);
+        }
+
+        .page-content {
+            padding: 28px 30px 40px;
+            flex: 1;
+        }
+
+        /* ===== SETTINGS GRID ===== */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .settings-card {
+            background: var(--bg-white);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 24px;
+        }
+
+        .settings-card h3 {
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-card .field-group {
+            margin-bottom: 16px;
+        }
+
+        .settings-card .field-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .settings-card .field-group label i {
+            color: var(--card);
+            margin-right: 6px;
+        }
+
+        .settings-card .field-group input,
+        .settings-card .field-group select,
+        .settings-card .field-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text);
+            background: var(--bg-elevated);
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .settings-card .field-group input:focus,
+        .settings-card .field-group select:focus,
+        .settings-card .field-group textarea:focus {
+            border-color: var(--yellow);
+            box-shadow: 0 0 0 3px rgba(255, 212, 0, 0.1);
+        }
+
+        .settings-card .btn-save {
+            padding: 10px 28px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
+            color: #1a0505;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .settings-card .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 212, 0, 0.3);
+        }
+
+        .settings-card .btn-save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .settings-card .btn-save i {
+            margin-right: 6px;
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #333;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 9999;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            max-width: 350px;
+            font-size: 0.85rem;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.success {
+            background: #2ecc71;
+        }
+
+        .toast.error {
+            background: #e74c3c;
+        }
+
+        .toast.info {
+            background: #3498db;
+        }
+
+        .hamburger-menu {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--bg-white);
+            align-items: center;
+            justify-content: center;
+            color: var(--text);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .hamburger-menu:hover {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                height: 100vh;
+                transition: left 0.3s ease;
+                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.3);
+            }
+
+            .sidebar.open {
+                left: 0;
+            }
+
+            .hamburger-menu {
+                display: flex !important;
+            }
+
+            .top-header {
+                padding: 0 16px;
+            }
+
+            .page-content {
+                padding: 20px 16px;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <img src="../images/logo-removebg-preview.png" alt="Q Crackers Logo">
+            </div>
+
+            <div>
+                <div class="brand-text">Q <span>Crackers</span></div>
+                <span class="brand-sub">Admin Panel</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-label">Main Menu</div>
+
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-chart-pie"></i> Dashboard
+            </a>
+            <a href="orders.html" class="nav-item">
+                <i class="fas fa-shopping-bag"></i> Orders
+                <span class="badge" id="orderBadge">0</span>
+            </a>
+            <a href="products.html" class="nav-item">
+                <i class="fas fa-box"></i> Products
+                <span class="badge" id="productBadge">0</span>
+            </a>
+
+            <div class="nav-label" style="margin-top:20px;">Settings</div>
+
+            <a href="settings.html" class="nav-item active">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">A</div>
+                <div>
+                    <div class="user-name">Admin</div>
+                    <div class="user-email">admin@gmail.com</div>
+                </div>
+            </div>
+            <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            <div style="display:flex;align-items:center;gap:14px;">
+                <button class="hamburger-menu" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+                <div class="page-title">
+                    <h2>Settings <span>— configure store</span></h2>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Search settings..."
+                        id="globalSearch"></div>
+                <button class="notification-btn" id="notificationBtn"><i class="fas fa-bell"></i><span
+                        class="dot"></span></button>
+            </div>
+        </header>
+
+        <div class="page-content">
+            <h3 style="font-weight:600;font-size:1.1rem;margin-bottom:20px;">General Settings</h3>
+
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3><i class="fas fa-store" style="color:var(--yellow);margin-right:8px;"></i> Store Information
+                    </h3>
+                    <div class="field-group">
+                        <label><i class="fas fa-store"></i> Store Name</label>
+                        <input type="text" id="storeName" value="Q Crackers" />
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-envelope"></i> Store Email</label>
+                        <input type="email" id="storeEmail" value="qcrackerss@gmail.com" />
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-phone"></i> Store Phone</label>
+                        <input type="text" id="storePhone" value="+91 96555 86461" />
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Store Address</label>
+                        <textarea id="storeAddress" rows="3">Sivakasi, Tamil Nadu</textarea>
+                    </div>
+                    <button class="btn-save" id="saveStoreBtn"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+
+                <div class="settings-card">
+                    <h3><i class="fas fa-palette" style="color:var(--yellow);margin-right:8px;"></i> Theme & Display
+                    </h3>
+
+                    <div class="field-group">
+                        <label><i class="fas fa-coins"></i> Currency</label>
+                        <select id="currency">
+                            <option value="INR" selected>INR (₹)</option>
+                            <option value="USD">USD ($)</option>
+                        </select>
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-cart-plus"></i> Minimum Order (TN & PY)</label>
+                        <input type="number" id="minOrderTN" value="2500" />
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-cart-plus"></i> Minimum Order (Other States)</label>
+                        <input type="number" id="minOrderOther" value="5000" />
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-percent"></i> Tax Rate (%)</label>
+                        <input type="number" id="taxRate" value="0" />
+                    </div>
+                    <button class="btn-save" id="saveThemeBtn"><i class="fas fa-save"></i> Save Changes</button>
+                </div>
+            </div>
+
+            <!-- WhatsApp Settings -->
+            <div class="settings-grid" style="margin-top:24px;">
+                <div class="settings-card">
+                    <h3><i class="fab fa-whatsapp" style="color:#25D366;margin-right:8px;"></i> WhatsApp Settings</h3>
+                    <div class="field-group">
+                        <label><i class="fab fa-whatsapp"></i> WhatsApp Number</label>
+                        <input type="text" id="whatsappNumber" value="919655586461" />
+                        <small style="color:var(--text-muted);font-size:0.7rem;">Enter without + or spaces (e.g.,
+                            919655586461)</small>
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-check-circle"></i> WhatsApp Order Status</label>
+                        <select id="whatsappStatus">
+                            <option value="enquiry">Order Enquiry Only</option>
+                            <option value="confirmation" selected>Order Confirmation</option>
+                            <option value="both">Both</option>
+                        </select>
+                    </div>
+                    <button class="btn-save" id="saveWhatsAppBtn"><i class="fas fa-save"></i> Save WhatsApp
+                        Settings</button>
+                </div>
+
+                <div class="settings-card">
+                    <h3><i class="fas fa-info-circle" style="color:var(--yellow);margin-right:8px;"></i> About Store
+                    </h3>
+                    <div class="field-group">
+                        <label><i class="fas fa-tag"></i> Store Tagline</label>
+                        <input type="text" id="storeTagline" value="Premium Sivakasi Fireworks" />
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-clock"></i> Store Hours</label>
+                        <input type="text" id="storeHours" value="9:00 AM - 9:00 PM" />
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fas fa-truck"></i> Delivery Info</label>
+                        <textarea id="deliveryInfo"
+                            rows="3">Free delivery on orders above ₹5000. Standard delivery within 3-5 business days.</textarea>
+                    </div>
+                    <button class="btn-save" id="saveAboutBtn"><i class="fas fa-save"></i> Save About Info</button>
+                </div>
+            </div>
+
+            <!-- Social Media Links - Q Crackers -->
+            <div class="settings-grid" style="margin-top:24px;">
+                <div class="settings-card">
+                    <h3><i class="fas fa-share-alt" style="color:var(--yellow);margin-right:8px;"></i> Social Media
+                        Links</h3>
+                    <div class="field-group">
+                        <label><i class="fab fa-instagram"></i> Instagram URL</label>
+                        <input type="url" id="instagramUrl" value="https://www.instagram.com/q_crackers_official/" />
+                    </div>
+                    <div class="field-group">
+                        <label><i class="fab fa-facebook"></i> Facebook URL</label>
+                        <input type="url" id="facebookUrl"
+                            value="https://www.facebook.com/profile.php?id=100092128860200" />
+                    </div>
+
+                    <div class="field-group">
+                        <label><i class="fab fa-youtube"></i> YouTube URL</label>
+                        <input type="url" id="youtubeUrl" value="https://www.youtube.com/@qcrackersofficial" />
+                    </div>
+                    <button class="btn-save" id="saveSocialBtn"><i class="fas fa-save"></i> Save Social Links</button>
+                </div>
+
+                <div class="settings-card">
+                    <h3><i class="fas fa-file-pdf" style="color:#e74c3c;margin-right:8px;"></i> Pricelist PDF</h3>
+                    <div class="field-group">
+                        <label><i class="fas fa-file-pdf"></i> Current Pricelist</label>
+                        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                            <span class="btn-save"
+                                style="padding:8px 18px;font-size:0.8rem;cursor:pointer;background:var(--bg-elevated);color:var(--text);border:1px solid var(--border);"
+                                id="viewPdfBtn"><i class="fas fa-eye"></i> View Current Pricelist PDF</span>
+                            <span style="color:var(--text-dim);font-size:0.8rem;">No file chosen</span>
+                        </div>
+                    </div>
+                    <div class="field-group" style="margin-top:12px;">
+                        <label><i class="fas fa-upload"></i> Upload New PDF</label>
+                        <input type="file" id="pdfUpload" accept=".pdf"
+                            style="padding:8px;border:1px solid var(--border);border-radius:var(--radius-sm);width:100%;" />
+                    </div>
+                    <button class="btn-save" id="savePdfBtn"><i class="fas fa-upload"></i> Upload Pricelist</button>
+                </div>
+            </div>
+
+            <div
+                style="margin-top:24px;text-align:center;color:var(--text-dim);font-size:0.75rem;border-top:1px solid var(--border);padding-top:20px;">
+                <i class="fas fa-shield-alt" style="color:var(--yellow);"></i> Q Crackers Admin Panel
+            </div>
+        </div>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- ============================================================
+    FIREBASE IMPORTS
+    ============================================================ -->
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"
+            }
+        }
+    </script>
+
+    <script type="module">
+        // ============================================================
+        // FIREBASE IMPORTS
+        // ============================================================
+        import { initializeApp } from "firebase/app";
+        import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+        import {
+            getFirestore,
+            doc,
+            getDoc,
+            setDoc,
+            updateDoc,
+            onSnapshot,
+            collection
+        } from "firebase/firestore";
+
+        // ============================================================
+        // FIREBASE CONFIG
+        // ============================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
+            authDomain: "qcrackers.firebaseapp.com",
+            projectId: "qcrackers",
+            storageBucket: "qcrackers.firebasestorage.app",
+            messagingSenderId: "491899224672",
+            appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // ============================================================
+        // DOM ELEMENTS
+        // ============================================================
+        const storeName = document.getElementById('storeName');
+        const storeEmail = document.getElementById('storeEmail');
+        const storePhone = document.getElementById('storePhone');
+        const storeAddress = document.getElementById('storeAddress');
+        const currency = document.getElementById('currency');
+        const minOrderTN = document.getElementById('minOrderTN');
+        const minOrderOther = document.getElementById('minOrderOther');
+        const taxRate = document.getElementById('taxRate');
+        const whatsappNumber = document.getElementById('whatsappNumber');
+        const whatsappStatus = document.getElementById('whatsappStatus');
+        const storeTagline = document.getElementById('storeTagline');
+        const storeHours = document.getElementById('storeHours');
+        const deliveryInfo = document.getElementById('deliveryInfo');
+        const instagramUrl = document.getElementById('instagramUrl');
+        const facebookUrl = document.getElementById('facebookUrl');
+        const youtubeUrl = document.getElementById('youtubeUrl');
+        const pdfUpload = document.getElementById('pdfUpload');
+        const orderBadge = document.getElementById('orderBadge');
+        const productBadge = document.getElementById('productBadge');
+
+        const saveStoreBtn = document.getElementById('saveStoreBtn');
+        const saveThemeBtn = document.getElementById('saveThemeBtn');
+        const saveWhatsAppBtn = document.getElementById('saveWhatsAppBtn');
+        const saveAboutBtn = document.getElementById('saveAboutBtn');
+        const saveSocialBtn = document.getElementById('saveSocialBtn');
+        const savePdfBtn = document.getElementById('savePdfBtn');
+
+        const SETTINGS_DOC = 'storeSettings';
+
+        // ============================================================
+        // LISTEN TO ORDERS & PRODUCTS (for badge counts)
+        // ============================================================
+        function listenToBadges() {
+            // Orders count
+            const ordersRef = collection(db, 'orders');
+            onSnapshot(ordersRef, (snapshot) => {
+                if (orderBadge) {
+                    orderBadge.textContent = snapshot.size;
+                    orderBadge.style.display = snapshot.size > 0 ? 'inline-block' : 'none';
+                }
+            }, (error) => {
+                console.error('Error listening to orders:', error);
+            });
+
+            // Products count
+            const productsRef = collection(db, 'products');
+            onSnapshot(productsRef, (snapshot) => {
+                if (productBadge) {
+                    productBadge.textContent = snapshot.size;
+                    productBadge.style.display = snapshot.size > 0 ? 'inline-block' : 'none';
+                }
+            }, (error) => {
+                console.error('Error listening to products:', error);
+            });
+        }
+
+        // ============================================================
+        // AUTH CHECK
+        // ============================================================
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = 'index.html';
+            } else {
+                const userEmail = document.querySelector('.sidebar-footer .user-email');
+                const userName = document.querySelector('.sidebar-footer .user-name');
+                if (userEmail) userEmail.textContent = user.email || 'admin@gmail.com';
+                if (userName) {
+                    const label = (user.email || 'Admin').split('@')[0];
+                    userName.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+                }
+                loadSettings();
+                listenToSettings();
+                listenToBadges();
+            }
+        });
+
+        // ============================================================
+        // LOGOUT
+        // ============================================================
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            if (confirm('Are you sure you want to logout?')) {
+                signOut(auth);
+            }
+        });
+
+        // ============================================================
+        // LOAD SETTINGS FROM FIRESTORE
+        // ============================================================
+        async function loadSettings() {
+            try {
+                const docRef = doc(db, SETTINGS_DOC, 'settings');
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+
+                    if (data.storeName) storeName.value = data.storeName;
+                    if (data.storeEmail) storeEmail.value = data.storeEmail;
+                    if (data.storePhone) storePhone.value = data.storePhone;
+                    if (data.storeAddress) storeAddress.value = data.storeAddress;
+                    if (data.currency) currency.value = data.currency;
+                    if (data.minOrderTN) minOrderTN.value = data.minOrderTN;
+                    if (data.minOrderOther) minOrderOther.value = data.minOrderOther;
+                    if (data.taxRate) taxRate.value = data.taxRate;
+                    if (data.whatsappNumber) whatsappNumber.value = data.whatsappNumber;
+                    if (data.whatsappStatus) whatsappStatus.value = data.whatsappStatus;
+                    if (data.storeTagline) storeTagline.value = data.storeTagline;
+                    if (data.storeHours) storeHours.value = data.storeHours;
+                    if (data.deliveryInfo) deliveryInfo.value = data.deliveryInfo;
+                    if (data.instagramUrl) instagramUrl.value = data.instagramUrl;
+                    if (data.facebookUrl) facebookUrl.value = data.facebookUrl;
+                    if (data.youtubeUrl) youtubeUrl.value = data.youtubeUrl;
+
+                    console.log('✅ Settings loaded from Firebase');
+                } else {
+                    console.log('No settings found, using defaults');
+                }
+            } catch (error) {
+                console.error('Error loading settings:', error);
+                showToast('Error loading settings', 'error');
+            }
+        }
+
+        // ============================================================
+        // REAL-TIME LISTEN FOR SETTINGS
+        // ============================================================
+        function listenToSettings() {
+            const docRef = doc(db, SETTINGS_DOC, 'settings');
+            onSnapshot(docRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+
+                    if (data.storeName) storeName.value = data.storeName;
+                    if (data.storeEmail) storeEmail.value = data.storeEmail;
+                    if (data.storePhone) storePhone.value = data.storePhone;
+                    if (data.storeAddress) storeAddress.value = data.storeAddress;
+                    if (data.currency) currency.value = data.currency;
+                    if (data.minOrderTN) minOrderTN.value = data.minOrderTN;
+                    if (data.minOrderOther) minOrderOther.value = data.minOrderOther;
+                    if (data.taxRate) taxRate.value = data.taxRate;
+                    if (data.whatsappNumber) whatsappNumber.value = data.whatsappNumber;
+                    if (data.whatsappStatus) whatsappStatus.value = data.whatsappStatus;
+                    if (data.storeTagline) storeTagline.value = data.storeTagline;
+                    if (data.storeHours) storeHours.value = data.storeHours;
+                    if (data.deliveryInfo) deliveryInfo.value = data.deliveryInfo;
+                    if (data.instagramUrl) instagramUrl.value = data.instagramUrl;
+                    if (data.facebookUrl) facebookUrl.value = data.facebookUrl;
+                    if (data.youtubeUrl) youtubeUrl.value = data.youtubeUrl;
+                }
+            });
+        }
+
+        // ============================================================
+        // SAVE SETTINGS TO FIRESTORE
+        // ============================================================
+        async function saveSettings(button, data, message) {
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const docRef = doc(db, SETTINGS_DOC, 'settings');
+                await setDoc(docRef, data, { merge: true });
+                showToast(message || '✅ Settings saved successfully!', 'success');
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                showToast('❌ Error saving settings: ' + error.message, 'error');
+            } finally {
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+            }
+        }
+
+        // ============================================================
+        // SAVE STORE INFORMATION
+        // ============================================================
+        saveStoreBtn.addEventListener('click', () => {
+            const data = {
+                storeName: storeName.value.trim(),
+                storeEmail: storeEmail.value.trim(),
+                storePhone: storePhone.value.trim(),
+                storeAddress: storeAddress.value.trim()
+            };
+            saveSettings(saveStoreBtn, data, '✅ Store information saved!');
+        });
+
+        // ============================================================
+        // SAVE THEME & DISPLAY
+        // ============================================================
+        saveThemeBtn.addEventListener('click', () => {
+            const data = {
+                currency: currency.value,
+                minOrderTN: parseInt(minOrderTN.value) || 2500,
+                minOrderOther: parseInt(minOrderOther.value) || 5000,
+                taxRate: parseInt(taxRate.value) || 0
+            };
+            saveSettings(saveThemeBtn, data, '✅ Theme settings saved!');
+        });
+
+        // ============================================================
+        // SAVE WHATSAPP SETTINGS
+        // ============================================================
+        saveWhatsAppBtn.addEventListener('click', () => {
+            const data = {
+                whatsappNumber: whatsappNumber.value.trim(),
+                whatsappStatus: whatsappStatus.value
+            };
+            saveSettings(saveWhatsAppBtn, data, '✅ WhatsApp settings saved!');
+        });
+
+        // ============================================================
+        // SAVE ABOUT INFORMATION
+        // ============================================================
+        saveAboutBtn.addEventListener('click', () => {
+            const data = {
+                storeTagline: storeTagline.value.trim(),
+                storeHours: storeHours.value.trim(),
+                deliveryInfo: deliveryInfo.value.trim()
+            };
+            saveSettings(saveAboutBtn, data, '✅ About information saved!');
+        });
+
+        // ============================================================
+        // SAVE SOCIAL MEDIA LINKS
+        // ============================================================
+        saveSocialBtn.addEventListener('click', () => {
+            const data = {
+                instagramUrl: instagramUrl.value.trim(),
+                facebookUrl: facebookUrl.value.trim(),
+                youtubeUrl: youtubeUrl.value.trim()
+            };
+            saveSettings(saveSocialBtn, data, '✅ Social media links saved!');
+        });
+
+        // ============================================================
+        // SAVE PDF (simulated)
+        // ============================================================
+        savePdfBtn.addEventListener('click', () => {
+            if (pdfUpload.files.length === 0) {
+                showToast('⚠️ Please select a PDF file first', 'error');
+                return;
+            }
+            const fileName = pdfUpload.files[0].name;
+            const data = {
+                pdfFileName: fileName,
+                pdfUploaded: new Date().toISOString()
+            };
+            saveSettings(savePdfBtn, data, '✅ PDF uploaded successfully!');
+        });
+
+        // ============================================================
+        // VIEW PDF (simulated)
+        // ============================================================
+        document.getElementById('viewPdfBtn').addEventListener('click', () => {
+            showToast('📄 Viewing pricelist PDF (demo)', 'info');
+        });
+
+        // ============================================================
+        // TOAST NOTIFICATION
+        // ============================================================
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ============================================================
+        // UI INTERACTIONS
+        // ============================================================
+        document.getElementById('hamburgerBtn').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        });
+
+        document.getElementById('sidebarOverlay').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        });
+
+        document.getElementById('notificationBtn').addEventListener('click', () => {
+            alert('🔔 You have 3 new notifications');
+        });
+
+        console.log('✅ Q Crackers Settings loaded with Firebase!');
+        console.log('📦 Orders & Products badges are live!');
+    </script>
+</body>
+
+</html>
