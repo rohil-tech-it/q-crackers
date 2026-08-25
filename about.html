@@ -293,6 +293,69 @@
         opacity: 0.5;
       }
     }
+
+    /* Story Image Center - Responsive */
+    @media (max-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .story-image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        margin: 30px auto 0;
+        width: 100%;
+      }
+
+      .story-img {
+        display: block;
+        margin: 0 auto;
+        width: 80%;
+        max-width: 280px;
+        height: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .story-img {
+        width: 75%;
+        max-width: 220px;
+      }
+    }
+
+  /* Mobile - Story Image Perfect Center */
+@media (max-width: 768px) {
+    .story-section .story-image{
+        text-align: center !important;
+        width: 100%;
+    }
+
+    .story-section .story-image .story-img{
+        display: inline-block !important;
+        width: 300px !important;
+        max-width: 95%;
+        height: auto !important;
+        margin: 0 auto !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .story-section .story-image .story-img{
+        width: 280px !important;
+    }
+}
+
+    @media (max-width: 480px) {
+      .story-section .story-img {
+        width: 200px;
+      }
+    }@media (max-width: 768px) {
+    .story-section .hero-grid{
+        justify-items: center !important;
+    }
+}
   </style>
 </head>
 
@@ -653,6 +716,13 @@
     <a href="https://www.facebook.com/profile.php?id=100092128860200" class="sf-facebook" id="sfFacebook"><i
         class="fab fa-facebook-f"></i></a>
   </div>
+
+  <!-- ============================================================
+  ✅ CART SYNC — shared cart state across all pages (Home, Products,
+  About, FAQ, Contact). This is what fills in the header cart badge
+  and total on every page, not just products.html.
+  ============================================================ -->
+  <script src="cart.js"></script>
 
   <!-- ============================================================
   FIREBASE — AUTO-SYNC
@@ -1128,6 +1198,20 @@
         console.log('✅ All Categories dropdown initialized!');
       } else {
         console.warn('⚠️ All Categories button or menu not found!');
+      }
+    });
+  </script>
+  <!-- ============================================================
+  ✅ CART BUTTON — no cart modal exists on this page, so send the
+  user to the products page where they can view/edit their cart.
+  ============================================================ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const openCartBtn = document.getElementById('open-cart-btn');
+      if (openCartBtn) {
+        openCartBtn.addEventListener('click', function () {
+          window.location.href = 'products.html';
+        });
       }
     });
   </script>

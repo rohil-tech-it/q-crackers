@@ -5,67 +5,96 @@
 var CartManager = {
     STORAGE_KEY: 'qcrackers_cart',
 
-    // Get cart from localStorage
-    getCart: function() {
+    // Get cart from localStorage (sanitizes any corrupted entries
+    // left over from the old two-format bug)
+    getCart: function () {
         try {
             var data = localStorage.getItem(this.STORAGE_KEY);
-            return data ? JSON.parse(data) : {};
+            var cart = data ? JSON.parse(data) : {};
+            var changed = false;
+            for (var key in cart) {
+                if (cart.hasOwnProperty(key)) {
+                    var entry = cart[key];
+                    if (typeof entry !== 'object' || entry === null || typeof entry.qty !== 'number' || isNaN(entry.qty)) {
+                        delete cart[key];
+                        changed = true;
+                    }
+                }
+            }
+            if (changed) {
+                try { localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cart)); } catch (e) { }
+            }
+            return cart;
         } catch (e) {
             return {};
         }
     },
 
     // Save cart to localStorage
-    saveCart: function(cart) {
+    saveCart: function (cart) {
         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cart));
         this.updateAll();
     },
 
-    // Add item to cart
-    addItem: function(productName, price, quantity) {
+    // Add item to cart. mrp is optional (used for discount calculation).
+    addItem: function (productName, price, quantity, mrp) {
         if (quantity === undefined) quantity = 1;
         var cart = this.getCart();
         if (cart[productName]) {
             cart[productName].qty = (cart[productName].qty || 0) + quantity;
             cart[productName].price = price || cart[productName].price || 0;
+            if (mrp !== undefined) cart[productName].mrp = mrp;
         } else {
             cart[productName] = {
                 qty: quantity,
-                price: price || 0
+                price: price || 0,
+                mrp: mrp !== undefined ? mrp : (price || 0)
             };
+        }
+        if (cart[productName].qty <= 0) {
+            delete cart[productName];
         }
         this.saveCart(cart);
         this.updateProductTable();
     },
 
-    removeItem: function(productName) {
+    removeItem: function (productName) {
         var cart = this.getCart();
         delete cart[productName];
         this.saveCart(cart);
         this.updateProductTable();
     },
 
-    updateQuantity: function(productName, quantity) {
+    // Sets the absolute quantity for a product (used by the qty-stepper
+    // and the cart modal's +/- controls). Pass price/mrp so a brand-new
+    // entry has correct data even if the item wasn't added via addItem first.
+    updateQuantity: function (productName, quantity, price, mrp) {
         var cart = this.getCart();
-        if (cart[productName]) {
-            if (quantity <= 0) {
-                delete cart[productName];
-            } else {
-                cart[productName].qty = quantity;
-            }
+        if (quantity <= 0) {
+            delete cart[productName];
+        } else if (cart[productName]) {
+            cart[productName].qty = quantity;
+            if (price !== undefined) cart[productName].price = price;
+            if (mrp !== undefined) cart[productName].mrp = mrp;
+        } else {
+            cart[productName] = {
+                qty: quantity,
+                price: price || 0,
+                mrp: mrp !== undefined ? mrp : (price || 0)
+            };
         }
         this.saveCart(cart);
         this.updateProductTable();
     },
 
-    clearCart: function() {
+    clearCart: function () {
         localStorage.removeItem(this.STORAGE_KEY);
         this.updateAll();
         this.updateProductTable();
     },
 
     // ✅ Get total number of items (1, 2, 3...)
-    getTotalItems: function() {
+    getTotalItems: function () {
         var cart = this.getCart();
         var total = 0;
         for (var key in cart) {
@@ -77,42 +106,61 @@ var CartManager = {
     },
 
     // ✅ Get total amount
-    getTotalAmount: function() {
+    getTotalAmount: function () {
         var items = this.getCartItems();
         var total = 0;
-        items.forEach(function(item) {
+        items.forEach(function (item) {
             total += item.amount;
         });
         return total;
     },
 
-    getCartItems: function() {
+    // ✅ Get total discount (sum of (mrp - price) * qty across cart)
+    getTotalDiscount: function () {
+        var items = this.getCartItems();
+        var total = 0;
+        items.forEach(function (item) {
+            total += item.discount;
+        });
+        return total;
+    },
+
+    getCartItems: function () {
         var cart = this.getCart();
         var items = [];
         for (var name in cart) {
             if (cart.hasOwnProperty(name)) {
+                var qty = cart[name].qty || 0;
+                var price = cart[name].price || 0;
+                var mrp = (cart[name].mrp !== undefined ? cart[name].mrp : price);
                 items.push({
                     name: name,
-                    qty: cart[name].qty || 0,
-                    price: cart[name].price || 0,
-                    amount: (cart[name].qty || 0) * (cart[name].price || 0)
+                    qty: qty,
+                    price: price,
+                    mrp: mrp,
+                    amount: qty * price,
+                    discount: (mrp - price) * qty
                 });
             }
         }
         return items;
     },
 
+    // Back-compat alias — some callers use getItems()
+    getItems: function () {
+        return this.getCartItems();
+    },
+
     // ============================================================
     // ✅ UPDATE BADGE ON ALL PAGES - FIXED
     // ============================================================
-    updateBadge: function() {
+    updateBadge: function () {
         var totalItems = this.getTotalItems();
-        console.log('🛒 Updating badge - Items:', totalItems);
+        var totalAmount = this.getTotalAmount();
 
         // Update ALL cart badges on the page
         var badges = document.querySelectorAll('.cart-badge');
-        
-        badges.forEach(function(badge) {
+        badges.forEach(function (badge) {
             badge.textContent = totalItems;
             if (totalItems > 0) {
                 badge.style.display = 'flex';
@@ -127,8 +175,7 @@ var CartManager = {
         // Update header cart total
         var headerTotal = document.getElementById('header-cart-total');
         if (headerTotal) {
-            var amount = this.getTotalAmount();
-            headerTotal.textContent = '₹' + amount.toLocaleString('en-IN');
+            headerTotal.textContent = '₹' + totalAmount.toLocaleString('en-IN');
         }
 
         // Update cart modal count
@@ -142,22 +189,19 @@ var CartManager = {
         if (cartItemsEl) {
             cartItemsEl.textContent = totalItems;
         }
-
-        console.log('✅ Badge updated to:', totalItems);
     },
 
     // ============================================================
-    // ✅ UPDATE PRODUCT TABLE
+    // ✅ UPDATE PRODUCT TABLE (qty inputs + row amounts + summary bar)
     // ============================================================
-    updateProductTable: function() {
-        console.log('🔄 Updating product table...');
+    updateProductTable: function () {
         var rows = document.querySelectorAll('.product-table tbody tr');
         var cart = this.getCart();
         var totalItems = 0;
         var totalAmount = 0;
         var totalDiscount = 0;
 
-        rows.forEach(function(row) {
+        rows.forEach(function (row) {
             var name = row.dataset.name || '';
             if (!name) {
                 var nameEl = row.querySelector('.product-name');
@@ -168,10 +212,11 @@ var CartManager = {
             var cartItem = cart[name];
             var qty = cartItem ? cartItem.qty || 0 : 0;
             var price = parseFloat(row.dataset.price) || 0;
+            var mrp = parseFloat(row.dataset.mrp) || price;
 
             // Update quantity input
             var qtyInput = row.querySelector('.qty-input');
-            if (qtyInput) {
+            if (qtyInput && document.activeElement !== qtyInput) {
                 qtyInput.value = qty;
             }
 
@@ -184,7 +229,6 @@ var CartManager = {
             if (qty > 0) {
                 totalItems += qty;
                 totalAmount += price * qty;
-                var mrp = parseFloat(row.dataset.mrp) || price;
                 totalDiscount += (mrp - price) * qty;
             }
         });
@@ -224,19 +268,39 @@ var CartManager = {
                 warningEl.style.display = 'none';
             }
         }
-
-        console.log('✅ Product table updated! Items:', totalItems);
     },
 
     // ============================================================
     // ✅ UPDATE ALL (Badge + Table)
     // ============================================================
-    updateAll: function() {
+    updateAll: function () {
         this.updateBadge();
         // Only update product table if we're on products page
         if (document.querySelector('.product-table')) {
             this.updateProductTable();
         }
+    },
+
+    // Sync the product table qty inputs from the stored cart
+    // (used right after the product table is (re)rendered from Firebase)
+    syncProductTable: function () {
+        var items = this.getCartItems();
+        document.querySelectorAll('.product-table tbody tr').forEach(function (row) {
+            var name = row.dataset.name;
+            if (!name) return;
+            var cartItem = items.find(function (i) { return i.name === name; });
+            var qtyInput = row.querySelector('.qty-input');
+            if (qtyInput) {
+                qtyInput.value = cartItem ? cartItem.qty : 0;
+                var amountCell = row.querySelector('.row-amount');
+                if (amountCell) {
+                    var price = parseFloat(row.dataset.price) || 0;
+                    var qty = cartItem ? cartItem.qty : 0;
+                    amountCell.textContent = qty > 0 ? '₹' + (price * qty).toLocaleString('en-IN') : '₹0';
+                }
+            }
+        });
+        this.updateBadge();
     }
 };
 
@@ -248,22 +312,16 @@ console.log('🛒 Cart Manager loaded!');
 // ============================================================
 // ✅ AUTO SYNC WHEN PAGE LOADS (WORKS ON ALL PAGES)
 // ============================================================
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('📄 Page loaded:', window.location.pathname);
-    
-    // First sync
-    setTimeout(function() {
+document.addEventListener('DOMContentLoaded', function () {
+    setTimeout(function () {
         if (typeof CartManager !== 'undefined') {
             CartManager.updateAll();
-            console.log('🔄 Auto-sync complete!');
         }
     }, 200);
-    
-    // Second sync (retry)
-    setTimeout(function() {
+
+    setTimeout(function () {
         if (typeof CartManager !== 'undefined') {
             CartManager.updateAll();
-            console.log('🔄 Auto-sync retry complete!');
         }
     }, 800);
 });

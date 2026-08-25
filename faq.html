@@ -10,6 +10,51 @@
     <link rel="icon" type="image/png" href="./images/logo-removebg-preview.png">
 
     <style>
+        :root {
+            --bg: #ffffff;
+            --bg-white: #ffffff;
+            --bg-elevated: #fff8f6;
+            --card: #e60000;
+            --card-hover: #c40000;
+            --border: rgba(230, 0, 0, 0.12);
+            --border-strong: rgba(230, 0, 0, 0.30);
+            --yellow: #ffd400;
+            --yellow-bright: #fff04d;
+            --ember: #ff0000;
+            --ember-soft: rgba(255, 0, 0, 0.15);
+            --text: #1f1f1f;
+            --text-muted: #555555;
+            --text-dim: #888888;
+            --radius: 14px;
+            --radius-sm: 8px;
+            --max-w: 1200px;
+            --shadow-glow: 0 0 30px rgba(230, 0, 0, 0.25);
+            --sidebar-width: 260px;
+            --header-height: 70px;
+        }
+
+        .banner-stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .banner-stats span {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color:var(--text-dim);
+            color: var(--card);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .banner-stats span i {
+            color: var(--yellow);
+            font-size: 1rem;
+        }
+
         /* ===== CART BADGE - FIX ===== */
         .cart-badge {
             position: absolute;
@@ -182,8 +227,9 @@
             <div class="top-bar-contacts">
                 <a href="tel:+919655586461" class="phone-number" id="headerPhone"><i class="fas fa-phone"></i> +91 96555
                     86461</a>
-                <a href="mailto:hello@qcrackers.in" class="store-email" id="headerEmail"><i class="fas fa-envelope"></i>
-                    qcrackerss@gmail.com</a>
+                <a href="mailto:qcrackerss@gmail.com">
+                    <i class="fas fa-envelope"></i> qcrackerss@gmail.com
+                </a>
             </div>
         </div>
     </div>
@@ -482,7 +528,9 @@
                             <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                             <div class="contact-detail">
                                 <span class="contact-label">Email Us</span>
-                                <a href="mailto:hello@qcrackers.in" id="footerEmail">hello@qcrackers.in</a>
+                                <a href="mailto:qcrackerss@gmail.com">
+                                    <i class="fas fa-envelope"></i> qcrackerss@gmail.com
+                                </a>
                             </div>
                         </li>
                         <li>
@@ -532,110 +580,30 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
+    <!-- ============================================================
+    ✅ CART SYNC — shared cart state across all pages. Must be the
+    ONLY CartManager on this page (no duplicate inline copy), or the
+    header cart badge/total will corrupt itself against products.html.
+    ============================================================ -->
+    <script src="cart.js"></script>
+
     <!-- ============================================================ -->
-    <!-- 🔥 ALL JAVASCRIPT - INTERNAL -->
+    <!-- 🔥 ALL OTHER JAVASCRIPT - INTERNAL -->
     <!-- ============================================================ -->
     <script>
         // ============================================================
-        // 1. CART MANAGER
-        // ============================================================
-        var CartManager = {
-            STORAGE_KEY: 'qcrackers_cart',
-
-            getCart: function () {
-                try {
-                    var data = localStorage.getItem(this.STORAGE_KEY);
-                    return data ? JSON.parse(data) : {};
-                } catch (e) {
-                    return {};
-                }
-            },
-
-            saveCart: function (cart) {
-                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cart));
-                this.updateCartBadge();
-            },
-
-            addItem: function (productName, quantity) {
-                if (quantity === undefined) quantity = 1;
-                var cart = this.getCart();
-                cart[productName] = (cart[productName] || 0) + quantity;
-                this.saveCart(cart);
-            },
-
-            removeItem: function (productName) {
-                var cart = this.getCart();
-                delete cart[productName];
-                this.saveCart(cart);
-            },
-
-            updateQuantity: function (productName, quantity) {
-                var cart = this.getCart();
-                if (quantity <= 0) {
-                    delete cart[productName];
-                } else {
-                    cart[productName] = quantity;
-                }
-                this.saveCart(cart);
-            },
-
-            clearCart: function () {
-                localStorage.removeItem(this.STORAGE_KEY);
-                this.updateCartBadge();
-            },
-
-            getTotalItems: function () {
-                var cart = this.getCart();
-                var total = 0;
-                for (var key in cart) {
-                    if (cart.hasOwnProperty(key)) {
-                        total += cart[key];
-                    }
-                }
-                return total;
-            },
-
-            getCartItems: function () {
-                var cart = this.getCart();
-                var items = [];
-                for (var name in cart) {
-                    if (cart.hasOwnProperty(name)) {
-                        items.push({ name: name, quantity: cart[name] });
-                    }
-                }
-                return items;
-            },
-
-            updateCartBadge: function () {
-                var total = this.getTotalItems();
-                var badges = document.querySelectorAll('.cart-badge');
-                badges.forEach(function (badge) {
-                    badge.textContent = total;
-                    badge.style.display = total > 0 ? 'flex' : 'none';
-                });
-
-                var headerCartTotal = document.getElementById('header-cart-total');
-                if (headerCartTotal) {
-                    headerCartTotal.textContent = total > 0 ? '₹' + total : '₹0';
-                }
-            },
-
-            syncFromProducts: function () {
-                this.updateCartBadge();
-            }
-        };
-
-        window.CartManager = CartManager;
-
-        // ============================================================
-        // 2. DOM READY - INITIALIZE ALL
+        // DOM READY - INITIALIZE ALL
         // ============================================================
         document.addEventListener('DOMContentLoaded', function () {
 
-            // ---------- CART BADGE ----------
-            CartManager.updateCartBadge();
+            // ---------- CART BADGE (from shared cart.js) ----------
+            if (typeof CartManager !== 'undefined') {
+                CartManager.updateBadge();
+            }
 
             // ---------- OPEN CART BUTTON ----------
+            // No cart modal exists on this page — send the user to
+            // products.html to view/edit their cart.
             var openCartBtn = document.getElementById('open-cart-btn');
             if (openCartBtn) {
                 openCartBtn.addEventListener('click', function () {

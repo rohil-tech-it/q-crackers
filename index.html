@@ -36,6 +36,69 @@
             background: #999;
             font-size: 0.55rem;
         }
+
+        /* ===== STATS SECTION - REDESIGN + COUNT-UP ===== */
+        .strip-stats .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 30px 18px;
+            text-align: center;
+            border: 1px solid rgba(230, 0, 0, 0.08);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.07);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-icon {
+            width: 58px;
+            height: 58px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--card);
+            background: var( --yellow);
+            box-shadow: 0 8px 18px rgba(230, 0, 0, 0.25);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 6px;
+        }
+
+        .stat-card span {
+            display: block;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-muted, #666);
+        }
+
+        @media (max-width: 768px) {
+            .strip-stats .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 420px) {
+            .stat-card {
+                padding: 22px 12px;
+            }
+        }
     </style>
 </head>
 
@@ -46,7 +109,9 @@
                 Nadu.</span>
             <div class="top-bar-contacts">
                 <a href="tel:+919655586461"><i class="fas fa-phone"></i> +91 96555 86461</a>
-                <a href="mailto:hello@qcrackers.in"><i class="fas fa-envelope"></i>qcrackerss@gmail.com</a>
+                <a href="mailto:qcrackerss@gmail.com">
+                    <i class="fas fa-envelope"></i> qcrackerss@gmail.com
+                </a>
             </div>
         </div>
     </div>
@@ -190,6 +255,9 @@
         </div>
     </section>
 
+
+
+
     <!-- INTRO: IMAGE RIGHT / CONTENT LEFT -->
     <section class="section">
         <div class="container content-flex content-flex-reverse">
@@ -305,23 +373,27 @@
             <div class="strip-stats">
                 <div class="grid-4">
 
-                    <div class="stat">
-                        <b style="color: var(--card);">500+</b>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-boxes-stacked"></i></div>
+                        <b class="stat-number" data-target="250" data-suffix="+">0</b>
                         <span>Products in Catalogue</span>
                     </div>
 
-                    <div class="stat">
-                        <b style="color: var(--card);">12,000+</b>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <b class="stat-number" data-target="12000" data-suffix="+">0</b>
                         <span>Happy Customers</span>
                     </div>
 
-                    <div class="stat">
-                        <b style="color: var(--card);">100%</b>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-shield-halved"></i></div>
+                        <b class="stat-number" data-target="100" data-suffix="%">0</b>
                         <span>Tested for Safety</span>
                     </div>
 
-                    <div class="stat">
-                        <b style="color: var(--card);">24hr</b>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-truck-fast"></i></div>
+                        <b class="stat-number" data-target="24" data-suffix="hr">0</b>
                         <span>Order Dispatch</span>
                     </div>
 
@@ -1331,7 +1403,9 @@
                             <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                             <div class="contact-detail">
                                 <span class="contact-label">Email Us</span>
-                                <a href="mailto:hello@qcrackers.in">hello@qcrackers.in</a>
+                                <a href="mailto:qcrackerss@gmail.com">
+                                    <i class="fas fa-envelope"></i> qcrackerss@gmail.com
+                                </a>
                             </div>
                         </li>
                         <li>
@@ -1757,123 +1831,221 @@
 
 
         // ============================================================
-        // 8. CART MANAGER (PERSISTENT CART WITH BADGE)
+        // 8. STATS COUNT-UP ANIMATION
         // ============================================================
-        var CartManager = {
-            STORAGE_KEY: 'qcrackers_cart',
+        document.addEventListener('DOMContentLoaded', function () {
+            var statNumbers = document.querySelectorAll('.stat-number');
+            if (!statNumbers.length) return;
 
-            getCart: function () {
-                try {
-                    var data = localStorage.getItem(this.STORAGE_KEY);
-                    return data ? JSON.parse(data) : {};
-                } catch (e) {
-                    return {};
-                }
-            },
+            var hasAnimated = false;
 
-            saveCart: function (cart) {
-                localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cart));
-                this.updateCartBadge();
-            },
+            function animateNumber(el) {
+                var target = parseInt(el.dataset.target, 10) || 0;
+                var suffix = el.dataset.suffix || '';
+                var duration = 1600;
+                var startTime = null;
 
-            addItem: function (productName, quantity) {
-                if (quantity === undefined) quantity = 1;
-                var cart = this.getCart();
-                cart[productName] = (cart[productName] || 0) + quantity;
-                this.saveCart(cart);
-            },
+                function step(timestamp) {
+                    if (!startTime) startTime = timestamp;
+                    var progress = Math.min((timestamp - startTime) / duration, 1);
+                    var eased = 1 - Math.pow(1 - progress, 3); // ease-out
+                    var current = Math.floor(eased * target);
+                    el.textContent = current.toLocaleString('en-IN') + suffix;
 
-            removeItem: function (productName) {
-                var cart = this.getCart();
-                delete cart[productName];
-                this.saveCart(cart);
-            },
-
-            updateQuantity: function (productName, quantity) {
-                var cart = this.getCart();
-                if (quantity <= 0) {
-                    delete cart[productName];
-                } else {
-                    cart[productName] = quantity;
-                }
-                this.saveCart(cart);
-            },
-
-            clearCart: function () {
-                localStorage.removeItem(this.STORAGE_KEY);
-                this.updateCartBadge();
-            },
-
-            getTotalItems: function () {
-                var cart = this.getCart();
-                var total = 0;
-                for (var key in cart) {
-                    if (cart.hasOwnProperty(key)) {
-                        total += cart[key];
-                    }
-                }
-                return total;
-            },
-
-            getCartItems: function () {
-                var cart = this.getCart();
-                var items = [];
-                for (var name in cart) {
-                    if (cart.hasOwnProperty(name)) {
-                        items.push({ name: name, quantity: cart[name] });
-                    }
-                }
-                return items;
-            },
-
-            updateCartBadge: function () {
-                var total = this.getTotalItems();
-                var badges = document.querySelectorAll('.cart-badge');
-                badges.forEach(function (badge) {
-                    badge.textContent = total;
-                    badge.style.display = total > 0 ? 'flex' : 'none';
-                });
-
-                // Update header cart total
-                var headerCartTotal = document.getElementById('header-cart-total');
-                if (headerCartTotal) {
-                    if (total > 0) {
-                        // Get total amount from localStorage or calculate
-                        headerCartTotal.textContent = '₹' + total;
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
                     } else {
-                        headerCartTotal.textContent = '₹0';
+                        el.textContent = target.toLocaleString('en-IN') + suffix;
                     }
                 }
-            },
-
-            // Sync cart from products page (if any)
-            syncFromProducts: function () {
-                // This will be called from products page
-                this.updateCartBadge();
+                requestAnimationFrame(step);
             }
-        };
+
+            var statsSection = document.querySelector('.strip-stats');
+            if (statsSection && 'IntersectionObserver' in window) {
+                var statsObserver = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting && !hasAnimated) {
+                            hasAnimated = true;
+                            statNumbers.forEach(animateNumber);
+                            statsObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.4 });
+                statsObserver.observe(statsSection);
+            } else {
+                statNumbers.forEach(animateNumber);
+            }
+        });
+
 
         // ============================================================
-        // 9. CART BUTTON - REDIRECT TO PRODUCTS
+        // 9. CART MODAL FUNCTIONALITY
         // ============================================================
         document.addEventListener('DOMContentLoaded', function () {
             // Initialize cart badge
-            CartManager.updateCartBadge();
+            if (typeof CartManager !== 'undefined') {
+                CartManager.updateBadge();
+            }
 
-            // Open cart button - redirect to products page
+            // ===== OPEN CART MODAL =====
             var openCartBtn = document.getElementById('open-cart-btn');
             if (openCartBtn) {
-                openCartBtn.addEventListener('click', function () {
+                openCartBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var modal = document.getElementById('cart-modal');
+                    if (modal) {
+                        modal.classList.add('active');
+                        updateCartModal();
+                    } else {
+                        // If cart modal doesn't exist on this page, go to products
+                        window.location.href = 'products.html';
+                    }
+                });
+            }
+
+            // ===== CLOSE CART MODAL =====
+            var closeCartBtn = document.getElementById('cart-modal-close');
+            if (closeCartBtn) {
+                closeCartBtn.addEventListener('click', function () {
+                    var modal = document.getElementById('cart-modal');
+                    if (modal) modal.classList.remove('active');
+                });
+            }
+
+            // ===== CONTINUE SHOPPING =====
+            var continueBtn = document.getElementById('cart-continue-btn');
+            if (continueBtn) {
+                continueBtn.addEventListener('click', function () {
+                    var modal = document.getElementById('cart-modal');
+                    if (modal) modal.classList.remove('active');
+                });
+            }
+
+            // ===== CLOSE ON OVERLAY CLICK =====
+            var modal = document.getElementById('cart-modal');
+            if (modal) {
+                modal.addEventListener('click', function (e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            }
+
+            // ===== ESC KEY TO CLOSE =====
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    var modal = document.getElementById('cart-modal');
+                    if (modal && modal.classList.contains('active')) {
+                        modal.classList.remove('active');
+                    }
+                }
+            });
+
+            // ===== UPDATE CART MODAL =====
+            function updateCartModal() {
+                if (typeof CartManager === 'undefined') return;
+
+                var items = CartManager.getCartItems();
+                var totalItems = CartManager.getTotalItems();
+                var container = document.getElementById('cart-modal-tbody');
+                var emptyMsg = document.getElementById('cart-empty-msg');
+                var table = document.getElementById('cart-modal-table');
+                var countEl = document.getElementById('cart-modal-count');
+                var totalProductsEl = document.getElementById('cart-modal-total-products');
+                var totalEl = document.getElementById('cart-modal-overall-total');
+                var warningEl = document.getElementById('cart-min-order-warning');
+                var warningTotalEl = document.getElementById('cart-warning-total');
+
+                // Update count
+                if (countEl) countEl.textContent = totalItems;
+                if (totalProductsEl) totalProductsEl.textContent = totalItems;
+
+                if (items.length === 0) {
+                    if (emptyMsg) emptyMsg.style.display = 'block';
+                    if (table) table.style.display = 'none';
+                    if (warningEl) warningEl.style.display = 'none';
+                    if (totalEl) totalEl.textContent = '₹0';
+                    return;
+                }
+
+                if (emptyMsg) emptyMsg.style.display = 'none';
+                if (table) table.style.display = 'table';
+
+                // Build items list
+                var html = '';
+                var totalAmount = 0;
+                items.forEach(function (item) {
+                    // Get price from data-price attribute or use default
+                    var price = 100; // Default price
+                    // Try to find product price from page
+                    var productRow = document.querySelector('.product-table tbody tr[data-name="' + item.name + '"]');
+                    if (productRow) {
+                        var priceTag = productRow.querySelector('.price-tag');
+                        if (priceTag) {
+                            var match = priceTag.textContent.trim().match(/₹(\d+)/);
+                            if (match) price = parseInt(match[1], 10);
+                        }
+                    }
+
+                    var amount = price * item.quantity;
+                    totalAmount += amount;
+
+                    html += '<tr>';
+                    html += '<td>' + item.name + '</td>';
+                    html += '<td>' + item.quantity + '</td>';
+                    html += '<td>₹' + price.toLocaleString() + '</td>';
+                    html += '<td>₹' + amount.toLocaleString() + '</td>';
+                    html += '<td><button class="cart-modal-remove" data-name="' + item.name + '">Remove</button></td>';
+                    html += '</tr>';
+                });
+
+                if (container) container.innerHTML = html;
+
+                // Update total
+                if (totalEl) totalEl.textContent = '₹' + totalAmount.toLocaleString();
+
+                // Check minimum order
+                var minOrder = 2500;
+                if (warningEl) {
+                    if (totalAmount > 0 && totalAmount < minOrder) {
+                        warningEl.style.display = 'flex';
+                        if (warningTotalEl) warningTotalEl.textContent = '₹' + totalAmount.toLocaleString();
+                    } else {
+                        warningEl.style.display = 'none';
+                    }
+                }
+
+                // Add remove button listeners
+                container.querySelectorAll('.cart-modal-remove').forEach(function (btn) {
+                    btn.addEventListener('click', function () {
+                        var name = this.dataset.name;
+                        if (typeof CartManager !== 'undefined') {
+                            CartManager.removeItem(name);
+                            CartManager.updateBadge();
+                            updateCartModal();
+                        }
+                    });
+                });
+            }
+
+            // ===== PROCEED TO CHECKOUT =====
+            var checkoutBtn = document.getElementById('cart-checkout-btn');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', function () {
+                    var totalItems = typeof CartManager !== 'undefined' ? CartManager.getTotalItems() : 0;
+                    if (totalItems === 0) {
+                        alert('Your cart is empty!');
+                        return;
+                    }
+                    // Redirect to products page to complete order
                     window.location.href = 'products.html';
                 });
             }
 
-            console.log('✅ Q Crackers - All JavaScript loaded successfully!');
-            console.log('📦 Items in cart: ' + CartManager.getTotalItems());
+            console.log('✅ Q Crackers - Cart functionality loaded!');
+            console.log('📦 Items in cart: ' + (typeof CartManager !== 'undefined' ? CartManager.getTotalItems() : 0));
         });
-
-        // Make CartManager global
-        window.CartManager = CartManager;
     </script>
     <script src="cart.js"></script>
 </body>

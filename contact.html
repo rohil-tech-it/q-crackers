@@ -10,6 +10,50 @@
   <!-- FAVICON / TAB LOGO -->
   <link rel="icon" type="image/png" href="./images/logo-removebg-preview.png">
   <style>
+    :root {
+      --bg: #ffffff;
+      --bg-white: #ffffff;
+      --bg-elevated: #fff8f6;
+      --card: #e60000;
+      --card-hover: #c40000;
+      --border: rgba(230, 0, 0, 0.12);
+      --border-strong: rgba(230, 0, 0, 0.30);
+      --yellow: #ffd400;
+      --yellow-bright: #fff04d;
+      --ember: #ff0000;
+      --ember-soft: rgba(255, 0, 0, 0.15);
+      --text: #1f1f1f;
+      --text-muted: #555555;
+      --text-dim: #888888;
+      --radius: 14px;
+      --radius-sm: 8px;
+      --max-w: 1200px;
+      --shadow-glow: 0 0 30px rgba(230, 0, 0, 0.25);
+      --sidebar-width: 260px;
+      --header-height: 70px;
+    }
+
+    .banner-stats {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .banner-stats span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--bg);
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+
+    .banner-stats span i {
+      color: var(--yellow);
+      font-size: 1rem;
+    }
+
     .live-indicator {
       display: inline-flex;
       align-items: center;
@@ -77,7 +121,9 @@
         Tamil Nadu.</span>
       <div class="top-bar-contacts">
         <a href="tel:+919655586461" id="headerPhone"><i class="fas fa-phone"></i> +91 96555 86461</a>
-        <a href="mailto:hello@qcrackers.in" id="headerEmail"><i class="fas fa-envelope"></i>qcrackerss@gmail.com</a>
+        <a href="mailto:qcrackerss@gmail.com">
+          <i class="fas fa-envelope"></i> qcrackerss@gmail.com
+        </a>
       </div>
     </div>
   </div>
@@ -177,7 +223,9 @@
             </div>
             <div class="contact-info-detail">
               <span class="contact-info-label">Email Us</span>
-              <a href="mailto:hello@qcrackers.in" id="contactEmail">hello@qcrackers.in</a>
+              <a href="mailto:qcrackerss@gmail.com">
+                <i class="fas fa-envelope"></i> qcrackerss@gmail.com
+              </a>
             </div>
           </div>
 
@@ -381,6 +429,28 @@
       <i class="fab fa-facebook-f"></i>
     </a>
   </div>
+
+  <!-- ============================================================
+  ✅ CART SYNC — shared cart state across all pages. Must be the
+  ONLY CartManager on this page (no duplicate inline copy), or the
+  header cart badge/total will corrupt itself against products.html.
+  ============================================================ -->
+  <script src="cart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (typeof CartManager !== 'undefined') {
+        CartManager.updateBadge();
+      }
+      // No cart modal exists on this page — send the user to
+      // products.html to view/edit their cart.
+      var openCartBtn = document.getElementById('open-cart-btn');
+      if (openCartBtn) {
+        openCartBtn.addEventListener('click', function () {
+          window.location.href = 'products.html';
+        });
+      }
+    });
+  </script>
 
   <!-- ============================================================
   FIREBASE — AUTO-SYNC
@@ -918,55 +988,6 @@
       } else {
         console.warn('⚠️ All Categories button or menu not found!');
       }
-    });
-
-    // ============================================================
-    // 8. CART MANAGER (PERSISTENT CART WITH BADGE)
-    // ============================================================
-    var CartManager = {
-      STORAGE_KEY: 'qcrackers_cart',
-
-      getCart: function () {
-        try {
-          var data = localStorage.getItem(this.STORAGE_KEY);
-          return data ? JSON.parse(data) : {};
-        } catch (e) {
-          return {};
-        }
-      },
-
-      saveCart: function (cart) {
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(cart));
-        this.updateCartBadge();  // ✅ Updates badge when cart changes
-      },
-
-      // ... other methods ...
-
-      updateCartBadge: function () {
-        var total = this.getTotalItems();
-        var badges = document.querySelectorAll('.cart-badge');
-        badges.forEach(function (badge) {
-          badge.textContent = total;
-          badge.style.display = total > 0 ? 'flex' : 'none';  // ✅ Shows/hides badge
-        });
-
-        // Update header cart total
-        var headerCartTotal = document.getElementById('header-cart-total');
-        if (headerCartTotal) {
-          if (total > 0) {
-            headerCartTotal.textContent = '₹' + total;
-          } else {
-            headerCartTotal.textContent = '₹0';
-          }
-        }
-      },
-
-      // ... rest ...
-    };
-
-    // Initialize cart badge on page load
-    document.addEventListener('DOMContentLoaded', function () {
-      CartManager.updateCartBadge();  // ✅ Shows badge on load
     });
   </script>
   <script src="script.js"></script>
