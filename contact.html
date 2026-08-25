@@ -31,6 +31,28 @@
       --shadow-glow: 0 0 30px rgba(230, 0, 0, 0.25);
       --sidebar-width: 260px;
       --header-height: 70px;
+    }    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--ember);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex !important;
+      /* ← Force display */
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--bg-white);
+    }
+
+    /* When cart is empty, show 0 with faded style */
+    .cart-badge.empty {
+      background: #999;
+      font-size: 0.55rem;
     }
 
     .banner-stats {
@@ -135,11 +157,11 @@
           class="logo-img"> </a>
       <div class="nav-top-right">
         <a href="tel:+919655586461" class="nav-top-phone" id="navPhone"><i class="fas fa-phone"></i> +91 96555 86461</a>
-        <button class="header-cart" id="open-cart-btn">
-          <i class="fas fa-shopping-cart"></i>
-          <span id="header-cart-total">₹0</span>
-          <span class="cart-badge" id="cart-badge">0</span>
-        </button>
+         <button class="header-cart" id="open-cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="header-cart-total">₹0</span>
+                    <span class="cart-badge" id="cart-badge">0</span>
+                </button>
       </div>
     </div>
     <div class="nav-bottom">
