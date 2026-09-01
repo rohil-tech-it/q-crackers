@@ -569,7 +569,7 @@
     };
 
     const formatPhoneForLink = (phone) => {
-      if (!phone) return '+919655586460';
+      if (!phone) return '+919655586461';
       const cleaned = cleanPhone(phone);
       if (cleaned.startsWith('91')) return `+${cleaned}`;
       if (cleaned.startsWith('+')) return cleaned;
@@ -577,7 +577,7 @@
     };
 
     const formatWhatsAppLink = (number) => {
-      if (!number) return 'https://wa.me/919655586460';
+      if (!number) return 'https://wa.me/919655586461';
       const cleaned = number.replace(/[^0-9]/g, '');
       return `https://wa.me/${cleaned}`;
     };
@@ -752,7 +752,7 @@
           facebookUrl: '#',
           instagramUrl: '#',
           youtubeUrl: '#',
-          whatsappNumber: '919655586460'
+          whatsappNumber: '919655586461'
         });
       }
     }, (error) => {
@@ -790,7 +790,7 @@
       const encodedMsg = encodeURIComponent(waMsg);
 
       // Get WhatsApp number from Firebase data or use default
-      const waNumber = '919655586460'; // Will be updated by Firebase sync
+      const waNumber = '919655586461'; // Will be updated by Firebase sync
       const waUrl = `https://wa.me/${waNumber}?text=${encodedMsg}`;
 
       // Open WhatsApp with pre-filled message
