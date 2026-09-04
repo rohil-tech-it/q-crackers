@@ -711,7 +711,7 @@
             .top-header .page-title h2 {
                 font-size: 1rem;
             }
-           
+
         }
     </style>
 </head>
@@ -784,7 +784,7 @@
                 </div>
             </div>
             <div class="header-actions">
-                              
+
             </div>
         </header>
 
@@ -969,26 +969,50 @@
         // AUTH CHECK
         // ============================================================
         onAuthStateChanged(auth, (user) => {
-            if (!user) {
-                window.location.href = 'index.html';
-            } else {
-                const userEmail = document.querySelector('.sidebar-footer .user-email');
-                const userName = document.querySelector('.sidebar-footer .user-name');
-                if (userEmail) userEmail.textContent = user.email || 'qcrackerss@gmail.com';
-                if (userName) {
-                    const label = (user.email || 'Admin').split('@')[0];
-                    userName.textContent = label.charAt(0).toUpperCase() + label.slice(1);
-                }
-                loadDashboardData();
-            }
-        });
 
+            if (!user) {
+                // User is not logged in
+                // Always go back to admin login page
+                window.location.href = '/admin';
+                return;
+            }
+
+            // User is logged in
+            const userEmail = document.querySelector('.sidebar-footer .user-email');
+            const userName = document.querySelector('.sidebar-footer .user-name');
+
+            if (userEmail) {
+                userEmail.textContent = user.email || 'Admin';
+            }
+
+            if (userName) {
+                const label = (user.email || 'Admin').split('@')[0];
+
+                userName.textContent =
+                    label.charAt(0).toUpperCase() + label.slice(1);
+            }
+
+            // Load dashboard data only after authentication
+            loadDashboardData();
+        });
         // ============================================================
         // LOGOUT
         // ============================================================
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            if (confirm('Are you sure you want to logout?')) {
-                signOut(auth);
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+
+            if (!confirm('Are you sure you want to logout?')) {
+                return;
+            }
+
+            try {
+                await signOut(auth);
+
+                // After logout, always go to admin login
+                window.location.href = '/admin';
+
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Logout failed. Please try again.');
             }
         });
 
