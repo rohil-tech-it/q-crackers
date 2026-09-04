@@ -3262,6 +3262,127 @@
                 transform: translateY(0) scale(1);
             }
         }
+        /* ============================================================
+   TABLET FIX v2 — Qty stepper (+/-) never clips
+   Range: 481px – 992px (iPad / tablet widths incl. 768px, 820px, 912px)
+   ============================================================ */
+@media (min-width: 481px) and (max-width: 992px) {
+
+    .table-wrap {
+        overflow: visible !important;
+    }
+
+    .product-table tbody tr {
+        display: grid !important;
+        grid-template-columns:
+            56px minmax(0, 1fr) 68px 100px 60px !important;
+        column-gap: 6px !important;
+        align-items: center !important;
+        padding: 12px 10px !important;
+    }
+
+    .product-table tbody td {
+        overflow: visible !important;
+        min-width: 0 !important;
+    }
+
+    /* Product name column can shrink text instead of pushing qty out */
+    .product-table td[data-label="Product"] {
+        min-width: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .product-table .product-name {
+        font-size: 0.85rem !important;
+        line-height: 1.2 !important;
+        white-space: normal !important;
+        word-break: break-word !important;
+    }
+
+    .product-table .sub {
+        font-size: 0.7rem !important;
+    }
+
+    .product-table td[data-label="MRP"],
+    .product-table td[data-label="Price"] {
+        font-size: 0.8rem !important;
+    }
+
+    .product-table .mrp-tag {
+        font-size: 0.68rem !important;
+    }
+
+    .product-table .price-tag {
+        font-size: 0.9rem !important;
+    }
+
+    /* ---- QTY STEPPER: fixed box so +/- never clip ---- */
+    .product-table td[data-label="Qty"] {
+        justify-content: center !important;
+        overflow: visible !important;
+        padding: 0 !important;
+    }
+
+    .qty-stepper {
+        display: inline-flex !important;
+        flex-wrap: nowrap !important;
+        width: 100px !important;
+        min-width: 100px !important;
+        max-width: 100px !important;
+        height: 34px !important;
+        border-radius: 6px !important;
+        overflow: hidden !important;
+    }
+
+    .qty-btn {
+        flex: 0 0 30px !important;
+        width: 30px !important;
+        height: 34px !important;
+        font-size: 1rem !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0 !important;
+    }
+
+    .qty-input {
+        flex: 0 0 40px !important;
+        width: 40px !important;
+        height: 34px !important;
+        font-size: 0.9rem !important;
+        line-height: 34px !important;
+        padding: 0 !important;
+        text-align: center !important;
+    }
+
+    .row-amount {
+        font-size: 0.85rem !important;
+        white-space: nowrap !important;
+    }
+}
+
+/* Slightly tighter on the lower half of the range (e.g. 768px) */
+@media (min-width: 481px) and (max-width: 800px) {
+    .product-table tbody tr {
+        grid-template-columns: 52px minmax(0, 1fr) 62px 94px 55px !important;
+    }
+
+    .qty-stepper {
+        width: 94px !important;
+        min-width: 94px !important;
+        max-width: 94px !important;
+    }
+
+    .qty-btn {
+        flex-basis: 28px !important;
+        width: 28px !important;
+    }
+
+    .qty-input {
+        flex-basis: 38px !important;
+        width: 38px !important;
+    }
+}
     </style>
 
 </head>

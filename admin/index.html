@@ -1057,7 +1057,12 @@
 
     <script type="module">
         import { initializeApp } from "firebase/app";
-        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, setPersistence, browserLocalPersistence } from "firebase/auth";
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            setPersistence,
+            browserLocalPersistence
+        } from "firebase/auth";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
@@ -1126,25 +1131,33 @@
             }
         }
 
+        // ============================================================
+        // AUTH INITIALIZATION
+        // ============================================================
+
         setPersistence(auth, browserLocalPersistence)
             .then(() => {
-                onAuthStateChanged(auth, (user) => {
-                    authLoading.style.display = 'none';
-                    if (user) {
-                        window.location.href = 'dashboard.html';
-                    } else {
-                        loginScreen.classList.add('active');
-                        loginForm.reset();
-                        clearError();
-                    }
-                });
-            })
-            .catch((err) => {
-                console.error('Persistence error:', err);
+
+                // IMPORTANT:
+                // /admin page must ALWAYS show the login screen.
+                // Even if Firebase already has a logged-in user.
+
                 authLoading.style.display = 'none';
                 loginScreen.classList.add('active');
-            });
 
+                // Clear previous form values
+                loginForm.reset();
+                clearError();
+
+            })
+            .catch((err) => {
+
+                console.error('Persistence error:', err);
+
+                authLoading.style.display = 'none';
+                loginScreen.classList.add('active');
+
+            });
 
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -1162,7 +1175,12 @@
             loginSubmitBtn.classList.add('loading');
 
             signInWithEmailAndPassword(auth, email, password)
-                .catch(err => showError(friendlyError(err.code)))
+                .then(() => {
+                    window.location.href = './dashboard.html';
+                })
+                .catch(err => {
+                    showError(friendlyError(err.code));
+                })
                 .finally(() => {
                     loginSubmitBtn.disabled = false;
                     loginSubmitBtn.classList.remove('loading');
