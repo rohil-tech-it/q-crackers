@@ -292,12 +292,12 @@
         // ============================================================
         const productImageMap = {
             // Sound Crackers
-            '4" LAKSHMI CRACKERS': '4-Lakshmi Crackers.jfif',
+            '4" LAKSHMI CRACKERS': '4" LAKSHMI CRACKERS.jpg',
             '4" DELUXE LAKSHMI CRACKERS': '4-deluxe-lakshmi-cracker.jpg',
-            '4" SUPER DELUXE LAKSHMI / TIGER': '4-deluxe-lakshmi-cracker.jfif',
+            '4" SUPER DELUXE LAKSHMI / TIGER': '4-SUPER DELUXE LAKSHMI.jpg',
             '4" MEGA DELUXE LAKSHMI': '4 MEGA DELUXE LAKSHMI.png',
             '3 ½" LAKSHMI': '3-1-2_inch_lakshmi.png',
-            '2 ¾" KURUVI': 'Kuruvi Crackers.jfif',
+            '2 ¾" KURUVI': '2 ¾-KURUVI.jpg',
             'GOLD LAKSHMI': 'Gold Lakshmi.jfif',
             '5" WARRIORS / LAKSHMI': 'Bahubali.png',
             '6" ARABIAN ARCHER': 'ARABIAN ARCHER.jpg',
@@ -562,311 +562,359 @@
         // COMPLETE 225 PRODUCTS (CSV Order Preserved)
         // ============================================================
         const allProducts = [
-            // ===== SINGLE SOUND CRACKERS (10) =====
-            { name: '4" LAKSHMI CRACKERS', category: 'Sound Crackers', price: 18, oldPrice: 90, sub: '1 Pkt' },
-            { name: '4" DELUXE LAKSHMI CRACKERS', category: 'Sound Crackers', price: 24, oldPrice: 120, sub: '1 Pkt' },
-            { name: '4" SUPER DELUXE LAKSHMI / TIGER', category: 'Sound Crackers', price: 32, oldPrice: 160, sub: '1 Pkt' },
-            { name: '4" MEGA DELUXE LAKSHMI', category: 'Sound Crackers', price: 49, oldPrice: 245, sub: '1 Pkt' },
-            { name: '3 ½" LAKSHMI', category: 'Sound Crackers', price: 12, oldPrice: 60, sub: '1 Pkt' },
-            { name: '2 ¾" KURUVI', category: 'Sound Crackers', price: 7, oldPrice: 35, sub: '1 Pkt' },
-            { name: 'GOLD LAKSHMI', category: 'Sound Crackers', price: 34, oldPrice: 170, sub: '1 Pkt' },
-            { name: '5" WARRIORS / LAKSHMI', category: 'Sound Crackers', price: 36, oldPrice: 180, sub: '1 Pkt' },
-            { name: '6" ARABIAN ARCHER', category: 'Sound Crackers', price: 45, oldPrice: 225, sub: '1 Pkt' },
-            { name: 'SIVAJI / UNICORN (20 PLY)', category: 'Sound Crackers', price: 57, oldPrice: 285, sub: '1 Pkt' },
 
-            // ===== ELECTRIC CRACKERS (4) =====
-            { name: '2 3/4" 24 DELUXE', category: 'Electric Crackers', price: 45, oldPrice: 225, sub: '1 Pkt' },
-            { name: '2 3/4" 50 DELUXE', category: 'Electric Crackers', price: 96, oldPrice: 480, sub: '1 Pkt' },
-            { name: '2 3/4" 100 DELUXE', category: 'Electric Crackers', price: 198, oldPrice: 990, sub: '1 Pkt' },
-            { name: '4" 50 MEGA DELUXE', category: 'Electric Crackers', price: 141, oldPrice: 705, sub: '1 Pkt' },
+            // =========================================================
+            // SINGLE SOUND CRACKERS — 1 to 9
+            // =========================================================
 
-            // ===== BIJILI CRACKERS (3) =====
-            { name: 'RED BIJILI', category: 'Bijili Crackers', price: 29, oldPrice: 145, sub: '1 Bag' },
-            { name: 'STRIPPED BIJILI', category: 'Bijili Crackers', price: 29, oldPrice: 145, sub: '1 Bag' },
-            { name: 'GOLD BIJILI', category: 'Bijili Crackers', price: 29, oldPrice: 145, sub: '1 Bag' },
+            { name: '4” LAKSHMI CRACKERS', category: 'Single Sound Crackers', price: 22, oldPrice: 110, sub: '1 Pkt' },
+            { name: '4” DELUXE LAKSHMI CRACKERS', category: 'Single Sound Crackers', price: 26, oldPrice: 130, sub: '1 Pkt' },
+            { name: '4” SUPER DELUXE LAKSHMI / TIGER', category: 'Single Sound Crackers', price: 38, oldPrice: 190, sub: '1 Pkt' },
+            { name: '3 ½” LAKSHMI', category: 'Single Sound Crackers', price: 14, oldPrice: 70, sub: '1 Pkt' },
+            { name: '2 ¾” KURUVI', category: 'Single Sound Crackers', price: 8, oldPrice: 40, sub: '1 Pkt' },
+            { name: 'GOLD LAKSHMI', category: 'Single Sound Crackers', price: 41, oldPrice: 205, sub: '1 Pkt' },
+            { name: '5" WARRIORS / LAKSHMI', category: 'Single Sound Crackers', price: 46, oldPrice: 230, sub: '1 Pkt' },
+            { name: '6" ARABIAN ARCHER', category: 'Single Sound Crackers', price: 54, oldPrice: 270, sub: '1 Pkt' },
+            { name: 'SIVAJI / UNICORN (20 PLY)', category: 'Single Sound Crackers', price: 68, oldPrice: 340, sub: '1 Pkt' },
 
-            // ===== FLOWER POTS (10) =====
-            { name: 'FLOWER POTS BIG', category: 'Flower Pots', price: 65, oldPrice: 325, sub: '1 Box' },
-            { name: 'FLOWER POTS SPECIAL', category: 'Flower Pots', price: 85, oldPrice: 425, sub: '1 Box' },
-            { name: 'FLOWER POTS ASHOKA', category: 'Flower Pots', price: 95, oldPrice: 475, sub: '1 Box' },
-            { name: 'FLOWER POTS ASHOKA (PANDYAN)', category: 'Flower Pots', price: 130, oldPrice: 650, sub: '1 Box' },
-            { name: 'FLOWER POTS DELUXE (5 Pcs)', category: 'Flower Pots', price: 145, oldPrice: 725, sub: '1 Box' },
-            { name: 'FLOWER POT COLOUR KOTI', category: 'Flower Pots', price: 185, oldPrice: 925, sub: '1 Box' },
-            { name: 'COLOUR KOTI RED & GREEN', category: 'Flower Pots', price: 210, oldPrice: 1050, sub: '1 Box' },
-            { name: 'COLOUR PINJORE', category: 'Flower Pots', price: 210, oldPrice: 1050, sub: '1 Box' },
-            { name: 'COLOUR KOTI DELUXE', category: 'Flower Pots', price: 300, oldPrice: 1500, sub: '1 Box' },
-            { name: 'TRI COLOUR FOUNTAIN', category: 'Flower Pots', price: 240, oldPrice: 1200, sub: '1 Box' },
 
-            // ===== GROUND CHAKKAR (9) =====
-            { name: 'GROUND CHAKKAR BIG', category: 'Ground Chakkars', price: 38, oldPrice: 190, sub: '1 Box' },
-            { name: 'GROUND CHAKKAR ASHOKA', category: 'Ground Chakkars', price: 54, oldPrice: 270, sub: '1 Box' },
-            { name: 'GROUND CHAKKAR SPECIAL', category: 'Ground Chakkars', price: 73, oldPrice: 365, sub: '1 Box' },
-            { name: 'GROUND CHAKKAR DELUXE', category: 'Ground Chakkars', price: 130, oldPrice: 650, sub: '1 Box' },
-            {
-                name: 'CHAKKAR SPECIAL - SPINNER (Anandas Brand)', category: 'Ground Chakkars', price: 125, oldPrice: 625,
-                sub: '1 Box'
-            },
-            {
-                name: 'CHAKKAR ASHOKA - SPINNER (Ashok Brand)', category: 'Ground Chakkars', price: 135, oldPrice: 675,
-                sub: '1 Box'
-            },
-            {
-                name: 'CHAKKAR DELUXE - SPINNER (Ashok Brand)', category: 'Ground Chakkars', price: 210, oldPrice: 1050,
-                sub: '1 Box'
-            },
-            { name: 'WHISTLING DIXIE (5Pcs)', category: 'Ground Chakkars', price: 95, oldPrice: 475, sub: '1 Box' },
-            { name: '4 X 4 WHEEL / RING RING (5Pcs)', category: 'Ground Chakkars', price: 145, oldPrice: 725, sub: '1 Box' },
+            // =========================================================
+            // ELECTRIC CRACKERS — 10 to 13
+            // =========================================================
 
-            // ===== RAINBOW CHAKKAR (4) =====
-            {
-                name: 'RIO WHEEL / PINK WHEELS (5 Pcs)', category: 'Rainbow Chakkars', price: 225, oldPrice: 1125,
-                sub: '1 Box'
-            },
-            {
-                name: 'HOT WHEEL / Pearl Drops (5 IN 1 Tube) (5 Pcs)', category: 'Rainbow Chakkars', price: 270, oldPrice: 1350,
-                sub: '1 Box'
-            },
-            { name: 'ZODIAC SPINNERS', category: 'Rainbow Chakkars', price: 195, oldPrice: 975, sub: '1 Box' },
-            { name: 'WIRE CHAKKARS', category: 'Rainbow Chakkars', price: 190, oldPrice: 950, sub: '1 Box' },
+            { name: '2 3/4" 24 DELUXE', category: 'Electric Crackers', price: 58, oldPrice: 290, sub: '1 Pkt' },
+            { name: '2 3/4" 50 DELUXE', category: 'Electric Crackers', price: 118, oldPrice: 590, sub: '1 Pkt' },
+            { name: '2 3/4" 100 DELUXE', category: 'Electric Crackers', price: 238, oldPrice: 1190, sub: '1 Pkt' },
+            { name: '4" 50 MEGA DELUXE', category: 'Electric Crackers', price: 171, oldPrice: 855, sub: '1 Pkt' },
 
-            // ===== CHILDRENS SPECIAL (9) =====
-            { name: '1 ½" TWINKLING STAR', category: 'Childrens Special', price: 22, oldPrice: 110, sub: '1 Box' },
-            { name: '4" TWINKLING STAR', category: 'Childrens Special', price: 54, oldPrice: 270, sub: '1 Box' },
-            { name: '12" PENCIL', category: 'Childrens Special', price: 70, oldPrice: 350, sub: '1 Box' },
-            { name: 'CORONATION COLOUR CANDLE', category: 'Childrens Special', price: 75, oldPrice: 375, sub: '1 Box' },
-            { name: 'ROMAN CANDLE RED & GREEN', category: 'Childrens Special', price: 85, oldPrice: 425, sub: '1 Box' },
-            { name: 'CANDLE PENCIL- HI TECH', category: 'Childrens Special', price: 126, oldPrice: 630, sub: '1 Box' },
-            { name: 'CANDLE PENCIL-BABY MIX', category: 'Childrens Special', price: 126, oldPrice: 630, sub: '1 Box' },
-            { name: 'CANDLE PENCIL- WONDERLA', category: 'Childrens Special', price: 126, oldPrice: 630, sub: '1 Box' },
-            { name: 'LALA CANDLE / TRIX CANDLE', category: 'Childrens Special', price: 140, oldPrice: 700, sub: '1 Box' },
 
-            // ===== ATOM BOMBS (11) =====
-            { name: 'SUPER BULLET', category: 'Atom Bombs', price: 27, oldPrice: 135, sub: '1 Box' },
-            { name: 'HYDRO BOMB GREEN', category: 'Atom Bombs', price: 54, oldPrice: 270, sub: '1 Box' },
-            { name: 'KING OF KING', category: 'Atom Bombs', price: 90, oldPrice: 450, sub: '1 Box' },
-            { name: 'CLASSIC BOMB', category: 'Atom Bombs', price: 115, oldPrice: 575, sub: '1 Box' },
-            { name: 'AGNI BOMB', category: 'Atom Bombs', price: 190, oldPrice: 950, sub: '1 Box' },
-            { name: 'DIGITAL BOMB', category: 'Atom Bombs', price: 225, oldPrice: 1125, sub: '1 Box' },
+            // =========================================================
+            // BIJILLI CRACKERS — 14 to 16
+            // =========================================================
+
+            { name: 'RED BIJILI', category: 'Bijilli Crackers', price: 36, oldPrice: 180, sub: '1 Bag' },
+            { name: 'STRIPPED BIJILI', category: 'Bijilli Crackers', price: 36, oldPrice: 180, sub: '1 Bag' },
+            { name: 'GOLD BIJILI', category: 'Bijilli Crackers', price: 36, oldPrice: 180, sub: '1 Bag' },
+
+
+            // =========================================================
+            // FLOWERPOTS — 17 to 25
+            // =========================================================
+
+            { name: 'FLOWER POTS BIG', category: 'Flower Pots', price: 74, oldPrice: 370, sub: '1 Box' },
+            { name: 'FLOWER POTS SPECIAL', category: 'Flower Pots', price: 97, oldPrice: 485, sub: '1 Box' },
+            { name: 'FLOWER POTS ASHOKA', category: 'Flower Pots', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: 'FLOWER POTS DELUXE (5 Pcs)', category: 'Flower Pots', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'FLOWER POT COLOUR KOTI', category: 'Flower Pots', price: 205, oldPrice: 1025, sub: '1 Box' },
+            { name: 'COLOUR KOTI RED & GREEN', category: 'Flower Pots', price: 230, oldPrice: 1150, sub: '1 Box' },
+            { name: 'COLOUR PINJORE (10 Pcs)', category: 'Flower Pots', price: 230, oldPrice: 1150, sub: '1 Box' },
+            { name: 'COLOUR KOTI DELUXE (10 Pcs)', category: 'Flower Pots', price: 330, oldPrice: 1650, sub: '1 Box' },
+            { name: 'TRI COLOUR FOUNTAIN', category: 'Flower Pots', price: 275, oldPrice: 1375, sub: '1 Box' },
+
+
+            // =========================================================
+            // GROUND CHAKKAR — 26 to 33
+            // =========================================================
+
+            { name: 'GROUND CHAKKAR BIG', category: 'Ground Chakkar', price: 45, oldPrice: 225, sub: '1 Box' },
+            { name: 'GROUND CHAKKAR ASHOKA', category: 'Ground Chakkar', price: 59, oldPrice: 295, sub: '1 Box' },
+            { name: 'GROUND CHAKKAR SPECIAL', category: 'Ground Chakkar', price: 79, oldPrice: 395, sub: '1 Box' },
+            { name: 'GROUND CHAKKAR DELUXE', category: 'Ground Chakkar', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: 'CHAKKAR ASHOKA - SPINNER', category: 'Ground Chakkar', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: 'CHAKKAR DELUXE - SPINNER', category: 'Ground Chakkar', price: 225, oldPrice: 1125, sub: '1 Box' },
+            { name: 'WHISTLING DIXIE (5Pcs)', category: 'Ground Chakkar', price: 97, oldPrice: 485, sub: '1 Box' },
+            { name: '4 X 4 WHEEL / RING RING (5Pcs)', category: 'Ground Chakkar', price: 155, oldPrice: 775, sub: '1 Box' },
+
+
+            // =========================================================
+            // RAINBOW CHAKKAR — 34 to 36
+            // =========================================================
+
+            { name: 'PINK WHEEL / RIO ( 5 Pcs ) Ayyan', category: 'Rainbow Chakkar', price: 234, oldPrice: 1170, sub: '1 Box' },
+            { name: 'ZODIAC SPINNER (AYYAN) (3 IN 1 Tube) (5 Pcs)', category: 'Rainbow Chakkar', price: 215, oldPrice: 1075, sub: '1 Box' },
+            { name: 'WIRE CHAKKAR', category: 'Rainbow Chakkar', price: 210, oldPrice: 1050, sub: '1 Box' },
+
+
+            // =========================================================
+            // CHILDREN'S SPECIAL — 37 to 45
+            // =========================================================
+
+            { name: '1 ½” TWINKLING STAR', category: "Children's Special", price: 24, oldPrice: 120, sub: '1 Box' },
+            { name: '4” TWINKLING STAR', category: "Children's Special", price: 63, oldPrice: 315, sub: '1 Box' },
+            { name: '12” PENCIL', category: "Children's Special", price: 81, oldPrice: 405, sub: '1 Box' },
+            { name: 'CORONATION COLOUR CANDLE', category: "Children's Special", price: 84, oldPrice: 420, sub: '1 Box' },
+            { name: 'ROMAN CANDLE RED & GREEN', category: "Children's Special", price: 108, oldPrice: 540, sub: '1 Box' },
+            { name: 'CANDLE PENCIL- HI TECH', category: "Children's Special", price: 152, oldPrice: 760, sub: '1 Box' },
+            { name: 'CANDLE PENCIL-BABY MIX', category: "Children's Special", price: 152, oldPrice: 760, sub: '1 Box' },
+            { name: 'CANDLE PENCIL- WONDERLA', category: "Children's Special", price: 152, oldPrice: 760, sub: '1 Box' },
+            { name: 'LALA CANDLE / TRIX CANDLE', category: "Children's Special", price: 165, oldPrice: 825, sub: '1 Box' },
+
+
+            // =========================================================
+            // ATOM BOMBS — 46 to 54
+            // =========================================================
+
+            { name: 'SUPER BULLET', category: 'Atom Bombs', price: 33, oldPrice: 165, sub: '1 Box' },
+            { name: 'HYDRO BOMB GREEN', category: 'Atom Bombs', price: 64, oldPrice: 320, sub: '1 Box' },
+            { name: 'KING OF KING', category: 'Atom Bombs', price: 110, oldPrice: 550, sub: '1 Box' },
+            { name: 'CLASSIC BOMB', category: 'Atom Bombs', price: 130, oldPrice: 650, sub: '1 Box' },
+            { name: 'AGNI BOMB', category: 'Atom Bombs', price: 215, oldPrice: 1075, sub: '1 Box' },
+            { name: 'DIGITAL BOMB', category: 'Atom Bombs', price: 255, oldPrice: 1275, sub: '1 Box' },
             { name: 'SANDIYAR / ADIYAAL 1/4 kg', category: 'Atom Bombs', price: 60, oldPrice: 300, sub: '1 Box' },
             { name: 'MEGA ADIYAAL 1/2 kg', category: 'Atom Bombs', price: 120, oldPrice: 600, sub: '1 Box' },
             { name: 'MASTER ADIYAAL 1kg', category: 'Atom Bombs', price: 220, oldPrice: 1100, sub: '1 Box' },
-            { name: 'COLOUR PAPER BOMB 1/4 kg', category: 'Atom Bombs', price: 70, oldPrice: 350, sub: '1 Box' },
-            { name: 'COLOUR PAPER BOMB 1/2 kg', category: 'Atom Bombs', price: 140, oldPrice: 700, sub: '1 Box' },
 
-            // ===== JAGUVAR VARITIES (4) =====
-            { name: '1K JAGUVAR', category: 'Jaguvar Varities', price: 240, oldPrice: 1200, sub: '1 Box' },
-            { name: '2K JAGUVAR', category: 'Jaguvar Varities', price: 480, oldPrice: 2400, sub: '1 Box' },
-            { name: '5K JAGUVAR', category: 'Jaguvar Varities', price: 1200, oldPrice: 6000, sub: '1 Box' },
-            { name: '10K JAGUVAR', category: 'Jaguvar Varities', price: 2400, oldPrice: 12000, sub: '1 Box' },
 
-            // ===== ROCKET (29) =====
-            { name: 'ROCKET BOMB', category: 'Rocket', price: 60, oldPrice: 300, sub: '1 Box' },
-            { name: 'LUNIK ROCKET', category: 'Rocket', price: 120, oldPrice: 600, sub: '1 Box' },
-            { name: '2 SOUND ROCKET', category: 'Rocket', price: 120, oldPrice: 600, sub: '1 Box' },
-            { name: 'MUSIC ROCKET', category: 'Rocket', price: 180, oldPrice: 900, sub: '1 Box' },
-            { name: 'PARACHUTE ROCKET', category: 'Rocket', price: 400, oldPrice: 2000, sub: '1 Box' },
-            { name: 'PEACOCK FEATHER', category: 'Rocket', price: 90, oldPrice: 450, sub: '1 Box' },
-            { name: 'POGO / JOLLY RANGER (5 Pcs)', category: 'Rocket', price: 135, oldPrice: 675, sub: '1 Box' },
-            { name: 'ANGRY BIRD / LAVA (5 Pcs)', category: 'Rocket', price: 230, oldPrice: 1150, sub: '1 Box' },
-            { name: 'MINI SIREN (5 Pcs)', category: 'Rocket', price: 140, oldPrice: 700, sub: '1 Box' },
-            { name: 'MUSIC SIREN (3 Pcs)', category: 'Rocket', price: 180, oldPrice: 900, sub: '1 Box' },
-            { name: 'SUNFEAST / BOURBON RED (5 Pcs)', category: 'Rocket', price: 135, oldPrice: 675, sub: '1 Box' },
-            { name: 'RED SUN / MISS BUTTERFLY (5 Pcs)', category: 'Rocket', price: 180, oldPrice: 900, sub: '1 Box' },
-            { name: 'POWER POTS / FRUIT SALAT (5 Pcs)', category: 'Rocket', price: 180, oldPrice: 900, sub: '1 Box' },
-            { name: 'SHIN CHAN (3 Pcs)', category: 'Rocket', price: 105, oldPrice: 525, sub: '1 Box' },
-            { name: 'GOLD STAR MIX (3 Pcs)', category: 'Rocket', price: 105, oldPrice: 525, sub: '1 Box' },
-            { name: 'MOTLU PATLU FOUNTAIN (5 Pcs)', category: 'Rocket', price: 190, oldPrice: 950, sub: '1 Box' },
-            { name: 'LITTLE POPS', category: 'Rocket', price: 80, oldPrice: 400, sub: '1 Box' },
-            { name: 'KINGS STAR / FANTY SHENNY (3Pcs)', category: 'Rocket', price: 255, oldPrice: 1275, sub: '1 Box' },
-            { name: 'CRACK JACK (2 FUNCTIONS)', category: 'Rocket', price: 210, oldPrice: 1050, sub: '1 Box' },
-            { name: 'DRONE (5Pcs)', category: 'Rocket', price: 240, oldPrice: 1200, sub: '1 Box' },
-            { name: 'NESTLE (5 Pcs)', category: 'Rocket', price: 210, oldPrice: 1050, sub: '1 Box' },
-            { name: 'TWEET', category: 'Rocket', price: 126, oldPrice: 630, sub: '1 Box' },
-            { name: 'PAPPINS', category: 'Rocket', price: 126, oldPrice: 630, sub: '1 Box' },
-            { name: '6000', category: 'Rocket', price: 135, oldPrice: 675, sub: '1 Box' },
-            { name: 'PEACOCK 3 IN 1', category: 'Rocket', price: 190, oldPrice: 950, sub: '1 Box' },
-            { name: 'PEACOCK SPECIAL', category: 'Rocket', price: 190, oldPrice: 950, sub: '1 Box' },
-            { name: 'MAGIC SHOW CURRENCY', category: 'Rocket', price: 240, oldPrice: 1200, sub: '1 Box' },
-            { name: 'COLOUR SMOKE (3 Pcs) PLAIN', category: 'Rocket', price: 170, oldPrice: 850, sub: '1 Box' },
-            { name: 'COLOUR SMOKE (3 Pcs) MULTI', category: 'Rocket', price: 190, oldPrice: 950, sub: '1 Box' },
+            // =========================================================
+            // JAGUVAR VARITIES — 55 to 58
+            // =========================================================
 
-            // ===== CHOTTA FANCY (5) =====
-            { name: '1" CHOTTA FANCY', category: 'Chotta Fancy', price: 40, oldPrice: 200, sub: '1 Box' },
-            { name: 'SKY WALA (5Pcs)', category: 'Chotta Fancy', price: 110, oldPrice: 550, sub: '1 Box' },
-            { name: 'WHITE HOUSE (5Pcs)', category: 'Chotta Fancy', price: 210, oldPrice: 1050, sub: '1 Box' },
-            { name: 'PENTAGON (5Pcs)', category: 'Chotta Fancy', price: 210, oldPrice: 1050, sub: '1 Box' },
-            { name: 'BLACK & WHITE', category: 'Chotta Fancy', price: 210, oldPrice: 1050, sub: '1 Box' },
+            { name: '1 K', category: 'Jaguvar Varities', price: 240, oldPrice: 1200, sub: '1 Box' },
+            { name: '2 K', category: 'Jaguvar Varities', price: 480, oldPrice: 2400, sub: '1 Box' },
+            { name: '5 K', category: 'Jaguvar Varities', price: 1200, oldPrice: 6000, sub: '1 Box' },
+            { name: '10 K', category: 'Jaguvar Varities', price: 2400, oldPrice: 12000, sub: '1 Box' },
 
-            // ===== NEW WONDERS (11) =====
+
+            // =========================================================
+            // ROCKETS — 59 to 62
+            // =========================================================
+
+            { name: 'ROCKET BOMB', category: 'Rockets', price: 72, oldPrice: 360, sub: '1 Box' },
+            { name: 'LUNIK ROCKET', category: 'Rockets', price: 135, oldPrice: 675, sub: '1 Box' },
+            { name: '2 SOUND ROCKET', category: 'Rockets', price: 135, oldPrice: 675, sub: '1 Box' },
+            { name: 'MUSIC ROCKET', category: 'Rockets', price: 215, oldPrice: 1075, sub: '1 Box' },
+
+
+            // =========================================================
+            // COLOUR FOUNTAINS — 63 to 73
+            // =========================================================
+
+            { name: 'PEACOCK FEATHER', category: 'Colour Fountains', price: 95, oldPrice: 475, sub: '1 Box' },
+            { name: 'POGO / JOLLY RANGER (5 Pcs)', category: 'Colour Fountains', price: 155, oldPrice: 775, sub: '1 Box' },
+            { name: 'ANGRY BIRD / LAVA (5 Pcs)', category: 'Colour Fountains', price: 255, oldPrice: 1275, sub: '1 Box' },
+            { name: 'MINI SIREN ( 5 Pcs )', category: 'Colour Fountains', price: 155, oldPrice: 775, sub: '1 Box' },
+            { name: 'MUSIC SIREN ( 3 Pcs )', category: 'Colour Fountains', price: 216, oldPrice: 1080, sub: '1 Box' },
+            { name: 'SUNFEAST / B0URBON RED ( 5 Pcs )', category: 'Colour Fountains', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'NANO POTS (AYYAN) ( 5 Pcs )', category: 'Colour Fountains', price: 190, oldPrice: 950, sub: '1 Box' },
+            { name: 'POWER POTS / FRUIT SALAT ( 5 Pcs)', category: 'Colour Fountains', price: 190, oldPrice: 950, sub: '1 Box' },
+            { name: 'SHIN CHAN ( 3 Pcs )', category: 'Colour Fountains', price: 125, oldPrice: 625, sub: '1 Box' },
+            { name: 'JIGGLES (4 Varieties) ( 3 Pcs )', category: 'Colour Fountains', price: 125, oldPrice: 625, sub: '1 Box' },
+            { name: 'MOTLU PATLU FOUNTAIN ( 5 Pcs)', category: 'Colour Fountains', price: 210, oldPrice: 1050, sub: '1 Box' },
+
+
+            // =========================================================
+            // NEW SPECIAL FOUNTAINS — 74 to 85
+            // =========================================================
+
+            { name: 'SILVER / GOLDEN DROPS', category: 'New Special Fountains', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'CRACKLING FOUNTAIN (3Pcs)', category: 'New Special Fountains', price: 288, oldPrice: 1440, sub: '1 Box' },
+            { name: 'CRACK JACK (2 FUNCTIONS)', category: 'New Special Fountains', price: 240, oldPrice: 1200, sub: '1 Box' },
+            { name: 'NESTLE (5 Pcs)', category: 'New Special Fountains', price: 225, oldPrice: 1125, sub: '1 Box' },
+            { name: 'TWEET', category: 'New Special Fountains', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: 'PAPPINS', category: 'New Special Fountains', price: 145, oldPrice: 725, sub: '1 Box' },
+            { name: '6000', category: 'New Special Fountains', price: 155, oldPrice: 775, sub: '1 Box' },
+            { name: 'PEACOCK 3 IN 1', category: 'New Special Fountains', price: 216, oldPrice: 1080, sub: '1 Box' },
+            { name: 'PEACOCK SPECIAL', category: 'New Special Fountains', price: 216, oldPrice: 1080, sub: '1 Box' },
+            { name: 'MAGIC SHOW CURRENCY', category: 'New Special Fountains', price: 240, oldPrice: 1200, sub: '1 Box' },
+            { name: 'COLOUR SMOKE ( 3 Pcs ) PLAIN', category: 'New Special Fountains', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'COLOUR SMOKE ( 3 Pcs ) MULTI', category: 'New Special Fountains', price: 185, oldPrice: 925, sub: '1 Box' },
+
+
+            // =========================================================
+            // NEW WONDERS — 86 to 95
+            // =========================================================
+
             { name: 'HELICOPTER', category: 'New Wonders', price: 110, oldPrice: 550, sub: '1 Box' },
             { name: 'RAMPA DANCE / PAMBARAA', category: 'New Wonders', price: 120, oldPrice: 600, sub: '1 Box' },
             { name: 'BUTTER CAFÉ (3 COLOUR CHANGING)', category: 'New Wonders', price: 105, oldPrice: 525, sub: '1 Box' },
-            { name: 'WATER QUEEN', category: 'New Wonders', price: 140, oldPrice: 700, sub: '1 Box' },
-            { name: 'STAR DRUM', category: 'New Wonders', price: 95, oldPrice: 475, sub: '1 Box' },
-            { name: 'CHOC CONS', category: 'New Wonders', price: 190, oldPrice: 950, sub: '1 Box' },
-            { name: 'DRUM STICK', category: 'New Wonders', price: 190, oldPrice: 950, sub: '1 Box' },
-            { name: 'BLACK FOREST', category: 'New Wonders', price: 190, oldPrice: 950, sub: '1 Box' },
-            { name: 'BADA PEACOCK (BRANDED)', category: 'New Wonders', price: 415, oldPrice: 2075, sub: '1 Box' },
-            { name: 'BADA PEACOCK (3 COLOUR CHANGING)', category: 'New Wonders', price: 435, oldPrice: 2175, sub: '1 Box' },
+            { name: 'STAR DRUM', category: 'New Wonders', price: 98, oldPrice: 490, sub: '1 Box' },
+            { name: 'CHOC CONS', category: 'New Wonders', price: 198, oldPrice: 990, sub: '1 Box' },
+            { name: 'DRUM STICK', category: 'New Wonders', price: 198, oldPrice: 990, sub: '1 Box' },
+            { name: 'BLACK FOREST', category: 'New Wonders', price: 198, oldPrice: 990, sub: '1 Box' },
+            { name: 'BADA PEACOCK (BRANDED)', category: 'New Wonders', price: 445, oldPrice: 2225, sub: '1 Box' },
+            { name: 'BADA PEACOCK (3 COLOUR CHANGING)', category: 'New Wonders', price: 465, oldPrice: 2325, sub: '1 Box' },
             { name: 'KIDS BAT & BALL', category: 'New Wonders', price: 240, oldPrice: 1200, sub: '1 Box' },
 
-            // ===== NEW ATTRACTION FANCY (23) =====
-            { name: 'KNIGHT RIDERS 2" FANCY', category: 'New Attraction Fancy', price: 95, oldPrice: 475, sub: '1 Box' },
-            { name: 'MIX INDIA 2" FANCY', category: 'New Attraction Fancy', price: 95, oldPrice: 475, sub: '1 Box' },
-            {
-                name: 'CENTER POINT 2 1/2" FANCY (3 VARITIES)', category: 'New Attraction Fancy', price: 155, oldPrice: 775,
-                sub: '1 Box'
-            },
-            {
-                name: 'COLUMBUS CHIO 2 1/2" FANCY (3 VARITIES)', category: 'New Attraction Fancy', price: 155, oldPrice: 775,
-                sub: '1 Box'
-            },
-            {
-                name: 'TWITTER 3" FANCY (3 VARITIES)', category: 'New Attraction Fancy', price: 230, oldPrice: 1150,
-                sub: '1 Box'
-            },
-            {
-                name: 'PYRO MAGIC 3" FANCY (3 VARITIES)', category: 'New Attraction Fancy', price: 230, oldPrice: 1150,
-                sub: '1 Box'
-            },
-            {
-                name: 'KASHMIR JILLY 3 ½" FANCY (6 VARITIES)', category: 'New Attraction Fancy', price: 240, oldPrice: 1200,
-                sub: '1 Box'
-            },
-            {
-                name: 'JODI NO.1 (3 Pcs Box) BRANDED', category: 'New Attraction Fancy', price: 270, oldPrice: 1350,
-                sub: '1 Box'
-            },
-            { name: '3Pcs (OTHERS)', category: 'New Attraction Fancy', price: 225, oldPrice: 1125, sub: '1 Box' },
-            { name: 'REMO (3 Pcs Mega Box)', category: 'New Attraction Fancy', price: 435, oldPrice: 2175, sub: '1 Box' },
-            { name: 'DIGITAL STAR 3 ½" FANCY', category: 'New Attraction Fancy', price: 290, oldPrice: 1450, sub: '1 Box' },
-            { name: 'KING FISHER 3 ½" FANCY', category: 'New Attraction Fancy', price: 290, oldPrice: 1450, sub: '1 Box' },
-            { name: 'XXX SEVEN 3 ½" FANCY', category: 'New Attraction Fancy', price: 290, oldPrice: 1450, sub: '1 Box' },
-            { name: 'NAYAGARA FALLS 3 ½" FANCY', category: 'New Attraction Fancy', price: 290, oldPrice: 1450, sub: '1 Box' },
-            { name: '4" SAMSUNG FANCY (2 Pcs)', category: 'New Attraction Fancy', price: 680, oldPrice: 3400, sub: '1 Box' },
-            { name: '4" DOUBLE BALL FANCY', category: 'New Attraction Fancy', price: 430, oldPrice: 2150, sub: '1 Box' },
-            { name: '5 1/2" OCTOPUS FANCY', category: 'New Attraction Fancy', price: 600, oldPrice: 3000, sub: '1 Box' },
-            { name: 'BLUE LAGOON', category: 'New Attraction Fancy', price: 390, oldPrice: 1950, sub: '1 Box' },
-            { name: 'PINK DIAMONDS', category: 'New Attraction Fancy', price: 390, oldPrice: 1950, sub: '1 Box' },
-            { name: 'ORANGE VILLA', category: 'New Attraction Fancy', price: 390, oldPrice: 1950, sub: '1 Box' },
-            { name: 'RED VELVET', category: 'New Attraction Fancy', price: 360, oldPrice: 1800, sub: '1 Box' },
-            { name: 'FLOWER POWER', category: 'New Attraction Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
-            { name: 'CLOWN TOWN', category: 'New Attraction Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
 
-            // ===== MULTISHOTS (13) =====
-            { name: '7 SHOT', category: 'Multishots', price: 85, oldPrice: 425, sub: '1 Box' },
-            { name: '12 SHOTS - CRACKLING', category: 'Multishots', price: 150, oldPrice: 750, sub: '1 Box' },
-            { name: '12 SHOTS - CRACKLING WITH BALL', category: 'Multishots', price: 160, oldPrice: 800, sub: '1 Box' },
-            { name: '12 SHOTS- LAKA LAKA RIDER', category: 'Multishots', price: 205, oldPrice: 1025, sub: '1 Box' },
-            { name: '12 SHOTS - RANG CHAKKAR', category: 'Multishots', price: 225, oldPrice: 1125, sub: '1 Box' },
-            { name: '15 SHOTS MULTI COLOUR', category: 'Multishots', price: 230, oldPrice: 1150, sub: '1 Box' },
-            { name: '30 SHOTS MULTI COLOUR (BRANDED)', category: 'Multishots', price: 405, oldPrice: 2025, sub: '1 Box' },
-            { name: '30 SHOTS MULTI COLOUR (OTHERS)', category: 'Multishots', price: 320, oldPrice: 1600, sub: '1 Box' },
-            { name: '60 SHOTS MULTI COLOUR', category: 'Multishots', price: 810, oldPrice: 4050, sub: '1 Box' },
-            { name: '60 SHOTS MULTI COLOUR & CRACKLING', category: 'Multishots', price: 910, oldPrice: 4550, sub: '1 Box' },
-            { name: '120 SHOTS MULTI COLOUR', category: 'Multishots', price: 1620, oldPrice: 8100, sub: '1 Box' },
-            { name: '240 SHOTS MULTI COLOUR', category: 'Multishots', price: 3240, oldPrice: 16200, sub: '1 Box' },
-            { name: '520 SHOTS MULTI COLOUR', category: 'Multishots', price: 6980, oldPrice: 34900, sub: '1 Box' },
+            // =========================================================
+            // CHOTTA FANCY — 96 to 109
+            // =========================================================
 
-            // ===== NOVELTIES (4) =====
-            { name: 'CHIT PUT', category: 'Novelties', price: 25, oldPrice: 125, sub: '1 Box' },
-            { name: 'MOON WHEEL', category: 'Novelties', price: 70, oldPrice: 350, sub: '1 Box' },
-            { name: 'PHOTO FLASH', category: 'Novelties', price: 70, oldPrice: 350, sub: '1 Box' },
-            { name: 'MONEY IN THE BANK', category: 'Novelties', price: 51, oldPrice: 255, sub: '1 Box' },
+            { name: '1 " CHOTTA FANCY', category: 'Chotta Fancy', price: 45, oldPrice: 225, sub: '1 Box' },
+            { name: 'SKY WALA / SKY DANCER (5Pcs)', category: 'Chotta Fancy', price: 135, oldPrice: 675, sub: '1 Box' },
+            { name: 'PENTA SHOT (5 Pcs)', category: 'Chotta Fancy', price: 180, oldPrice: 900, sub: '1 Box' },
+            { name: 'WHITE HOUSE (5Pcs)', category: 'Chotta Fancy', price: 210, oldPrice: 1050, sub: '1 Box' },
+            { name: 'PENTAGON (5Pcs)', category: 'Chotta Fancy', price: 210, oldPrice: 1050, sub: '1 Box' },
+            { name: 'BLUE MOON', category: 'Chotta Fancy', price: 175, oldPrice: 875, sub: '1 Box' },
+            { name: 'GOLD COIN', category: 'Chotta Fancy', price: 175, oldPrice: 875, sub: '1 Box' },
+            { name: 'SINGING DOLL', category: 'Chotta Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: 'BLUE BLOOM', category: 'Chotta Fancy', price: 295, oldPrice: 1475, sub: '1 Box' },
+            { name: 'BLUE BIRD', category: 'Chotta Fancy', price: 295, oldPrice: 1475, sub: '1 Box' },
+            { name: 'AYYAN PINK', category: 'Chotta Fancy', price: 285, oldPrice: 1425, sub: '1 Box' },
+            { name: 'VIOLET FLOWER', category: 'Chotta Fancy', price: 285, oldPrice: 1425, sub: '1 Box' },
+            { name: 'AAKASH THORAN', category: 'Chotta Fancy', price: 310, oldPrice: 1550, sub: '1 Box' },
+            { name: 'RED ANGEL', category: 'Chotta Fancy', price: 190, oldPrice: 950, sub: '1 Box' },
 
-            // ===== SET OUT (9) =====
-            { name: 'CHEETAH BLAST - 15 SHOT', category: 'Setout', price: 1350, oldPrice: 6750, sub: '1 Box' },
-            { name: 'BHARAT RATNA (2 1/2") (20 SHOT MC)', category: 'Setout', price: 2650, oldPrice: 13250, sub: '1 Box' },
-            { name: 'INDIAN ARMY (2 3/4") (30 SHOT MC)', category: 'Setout', price: 3450, oldPrice: 17250, sub: '1 Box' },
-            { name: 'UNIVERCELL (2 1/2") (30 SHOT MC)', category: 'Setout', price: 3600, oldPrice: 18000, sub: '1 Box' },
-            { name: '10 X 10 100 SHOT', category: 'Setout', price: 3600, oldPrice: 18000, sub: '1 Box' },
-            { name: '7 HORSE (3") (7 STAR)', category: 'Setout', price: 4800, oldPrice: 24000, sub: '1 Box' },
-            { name: 'CHIKEN 65 (2 1/2") (65 SHOT 3 STAR)', category: 'Setout', price: 5310, oldPrice: 26550, sub: '1 Box' },
-            { name: 'BLACK THUNDER (3 1/2") (30 SHOT MC)', category: 'Setout', price: 5400, oldPrice: 27000, sub: '1 Box' },
-            { name: 'FIVE STAR (30 SHOT MS)', category: 'Setout', price: 7650, oldPrice: 38250, sub: '1 Box' },
 
-            // ===== ROLL CAPS & SERPANT EGGS (22) =====
-            { name: 'SERPENT SMALL', category: 'Roll Caps', price: 20, oldPrice: 100, sub: '1 Box' },
-            { name: 'ELECTRIC STONE', category: 'Roll Caps', price: 15, oldPrice: 75, sub: '1 Box' },
-            { name: 'ROLL CAP', category: 'Roll Caps', price: 50, oldPrice: 250, sub: '1 Box' },
-            { name: 'A.K 47 RING GUN (5 RING CAP)', category: 'Roll Caps', price: 150, oldPrice: 750, sub: '1 Pcs' },
-            { name: 'LEMON TREE', category: 'Roll Caps', price: 160, oldPrice: 800, sub: '1 Box' },
-            { name: 'PINK PANTHER', category: 'Roll Caps', price: 160, oldPrice: 800, sub: '1 Box' },
-            { name: 'SMOKE STICK', category: 'Roll Caps', price: 90, oldPrice: 450, sub: '1 Box' },
-            { name: 'PURPLE DOVE', category: 'Roll Caps', price: 70, oldPrice: 350, sub: '1 Box' },
-            { name: 'GULFI', category: 'Roll Caps', price: 70, oldPrice: 350, sub: '1 Box' },
-            { name: 'LION KING', category: 'Roll Caps', price: 320, oldPrice: 1600, sub: '1 Box' },
-            { name: 'GO ! GO !! CAR', category: 'Roll Caps', price: 285, oldPrice: 1425, sub: '1 Box' },
-            { name: 'FIRE DROPS', category: 'Roll Caps', price: 70, oldPrice: 350, sub: '1 Box' },
-            { name: 'GUITAR', category: 'Roll Caps', price: 240, oldPrice: 1200, sub: '1 Box' },
-            { name: 'GAME OF THRONS (LONG SWORD)', category: 'Roll Caps', price: 240, oldPrice: 1200, sub: '1 Box' },
-            { name: 'THANOS THOR', category: 'Roll Caps', price: 240, oldPrice: 1200, sub: '1 Box' },
-            { name: 'TOYS FOUNTAINS', category: 'Roll Caps', price: 235, oldPrice: 1175, sub: '1 Box' },
-            { name: 'RACING CARS', category: 'Roll Caps', price: 360, oldPrice: 1800, sub: '1 Box' },
-            { name: 'JOLLY BOBBY', category: 'Roll Caps', price: 480, oldPrice: 2400, sub: '1 Box' },
-            { name: 'BAD BOYS TIN (3 Pcs)', category: 'Roll Caps', price: 240, oldPrice: 1200, sub: '1 Box' },
-            { name: 'AAKASH THORAN', category: 'Roll Caps', price: 220, oldPrice: 1100, sub: '1 Box' },
-            { name: 'SKY DIVERS', category: 'Roll Caps', price: 220, oldPrice: 1100, sub: '1 Box' },
-            { name: 'FIRE EGG', category: 'Roll Caps', price: 146, oldPrice: 730, sub: '1 Box' },
+            // =========================================================
+            // NIGHT ATTRACTION FANCY — 110 to 126
+            // =========================================================
 
-            // ===== SPARKLERS (29) =====
-            { name: '7 CM ELECTRIC SPARKLERS', category: 'Sparklers', price: 11, oldPrice: 55, sub: '1 Box' },
-            { name: '7 CM COLOUR SPARKLERS', category: 'Sparklers', price: 12, oldPrice: 60, sub: '1 Box' },
-            { name: '7 CM GREEN SPARKLERS', category: 'Sparklers', price: 14, oldPrice: 70, sub: '1 Box' },
-            { name: '7 CM RED SPARKLERS', category: 'Sparklers', price: 16, oldPrice: 80, sub: '1 Box' },
-            { name: '10 CM ELECTRIC SPARKLERS', category: 'Sparklers', price: 16, oldPrice: 80, sub: '1 Box' },
-            { name: '10 CM COLOUR SPARKLERS', category: 'Sparklers', price: 18, oldPrice: 90, sub: '1 Box' },
-            { name: '10 CM GREEN SPARKLERS', category: 'Sparklers', price: 20, oldPrice: 100, sub: '1 Box' },
-            { name: '10 CM RED SPARKLERS', category: 'Sparklers', price: 22, oldPrice: 110, sub: '1 Box' },
-            { name: '12 CM ELECTRIC SPARKLERS', category: 'Sparklers', price: 25, oldPrice: 125, sub: '1 Box' },
-            { name: '12 CM COLOUR SPARKLERS', category: 'Sparklers', price: 27, oldPrice: 135, sub: '1 Box' },
-            { name: '12 CM GREEN SPARKLERS', category: 'Sparklers', price: 29, oldPrice: 145, sub: '1 Box' },
-            { name: '12 CM RED SPARKLERS', category: 'Sparklers', price: 32, oldPrice: 160, sub: '1 Box' },
-            { name: '15 CM ELECTRIC SPARKLERS', category: 'Sparklers', price: 39, oldPrice: 195, sub: '1 Box' },
-            { name: '15 CM COLOUR SPARKLERS', category: 'Sparklers', price: 41, oldPrice: 205, sub: '1 Box' },
-            { name: '15 CM GREEN SPARKLERS', category: 'Sparklers', price: 43, oldPrice: 215, sub: '1 Box' },
-            { name: '15 CM RED SPARKLERS', category: 'Sparklers', price: 46, oldPrice: 230, sub: '1 Box' },
-            { name: '15 CM NANOTECH', category: 'Sparklers', price: 49, oldPrice: 245, sub: '1 Box' },
-            { name: '30 CM ELECTRIC SPARKLERS', category: 'Sparklers', price: 39, oldPrice: 195, sub: '1 Box' },
-            { name: '30 CM COLOUR SPARKLERS', category: 'Sparklers', price: 41, oldPrice: 205, sub: '1 Box' },
-            { name: '30 CM GREEN SPARKLERS', category: 'Sparklers', price: 43, oldPrice: 215, sub: '1 Box' },
-            { name: '30 CM RED SPARKLERS', category: 'Sparklers', price: 46, oldPrice: 230, sub: '1 Box' },
-            { name: '30 CM NANOTECH', category: 'Sparklers', price: 49, oldPrice: 245, sub: '1 Box' },
-            { name: 'LOVELY SPARKLERS', category: 'Sparklers', price: 126, oldPrice: 630, sub: '1 Box' },
+            { name: 'KNIGHT RIDERS 2” FANCY', category: 'Night Attraction Fancy', price: 105, oldPrice: 525, sub: '1 Box' },
+            { name: 'MIX INDIA 2” FANCY', category: 'Night Attraction Fancy', price: 105, oldPrice: 525, sub: '1 Box' },
+            { name: 'CENTER POINT 2 1/2” FANCY (3 VARITIES)', category: 'Night Attraction Fancy', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'COLUMBUS CHIO 2 1/2” FANCY (3 VARITIES)', category: 'Night Attraction Fancy', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'TWITTER 3” FANCY (3 VARITIES)', category: 'Night Attraction Fancy', price: 248, oldPrice: 1240, sub: '1 Box' },
+            { name: 'PYRO MAGIC 3” FANCY (3 VARITIES)', category: 'Night Attraction Fancy', price: 248, oldPrice: 1240, sub: '1 Box' },
+            { name: 'KASHMIR JILLY 3 ½” FANCY (6 VARITIES)', category: 'Night Attraction Fancy', price: 262, oldPrice: 1310, sub: '1 Box' },
+            { name: 'JODI NO.1 ( 3 Pcs Box ) BRANDED', category: 'Night Attraction Fancy', price: 285, oldPrice: 1425, sub: '1 Box' },
+            { name: '2 INCH 3PCS (OTHERS)', category: 'Night Attraction Fancy', price: 245, oldPrice: 1225, sub: '1 Box' },
+            { name: 'REMO (3 Pcs Mega Box)', category: 'Night Attraction Fancy', price: 492, oldPrice: 2460, sub: '1 Box' },
+            { name: 'DIGITAL STAR 3 ½” FANCY', category: 'Night Attraction Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: 'KING FISHER 3 ½” FANCY', category: 'Night Attraction Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: 'XXX SEVEN 3 ½” FANCY', category: 'Night Attraction Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: 'NAYAGARA FALLS 3 ½” FANCY', category: 'Night Attraction Fancy', price: 320, oldPrice: 1600, sub: '1 Box' },
+            { name: '4” SAMSUNG FANCY ( 2 Pcs )', category: 'Night Attraction Fancy', price: 740, oldPrice: 3700, sub: '1 Box' },
+            { name: '4” DOUBLE BALL FANCY', category: 'Night Attraction Fancy', price: 475, oldPrice: 2375, sub: '1 Box' },
+            { name: '6” IMPERIAL BLUE / BOOMER FANCY', category: 'Night Attraction Fancy', price: 1440, oldPrice: 7200, sub: '1 Box' },
+
+
+            // =========================================================
+            // 2026 NEW ELITE FANCY — 127 to 132
+            // =========================================================
+
+            { name: 'WOW LEMON', category: '2026 New Elite Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
+            { name: 'WOW PINK', category: '2026 New Elite Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
+            { name: 'WOW ORANGE', category: '2026 New Elite Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
+            { name: 'WOW PURPLE', category: '2026 New Elite Fancy', price: 540, oldPrice: 2700, sub: '1 Box' },
+            { name: 'FLOWER POWER (Blue with Red Eye)', category: '2026 New Elite Fancy', price: 640, oldPrice: 3200, sub: '1 Box' },
+            { name: 'CLOWN TOWN (Blue with Orange Eye)', category: '2026 New Elite Fancy', price: 640, oldPrice: 3200, sub: '1 Box' },
+
+
+            // =========================================================
+            // MULTISHOTS — 133 to 142
+            // =========================================================
+
+            { name: '12 SHOTS', category: 'Multishots', price: 160, oldPrice: 800, sub: '1 Box' },
+            { name: '12 SHOTS - CRACKLING WITH BALL', category: 'Multishots', price: 180, oldPrice: 900, sub: '1 Box' },
+            { name: '12 SHOTS- LAKA LAKA RIDER', category: 'Multishots', price: 215, oldPrice: 1075, sub: '1 Box' },
+            { name: '15 SHOTS MULTI COLOUR', category: 'Multishots', price: 275, oldPrice: 1375, sub: '1 Box' },
+            { name: '30 SHOTS MULTI COLOUR (BRANDED)', category: 'Multishots', price: 455, oldPrice: 2275, sub: '1 Box' },
+            { name: '60 SHOTS MULTI COLOUR', category: 'Multishots', price: 910, oldPrice: 4550, sub: '1 Box' },
+            { name: '60 SHOTS MULTI COLOUR & CRACKLING', category: 'Multishots', price: 1120, oldPrice: 5600, sub: '1 Box' },
+            { name: '120 SHOTS MULTI COLOUR', category: 'Multishots', price: 1820, oldPrice: 9100, sub: '1 Box' },
+            { name: '240 SHOTS MULTI COLOUR', category: 'Multishots', price: 3640, oldPrice: 18200, sub: '1 Box' },
+            { name: '520 SHOTS MULTI COLOUR', category: 'Multishots', price: 7800, oldPrice: 39000, sub: '1 Box' },
+
+
+            // =========================================================
+            // NOVELTIES — 143 to 146
+            // =========================================================
+
+            { name: 'CHIT PUT', category: 'Novelties', price: 32, oldPrice: 160, sub: '1 Box' },
+            { name: 'MOON WHEEL', category: 'Novelties', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'PHOTO FLASH', category: 'Novelties', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'MONEY IN THE BANK', category: 'Novelties', price: 30, oldPrice: 150, sub: '1 Box' },
+
+
+            // =========================================================
+            // FESTIVAL SERIES / SET OUT — 147 to 153
+            // =========================================================
+
+            { name: 'CHITTA BLAST - 15 SHOT', category: 'Festival Series', price: 1400, oldPrice: 7000, sub: '1 Box' },
+            { name: 'BHARAT RATNA (2 1/2") (20 SHOT MC)', category: 'Festival Series', price: 2950, oldPrice: 14750, sub: '1 Box' },
+            { name: 'INDIAN ARMY (2 3/4") (30 SHOT MC)', category: 'Festival Series', price: 3800, oldPrice: 19000, sub: '1 Box' },
+            { name: 'UNIVERCELL (2 1/2") (30 SHOT MC)', category: 'Festival Series', price: 3960, oldPrice: 19800, sub: '1 Box' },
+            { name: '10 X 10 100 SHOT', category: 'Festival Series', price: 3960, oldPrice: 19800, sub: '1 Box' },
+            { name: 'BLACK THUNDER (3 1/2") (30 SHOT MC)', category: 'Festival Series', price: 5940, oldPrice: 29700, sub: '1 Box' },
+            { name: 'FIVE STAR (30 SHOT MC)', category: 'Festival Series', price: 8415, oldPrice: 42075, sub: '1 Box' },
+
+
+            // =========================================================
+            // ROLL CAPS & SERPANT EGGS — 154 to 157
+            // =========================================================
+
+            { name: 'SERPENT EGG', category: 'Roll Caps & Serpant Eggs', price: 24, oldPrice: 120, sub: '1 Box' },
+            { name: 'ELECTRIC STONE', category: 'Roll Caps & Serpant Eggs', price: 20, oldPrice: 100, sub: '1 Box' },
+            { name: 'ROLL CAP', category: 'Roll Caps & Serpant Eggs', price: 60, oldPrice: 300, sub: '1 Box' },
+            { name: 'A.K 47 RING GUN (5 RING CAP )', category: 'Roll Caps & Serpant Eggs', price: 150, oldPrice: 750, sub: '1 Box' },
+
+
+            // =========================================================
+            // 2026 NEW VARIETIES — 158 to 166
+            // =========================================================
+
+            { name: 'LEMON TREE', category: '2026 New Varieties', price: 165, oldPrice: 825, sub: '1 Box' },
+            { name: 'SMOKE STICK', category: '2026 New Varieties', price: 90, oldPrice: 450, sub: '1 Box' },
+            { name: 'PURPLE DOVE / LITTLE DOVE', category: '2026 New Varieties', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'GULFI', category: '2026 New Varieties', price: 75, oldPrice: 375, sub: '1 Box' },
+            { name: 'MAGICAL / GALAXY SWORD (2Pcs)', category: '2026 New Varieties', price: 450, oldPrice: 2250, sub: '1 Box' },
+            { name: 'THANOS THOR', category: '2026 New Varieties', price: 240, oldPrice: 1200, sub: '1 Box' },
+            { name: 'JOLLY BOBBY', category: '2026 New Varieties', price: 580, oldPrice: 2900, sub: '1 Box' },
+            { name: 'BAD BOYS TIN ( 3 Pcs )', category: '2026 New Varieties', price: 370, oldPrice: 1850, sub: '1 Box' },
+            { name: 'FIRE EGG', category: '2026 New Varieties', price: 160, oldPrice: 800, sub: '1 Box' },
+
+
+            // =========================================================
+            // SPARKLERS — 167 to 187
+            // =========================================================
+
+            { name: '10 CM ELECTRIC SPARKLERS', category: 'Sparklers', price: 18, oldPrice: 90, sub: '1 Box' },
+            { name: '10 CM COLOUR SPARKLERS', category: 'Sparklers', price: 20, oldPrice: 100, sub: '1 Box' },
+            { name: '10 CM GREEN SPARKLERS', category: 'Sparklers', price: 22, oldPrice: 110, sub: '1 Box' },
+            { name: '10 CM RED SPARKLERS', category: 'Sparklers', price: 24, oldPrice: 120, sub: '1 Box' },
+            { name: '10 CM NANOTECH (Smoke Free)', category: 'Sparklers', price: 20, oldPrice: 100, sub: '1 Box' },
+
+            { name: '15 CM ELCTRIC SPARKLERS', category: 'Sparklers', price: 42, oldPrice: 210, sub: '1 Box' },
+            { name: '15 CM COLOUR SPARKLERS', category: 'Sparklers', price: 46, oldPrice: 230, sub: '1 Box' },
+            { name: '15 CM GREEN SPARKLERS', category: 'Sparklers', price: 49, oldPrice: 245, sub: '1 Box' },
+            { name: '15 CM RED SPARKLERS', category: 'Sparklers', price: 54, oldPrice: 270, sub: '1 Box' },
+            { name: '15 CM NANOTECH (Smoke Free)', category: 'Sparklers', price: 52, oldPrice: 260, sub: '1 Box' },
+
+            { name: '30 CM ELCTRIC SPARKLERS', category: 'Sparklers', price: 42, oldPrice: 210, sub: '1 Box' },
+            { name: '30 CM COLOUR SPARKLERS', category: 'Sparklers', price: 46, oldPrice: 230, sub: '1 Box' },
+            { name: '30 CM GREEN SPARKLERS', category: 'Sparklers', price: 49, oldPrice: 245, sub: '1 Box' },
+            { name: '30 CM RED SPARKLERS', category: 'Sparklers', price: 54, oldPrice: 270, sub: '1 Box' },
+            { name: '30 CM NANOTECH (Smoke Free)', category: 'Sparklers', price: 52, oldPrice: 260, sub: '1 Box' },
+
+            { name: 'LOVELY SPARKLERS', category: 'Sparklers', price: 135, oldPrice: 675, sub: '1 Box' },
             { name: '50 CM ELECTRIC SPARKLERS', category: 'Sparklers', price: 190, oldPrice: 950, sub: '1 Box' },
             { name: '50 CM COLOUR SPARKLERS', category: 'Sparklers', price: 210, oldPrice: 1050, sub: '1 Box' },
             { name: 'COLOUR MATCHES GOLD VIP (LAPTOP)', category: 'Sparklers', price: 210, oldPrice: 1050, sub: '1 Box' },
             { name: 'COLOUR MATCHES 5 STAR', category: 'Sparklers', price: 145, oldPrice: 725, sub: '1 Box' },
-            { name: 'COLOUR MATCHES 10 IN 1 MINI LAPTOP', category: 'Sparklers', price: 160, oldPrice: 800, sub: '1 Box' },
-            { name: 'COLOUR MATCHES SUPER DLX', category: 'Sparklers', price: 85, oldPrice: 425, sub: '1 Box' },
+            { name: 'COLOUR MATCHES 10 IN 1 (MINI LAPTOP)', category: 'Sparklers', price: 160, oldPrice: 800, sub: '1 Box' },
 
-            // ===== NEW FANCY SPARKLERS (6) =====
-            { name: '10 CM STAR PLUS', category: 'New Fancy Sparklers', price: 39, oldPrice: 195, sub: '1 Box' },
-            { name: '10 CM GOLD WINNER', category: 'New Fancy Sparklers', price: 39, oldPrice: 195, sub: '1 Box' },
-            { name: '12 CM TWIN TONE', category: 'New Fancy Sparklers', price: 56, oldPrice: 280, sub: '1 Box' },
-            { name: 'SIGNAL PINK', category: 'New Fancy Sparklers', price: 41, oldPrice: 205, sub: '1 Box' },
-            { name: 'SIGNAL BLUE', category: 'New Fancy Sparklers', price: 41, oldPrice: 205, sub: '1 Box' },
-            { name: 'ROTATING SPARKLERS', category: 'New Fancy Sparklers', price: 210, oldPrice: 1050, sub: '1 Box' },
 
-            // ===== GIFT BOXES (4) =====
-            { name: '21 ITEMS GIFT BOX', category: 'Gift Boxes', price: 330, oldPrice: 330, sub: '1 Box' },
-            { name: '31 ITEMS GIFT BOX', category: 'Gift Boxes', price: 480, oldPrice: 480, sub: '1 Box' },
-            { name: '41 ITEMS GIFT BOX', category: 'Gift Boxes', price: 640, oldPrice: 640, sub: '1 Box' },
-            { name: '51 ITEMS GIFT BOX', category: 'Gift Boxes', price: 870, oldPrice: 870, sub: '1 Box' },
+            // =========================================================
+            // NEW VARIETIES SPARKLERS — 188 to 192
+            // =========================================================
 
-            // ===== GIFT BOXES FAMILY PACKAGE (6) =====
-            { name: '3000 FAMILY PACK', category: 'Gift Boxes Family Package', price: 3000, oldPrice: 3000, sub: '1 Box' },
-            {
-                name: '3500 KIDS EDITION PACK', category: 'Gift Boxes Family Package', price: 3500, oldPrice: 3500,
-                sub: '1 Box'
-            },
-            { name: '5000 FAMILY PACK', category: 'Gift Boxes Family Package', price: 5000, oldPrice: 5000, sub: '1 Box' },
-            { name: '7000 FAMILY PACK', category: 'Gift Boxes Family Package', price: 7000, oldPrice: 7000, sub: '1 Box' },
-            {
-                name: '6000 THALA DIWALI PACK', category: 'Gift Boxes Family Package', price: 6000, oldPrice: 6000,
-                sub: '1 Box'
-            },
-            { name: '10000 FAMILY PACK', category: 'Gift Boxes Family Package', price: 10000, oldPrice: 10000, sub: '1 Box' }
+            { name: '10 CM STAR PLUS', category: 'New Varieties Sparklers', price: 39, oldPrice: 195, sub: '1 Box' },
+            { name: '10 CM GOLD WINNER', category: 'New Varieties Sparklers', price: 39, oldPrice: 195, sub: '1 Box' },
+            { name: 'SIGNAL PINK', category: 'New Varieties Sparklers', price: 41, oldPrice: 205, sub: '1 Box' },
+            { name: 'SIGNAL BLUE', category: 'New Varieties Sparklers', price: 41, oldPrice: 205, sub: '1 Box' },
+            { name: 'ROTATING SPARKLERS', category: 'New Varieties Sparklers', price: 225, oldPrice: 1125, sub: '1 Box' },
+
+
+            // =========================================================
+            // GIFT BOXES — 193 to 195
+            // =========================================================
+
+            { name: '30 items Gi Box', category: 'Gift Boxes', price: 560, oldPrice: 2800, sub: '1 Box' },
+            { name: '40 items Gi Box', category: 'Gift Boxes', price: 720, oldPrice: 3600, sub: '1 Box' },
+            { name: '50 items Gi Box', category: 'Gift Boxes', price: 970, oldPrice: 4850, sub: '1 Box' },
+
+
+            // =========================================================
+            // FAMILY PACKAGE — 196 to 200
+            // =========================================================
+
+            { name: 'BUDGET FAMILY PACK', category: 'Family Package', price: 2999, oldPrice: null, sub: '1 Box' },
+            { name: 'KIDS EDITION PACK', category: 'Family Package', price: 3999, oldPrice: null, sub: '1 Box' },
+            { name: 'MEGA FAMILY PACK', category: 'Family Package', price: 4999, oldPrice: null, sub: '1 Box' },
+            { name: 'THALA DIWALI PACK', category: 'Family Package', price: 7499, oldPrice: null, sub: '1 Box' },
+            { name: 'VIP PACK', category: 'Family Package', price: 10000, oldPrice: null, sub: '1 Box' }
+
         ];
 
         console.log(`📦 Total Products: ${allProducts.length}`);

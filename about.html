@@ -325,37 +325,75 @@
       }
     }
 
-  /* Mobile - Story Image Perfect Center */
-@media (max-width: 768px) {
-    .story-section .story-image{
+    /* Mobile - Story Image Perfect Center */
+    @media (max-width: 768px) {
+      .story-section .story-image {
         text-align: center !important;
         width: 100%;
-    }
+      }
 
-    .story-section .story-image .story-img{
+      .story-section .story-image .story-img {
         display: inline-block !important;
         width: 300px !important;
         max-width: 95%;
         height: auto !important;
         margin: 0 auto !important;
+      }
     }
-}
 
-@media (max-width: 480px) {
-    .story-section .story-image .story-img{
+    @media (max-width: 480px) {
+      .story-section .story-image .story-img {
         width: 280px !important;
+      }
     }
-}
 
     @media (max-width: 480px) {
       .story-section .story-img {
         width: 200px;
       }
-    }@media (max-width: 768px) {
-    .story-section .hero-grid{
-        justify-items: center !important;
     }
-}
+
+    @media (max-width: 768px) {
+      .story-section .hero-grid {
+        justify-items: center !important;
+      }
+    }
+
+    /* ===== SOCIAL FLOAT - MOBILE FIX ===== */
+    @media (max-width: 768px) {
+      .social-float {
+        display: flex !important;
+        flex-direction: column;
+        position: fixed;
+        left: 12px;
+        bottom: 80px;
+        top: auto;
+        transform: none;
+        z-index: 9999;
+        gap: 8px;
+      }
+
+      .social-float a {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .social-float {
+        left: 10px;
+        bottom: 75px;
+      }
+
+      .social-float a {
+        width: 42px;
+        height: 42px;
+      }
+    }
   </style>
 </head>
 
@@ -411,11 +449,11 @@
         </ul>
       </nav>
       <div class="nav-actions">
-        <a href="assets/pdf/Q-Crackers-Price-List.pdf" target="_blank" download class="btn btn-primary"
-          id="priceListBtn">
+        <a href="#" id="priceListBtn" class="btn btn-primary">
           Download Price List
         </a>
-        <button class="hamburger" aria-label="Menu">
+
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
           <span></span><span></span><span></span>
         </button>
       </div>
@@ -1214,6 +1252,52 @@
         });
       }
     });
+  </script>
+  <script type="importmap">
+{
+  "imports": {
+    "firebase/app":"https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
+    "firebase/firestore":"https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"
+  }
+}
+</script>
+
+  <script type="module">
+    import { initializeApp } from "firebase/app";
+    import { getFirestore, doc, getDoc } from "firebase/firestore";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
+      authDomain: "qcrackers.firebaseapp.com",
+      projectId: "qcrackers",
+      storageBucket: "qcrackers.firebasestorage.app",
+      messagingSenderId: "491899224672",
+      appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const priceListBtn = document.getElementById("priceListBtn");
+
+    if (priceListBtn) {
+      priceListBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        try {
+          const snap = await getDoc(doc(db, "storeSettings", "settings"));
+
+          if (snap.exists() && snap.data().pdfUrl) {
+            window.open(snap.data().pdfUrl, "_blank");
+          } else {
+            alert("Price List not available.");
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Failed to open Price List.");
+        }
+      });
+    }
   </script>
   <script src="script.js"></script>
 </body>

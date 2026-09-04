@@ -99,16 +99,136 @@
                 padding: 22px 12px;
             }
         }
+
+        /* ===== SOCIAL FLOAT - MOBILE FIX ===== */
+        @media (max-width: 768px) {
+            .social-float {
+                display: flex !important;
+                flex-direction: column;
+                position: fixed;
+                left: 12px;
+                bottom: 80px;
+                top: auto;
+                transform: none;
+                z-index: 9999;
+                gap: 8px;
+            }
+
+            .social-float a {
+                width: 46px;
+                height: 46px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .social-float {
+                left: 10px;
+                bottom: 75px;
+            }
+
+            .social-float a {
+                width: 42px;
+                height: 42px;
+            }
+        }
+
+        /* IMAGE ZOOM MODAL */
+        .cat-img {
+            cursor: zoom-in;
+        }
+
+        .zoom-modal {
+            display: none;
+            position: fixed;
+            z-index: 99999;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            text-align: center;
+        }
+
+        .zoom-modal.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-img-wrap {
+            overflow: hidden;
+            max-width: 90vw;
+            max-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-img-wrap img {
+            max-width: 90vw;
+            max-height: 75vh;
+            transition: transform 0.25s ease;
+            cursor: grab;
+            transform: scale(1);
+        }
+
+        .zoom-close {
+            position: absolute;
+            top: 18px;
+            right: 28px;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .zoom-controls {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .zoom-controls button {
+            background: #fff;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .zoom-caption {
+            color: #fff;
+            margin-top: 14px;
+            font-weight: 600;
+        }
+
+        /* ADD TO CART BUTTON */
+        .add-to-cart-btn {
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit;
+        }
+
+        .add-to-cart-btn.added {
+            background: #1abc9c !important;
+        }
     </style>
 </head>
 
 <body>
     <div class="top-bar">
         <div class="container top-bar-inner">
-            <span class="top-bar-msg">Welcome to Q Crackers — Premium Sivakasi Fireworks, delivered across Tamil
+            <span class="top-bar-msg">Welcome to Q Crackers — Premium
+                Sivakasi Fireworks, delivered across Tamil
                 Nadu.</span>
             <div class="top-bar-contacts">
-                <a href="tel:+919655586461"><i class="fas fa-phone"></i> +91 96555 86461</a>
+                <a href="tel:+919655586461"><i class="fas fa-phone"></i> +91
+                    96555 86461</a>
                 <a href="mailto:qcrackerss@gmail.com">
                     <i class="fas fa-envelope"></i> qcrackerss@gmail.com
                 </a>
@@ -155,9 +275,10 @@
                 </ul>
             </nav>
             <div class="nav-actions">
-                <a href="assets/pdf/Q-Crackers-Price-List.pdf" target="_blank" download class="btn btn-primary">
+                <a href="#" id="priceListBtn" class="btn btn-primary">
                     Download Price List
                 </a>
+
                 <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
                     <span></span><span></span><span></span>
                 </button>
@@ -255,9 +376,6 @@
         </div>
     </section>
 
-
-
-
     <!-- INTRO: IMAGE RIGHT / CONTENT LEFT -->
     <section class="section">
         <div class="container content-flex content-flex-reverse">
@@ -342,8 +460,10 @@
                 </div>
 
                 <div class="hero-cta">
-                    <a href="products.html" class="btn btn-primary">Shop Now</a>
-                    <a href="#pricelist" class="btn btn-ghost">Download Price List</a>
+                    <a href="products.html" class="btn btn-primary">Shop
+                        Now</a>
+                    <a href="#pricelist" class="btn btn-ghost">Download
+                        Price List</a>
                 </div>
 
                 <div class="hero-phone">
@@ -402,153 +522,103 @@
 
         </div>
     </div>
+    <!-- IMAGE ZOOM MODAL -->
+    <div class="zoom-modal" id="zoomModal">
+        <span class="zoom-close" id="zoomClose"><i class="fas fa-times"></i></span>
+        <div class="zoom-controls">
+            <button id="zoomOutBtn"><i class="fas fa-search-minus"></i></button>
+            <button id="zoomResetBtn"><i class="fas fa-compress"></i></button>
+            <button id="zoomInBtn"><i class="fas fa-search-plus"></i></button>
+        </div>
+        <div class="zoom-img-wrap">
+            <img id="zoomImg" src alt>
+        </div>
+        <p class="zoom-caption" id="zoomCaption"></p>
+    </div>
 
     <!-- CATEGORIES -->
     <section class="section categories-section">
         <div class="container">
+
             <div class="section-head reveal">
                 <span class="eyebrow">Shop by category</span>
-                <h2>Find your <span class="accent">celebration</span></h2>
-                <p>From quiet family evenings to full-blown Diwali finales —
-                    pick the mood.</p>
+
+                <h2>
+                    Find your <span class="accent">celebration</span>
+                </h2>
+
+                <p>
+                    From quiet family evenings to full-blown Diwali finales
+                    —
+                    pick the mood.
+                </p>
             </div>
 
             <div class="categories-grid">
-                <!-- Category 1 - Sparklers -->
-                <a href="products.html" class="category-card reveal">
-                    <div class="category-image">
-                        <img src="images/cracker-product/cp1.webp" alt="Sparklers" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Sparklers</h3>
-                            <span>Shop Now →</span>
-                        </div>
-                    </div>
-                </a>
 
-                <!-- Category 2 - Aerial Shots -->
-                <a href="products.html" class="category-card reveal">
+                <!-- Category 1 - Thala Diwali Pack -->
+                <div class="category-card reveal">
                     <div class="category-image">
-                        <img src="images/cracker-product/cp2.jpg" alt="Aerial Shots" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Aerial Shots</h3>
-                            <span>Shop Now →</span>
-                        </div>
+                        <img src="images/c1.jpeg" alt="Thala Diwali Pack" class="cat-img"
+                            onclick="openZoom(this.src, 'Thala Diwali Pack')">
                     </div>
-                </a>
+                    <div class="category-content">
+                        <h3>Thala Diwali Pack</h3>
+                        <div class="category-price">₹ 150</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Thala Diwali Pack" data-price="150">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
 
-                <!-- Category 3 - Ground Chakkars -->
-                <a href="products.html" class="category-card reveal">
+                <!-- Category 2 - Kids Combo Pack -->
+                <div class="category-card reveal">
                     <div class="category-image">
-                        <img src="images/cracker-product/cp3.jfif" alt="Ground Chakkars" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Ground Chakkars</h3>
-                            <span>Shop Now →</span>
-                        </div>
+                        <img src="images/c2.jpeg" alt="Kids Combo Pack" class="cat-img"
+                            onclick="openZoom(this.src, 'Kids Combo Pack')">
                     </div>
-                </a>
+                    <div class="category-content">
+                        <h3>Kids Combo Pack</h3>
+                        <div class="category-price">₹ 499</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Kids Combo Pack" data-price="499">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
 
-                <!-- Category 4 - Sound Crackers -->
-                <a href="products.html" class="category-card reveal">
+                <!-- Category 3 -  -->
+                <div class="category-card reveal">
                     <div class="category-image">
-                        <img src="images/cracker-product/cp4.jfif" alt="Sound Crackers" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Sound Crackers</h3>
-                            <span>Shop Now →</span>
-                        </div>
+                        <img src="images/c3.jpeg" alt="Family Pack" class="cat-img"
+                            onclick="openZoom(this.src, 'Family Pack')">
                     </div>
-                </a>
+                    <div class="category-content">
+                        <h3>Family Pack</h3>
+                        <div class="category-price">₹ 350</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Family Pack" data-price="350">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
 
-                <!-- Category 5 - Rockets -->
-                <a href="products.html" class="category-card reveal">
+                <!-- Category 4 - Family Pack -->
+                <div class="category-card reveal">
                     <div class="category-image">
-                        <img src="images/cracker-product/cp5.jfif" alt="Rockets" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Rockets</h3>
-                            <span>Shop Now →</span>
-                        </div>
+                        <img src="images/c4.jpeg" alt="Family Pack" class="cat-img"
+                            onclick="openZoom(this.src, 'Family Pack')">
                     </div>
-                </a>
+                    <div class="category-content">
+                        <h3>Family Pack</h3>
+                        <div class="category-price">₹ 299</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Family Pack" data-price="299">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
 
-                <!-- Category 6 - Gift Boxes -->
-                <a href="products.html" class="category-card reveal">
-                    <div class="category-image">
-                        <img src="images/cracker-product/cp6.jpg" alt="Gift Boxes" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Gift Boxes</h3>
-                            <span>Shop Now →</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Category 7 - Flower Pots -->
-                <a href="products.html" class="category-card reveal">
-                    <div class="category-image">
-                        <img src="images/cracker-product/cp7.jfif" alt="Flower Pots" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Flower Pots</h3>
-                            <span>Shop Now →</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Category 8 - Party Crackers -->
-                <a href="products.html" class="category-card reveal">
-                    <div class="category-image">
-                        <img src="images/cracker-product/c13.jfif" alt="Party Crackers" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Twinkling Star</h3>
-                            <span>Shop Now →</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Category 9 - Atom Bombs -->
-                <a href="products.html" class="category-card reveal">
-                    <div class="category-image">
-                        <img src="images/cracker-product/cp9.jfif" alt="Atom Bombs" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Atom Bombs</h3>
-                            <span>Shop Now →</span>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Category 10 - Bijili Bombs -->
-                <a href="products.html" class="category-card reveal">
-                    <div class="category-image">
-                        <img src="images/cracker-product/cp10.jfif" alt="Bijili Bombs" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Bijili Bombs</h3>
-                            <span>Shop Now →</span>
-                        </div>
-                    </div>
-
-                </a>
-                <!-- Category 11 - Skyshots -->
-                <a href="products.html" class="category-card reveal">
-                    <div class="category-image">
-                        <img src="images/cracker-product/cp11.png" alt="Bijili Bombs" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Sky Shots</h3>
-                            <span>Shop Now →</span>
-                        </div>
-                    </div>
-
-                </a>
-                <!-- Category 12 - Pencil -->
-                <a href="products.html" class="category-card reveal">
-                    <div class="category-image">
-                        <img src="./images/cracker-product/c12.jfif" alt="Bijili Bombs" class="cat-img">
-                        <div class="category-overlay">
-                            <h3>Pencil</h3>
-                            <span>Shop Now →</span>
-                        </div>
-                    </div>
-                </a>
             </div>
         </div>
     </section>
-
 
     <!-- OFFER BANNER -->
     <section class="offer-banner">
@@ -559,15 +629,19 @@
                     <br>Offer valid while festival stock lasts.
                 </p>
                 <div class="offer-features">
-                    <span><i class="fas fa-check-circle"></i> Premium Quality</span>
-                    <span><i class="fas fa-check-circle"></i> Fast Delivery</span>
-                    <span><i class="fas fa-check-circle"></i> Best Prices</span>
+                    <span><i class="fas fa-check-circle"></i> Premium
+                        Quality</span>
+                    <span><i class="fas fa-check-circle"></i> Fast
+                        Delivery</span>
+                    <span><i class="fas fa-check-circle"></i> Best
+                        Prices</span>
                 </div>
                 <a href="products.html" class="btn btn-primary">
                     <i class="fas fa-shopping-cart"></i> Shop the Offer
                 </a>
                 <div class="offer-timer">
-                    <span><i class="fas fa-clock"></i> Hurry! Offer ends soon</span>
+                    <span><i class="fas fa-clock"></i> Hurry! Offer ends
+                        soon</span>
                 </div>
             </div>
         </div>
@@ -765,7 +839,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #d4a847, #b8922f);">M
                                 </div>
                                 <div>
-                                    <strong>Murali K.</strong>
+                                    <strong>Murali K</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -793,7 +867,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">P
                                 </div>
                                 <div>
-                                    <strong>Priya S.</strong>
+                                    <strong>Priya S</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -821,7 +895,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">R
                                 </div>
                                 <div>
-                                    <strong>Raja S.</strong>
+                                    <strong>Raja S</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -849,7 +923,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">V
                                 </div>
                                 <div>
-                                    <strong>Vignesh R.</strong>
+                                    <strong>Vignesh R</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -878,7 +952,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">A
                                 </div>
                                 <div>
-                                    <strong>Arul M.</strong>
+                                    <strong>Arul M</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -908,7 +982,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">K
                                 </div>
                                 <div>
-                                    <strong>Kavitha L.</strong>
+                                    <strong>Kavitha L</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -937,7 +1011,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #1abc9c, #16a085);">S
                                 </div>
                                 <div>
-                                    <strong>Senthil P.</strong>
+                                    <strong>Senthil P</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -965,7 +1039,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">M
                                 </div>
                                 <div>
-                                    <strong>Meena R.</strong>
+                                    <strong>Meena R</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -992,7 +1066,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">G
                                 </div>
                                 <div>
-                                    <strong>Ganesh N.</strong>
+                                    <strong>Ganesh N</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -1020,7 +1094,7 @@
                                 <div class="avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">D
                                 </div>
                                 <div>
-                                    <strong>Devi P.</strong>
+                                    <strong>Devi P</strong>
                                 </div>
                             </div>
                             <div class="review-meta">
@@ -1071,7 +1145,8 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #d4a847, #b8922f);">M</div>
                                 <div class="review-info">
-                                    <strong>Murali K.</strong>
+                                    <strong>
+                                        Murali K</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Sivakasi</span>
                                 </div>
@@ -1096,7 +1171,7 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #2ecc71, #27ae60);">P</div>
                                 <div class="review-info">
-                                    <strong>Priya S.</strong>
+                                    <strong>Priya S</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Aruppukottai</span>
                                 </div>
@@ -1120,7 +1195,7 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #3498db, #2980b9);">R</div>
                                 <div class="review-info">
-                                    <strong>Raja S.</strong>
+                                    <strong>Raja S</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Virudhunagar</span>
                                 </div>
@@ -1146,7 +1221,7 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #e74c3c, #c0392b);">V</div>
                                 <div class="review-info">
-                                    <strong>Vignesh R.</strong>
+                                    <strong>Vignesh R</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Rajapalayam</span>
                                 </div>
@@ -1171,7 +1246,7 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">A</div>
                                 <div class="review-info">
-                                    <strong>Arul M.</strong>
+                                    <strong>Arul M</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Madurai</span>
                                 </div>
@@ -1196,7 +1271,7 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #f39c12, #e67e22);">K</div>
                                 <div class="review-info">
-                                    <strong>Kavitha L.</strong>
+                                    <strong>Kavitha L</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Kovilpatti</span>
                                 </div>
@@ -1222,7 +1297,7 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #1abc9c, #16a085);">S</div>
                                 <div class="review-info">
-                                    <strong>Senthil P.</strong>
+                                    <strong>Senthil P</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Dindigul</span>
                                 </div>
@@ -1246,7 +1321,7 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #e74c3c, #c0392b);">M</div>
                                 <div class="review-info">
-                                    <strong>Meena R.</strong>
+                                    <strong>Meena R</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Tuticorin</span>
                                 </div>
@@ -1270,7 +1345,7 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #2ecc71, #27ae60);">G</div>
                                 <div class="review-info">
-                                    <strong>Ganesh N.</strong>
+                                    <strong>Ganesh N</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Theni</span>
                                 </div>
@@ -1294,7 +1369,7 @@
                                 <div class="review-avatar"
                                     style="background: linear-gradient(135deg, #3498db, #2980b9);">D</div>
                                 <div class="review-info">
-                                    <strong>Devi P.</strong>
+                                    <strong>Devi P</strong>
                                     <span><i class="fas fa-map-marker-alt" style="color:var(--yellow);"></i>
                                         Ramanathapuram</span>
                                 </div>
@@ -1395,8 +1470,8 @@
                             <div class="contact-icon"><i class="fas fa-phone"></i></div>
                             <div class="contact-detail">
                                 <span class="contact-label">Call Us</span>
-                                <a href="tel:+919655586461">+91 88703
-                                    79727</a>
+                                <a href="tel:+919655586461">+91 96555
+                                    86461</a>
                             </div>
                         </li>
                         <li>
@@ -1404,7 +1479,8 @@
                             <div class="contact-detail">
                                 <span class="contact-label">Email Us</span>
                                 <a href="mailto:qcrackerss@gmail.com">
-                                    <i class="fas fa-envelope"></i> qcrackerss@gmail.com
+                                    <i class="fas fa-envelope"></i>
+                                    qcrackerss@gmail.com
                                 </a>
                             </div>
                         </li>
@@ -1435,7 +1511,8 @@
                         reserved.</span>
                 </div>
                 <div class="footer-bottom-right">
-                    <span><i class="fas fa-shield-alt" style="color:var(--yellow);"></i> 100% Safe &amp;
+                    <span><i class="fas fa-shield-alt" style="color:var(--yellow);"></i> 100% Safe
+                        &amp;
                         Trusted</span>
                     <span><i class="fas fa-truck-fast" style="color:var(--yellow);"></i> Fast
                         Delivery</span>
@@ -1470,6 +1547,8 @@
     <!-- ALL JAVASCRIPT - INTERNAL (NO EXTERNAL FILES NEEDED)          -->
     <!-- ============================================================ -->
     <script>
+
+
         // ============================================================
         // 1. REVEAL ON SCROLL
         // ============================================================
@@ -1669,7 +1748,6 @@
             // Expose for debugging
             window.heroCarousel = { goToSlide: goToSlide, nextSlide: nextSlide, prevSlide: prevSlide };
         });
-
 
         // ============================================================
         // 5. TESTIMONIAL CAROUSEL
@@ -2048,6 +2126,137 @@
         });
     </script>
     <script src="cart.js"></script>
+
+    <script type="importmap">
+{
+  "imports": {
+    "firebase/app":"https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
+    "firebase/firestore":"https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"
+  }
+}
+</script>
+
+    <script type="module">
+        import { initializeApp } from "firebase/app";
+        import { getFirestore, doc, getDoc } from "firebase/firestore";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
+            authDomain: "qcrackers.firebaseapp.com",
+            projectId: "qcrackers",
+            storageBucket: "qcrackers.firebasestorage.app",
+            messagingSenderId: "491899224672",
+            appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const priceListBtn = document.getElementById("priceListBtn");
+
+        if (priceListBtn) {
+            priceListBtn.addEventListener("click", async (e) => {
+                e.preventDefault();
+
+                try {
+                    const snap = await getDoc(doc(db, "storeSettings", "settings"));
+
+                    if (snap.exists() && snap.data().pdfUrl) {
+                        window.open(snap.data().pdfUrl, "_blank");
+                    } else {
+                        alert("Price List not available.");
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert("Failed to open Price List.");
+                }
+            });
+        }
+    </script>
+
+    <script>
+        // ===== IMAGE ZOOM MODAL =====
+        (function () {
+            var modal = document.getElementById('zoomModal');
+            var img = document.getElementById('zoomImg');
+            var caption = document.getElementById('zoomCaption');
+            var closeBtn = document.getElementById('zoomClose');
+            var zoomInBtn = document.getElementById('zoomInBtn');
+            var zoomOutBtn = document.getElementById('zoomOutBtn');
+            var zoomResetBtn = document.getElementById('zoomResetBtn');
+            var scale = 1;
+
+            window.openZoom = function (src, name) {
+                img.src = src;
+                caption.textContent = name || '';
+                scale = 1;
+                img.style.transform = 'scale(1)';
+                modal.classList.add('active');
+            };
+
+            function closeZoom() {
+                modal.classList.remove('active');
+            }
+
+            if (closeBtn) closeBtn.addEventListener('click', closeZoom);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeZoom();
+            });
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeZoom();
+            });
+
+            if (zoomInBtn) zoomInBtn.addEventListener('click', function () {
+                scale = Math.min(scale + 0.25, 3);
+                img.style.transform = 'scale(' + scale + ')';
+            });
+            if (zoomOutBtn) zoomOutBtn.addEventListener('click', function () {
+                scale = Math.max(scale - 0.25, 0.5);
+                img.style.transform = 'scale(' + scale + ')';
+            });
+            if (zoomResetBtn) zoomResetBtn.addEventListener('click', function () {
+                scale = 1;
+                img.style.transform = 'scale(1)';
+            });
+
+            // mouse wheel zoom
+            img.addEventListener('wheel', function (e) {
+                e.preventDefault();
+                scale += e.deltaY < 0 ? 0.15 : -0.15;
+                scale = Math.max(0.5, Math.min(scale, 3));
+                img.style.transform = 'scale(' + scale + ')';
+            }, { passive: false });
+        })();
+
+        // ===== ADD TO CART BUTTONS =====
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.add-to-cart-btn').forEach(function (btn) {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    var name = this.dataset.name;
+                    var price = parseFloat(this.dataset.price) || 0;
+
+                    if (typeof CartManager !== 'undefined' && CartManager.addItem) {
+                        CartManager.addItem(name, 1, price);
+                        CartManager.updateBadge();
+                    } else {
+                        console.warn('CartManager not found — check cart.js');
+                    }
+
+                    // visual feedback
+                    var original = this.innerHTML;
+                    this.classList.add('added');
+                    this.innerHTML = '<i class="fas fa-check"></i> Added';
+                    var self = this;
+                    setTimeout(function () {
+                        self.classList.remove('added');
+                        self.innerHTML = original;
+                    }, 1200);
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

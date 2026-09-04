@@ -1126,18 +1126,25 @@
             }
         }
 
-        setPersistence(auth, browserLocalPersistence);
-
-        onAuthStateChanged(auth, (user) => {
-            authLoading.style.display = 'none';
-            if (user) {
-                window.location.href = 'dashboard.html';
-            } else {
+        setPersistence(auth, browserLocalPersistence)
+            .then(() => {
+                onAuthStateChanged(auth, (user) => {
+                    authLoading.style.display = 'none';
+                    if (user) {
+                        window.location.href = 'dashboard.html';
+                    } else {
+                        loginScreen.classList.add('active');
+                        loginForm.reset();
+                        clearError();
+                    }
+                });
+            })
+            .catch((err) => {
+                console.error('Persistence error:', err);
+                authLoading.style.display = 'none';
                 loginScreen.classList.add('active');
-                loginForm.reset();
-                clearError();
-            }
-        });
+            });
+
 
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();

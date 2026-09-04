@@ -1569,44 +1569,57 @@
             const q = query(collection(db, 'products'), orderBy('orderIndex', 'asc'));
 
             loadingState.style.display = 'flex';
-
-            // ✅ Start listening to orders for badge count
             listenToOrders();
 
-            unsubscribeProducts = onSnapshot(q, (snapshot) => {
-                allProducts = [];
+            unsubscribeProducts = onSnapshot(q, async (snapshot) => {
+                try {
+                    const promises = snapshot.docs.map(async (docSnap) => {
+                        const data = docSnap.data();
 
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
+                        let imageUrl = data.imageUrl;
 
-                    // Add new categories from products
-                    if (data.category && !allCategories.includes(data.category)) {
-                        allCategories.push(data.category);
-                        saveCategories();
+                        // Old products-ku imageFilename irundha Storage-la irundhu URL edukkum
+                        if (!imageUrl && data.imageFilename) {
+                            try {
+                                imageUrl = await getDownloadURL(
+                                    ref(storage, data.imageFilename)
+                                );
+                            } catch (e) {
+                                console.log("Image not found:", data.imageFilename);
+                                imageUrl = null;
+                            }
+                        }
+
+                        return {
+                            id: docSnap.id,
+                            ...data,
+                            imageUrl
+                        };
+                    });
+
+                    allProducts = await Promise.all(promises);
+
+                    renderProducts(allProducts);
+                    updateSyncStatus(true);
+
+                    loadingState.style.display = 'none';
+
+                    if (productBadge) {
+                        productBadge.textContent = allProducts.length;
+                        productBadge.style.display =
+                            allProducts.length ? 'inline-block' : 'none';
                     }
 
-                    allProducts.push({
-                        id: doc.id,
-                        ...data,
-                        imageUrl: data.imageUrl || null
-                    });
-                });
-
-                renderProducts(allProducts);
-                updateSyncStatus(true);
-                loadingState.style.display = 'none';
-
-                // ✅ Update Product Badge
-                if (productBadge) {
-                    productBadge.textContent = allProducts.length;
-                    productBadge.style.display = allProducts.length > 0 ? 'inline-block' : 'none';
+                } catch (err) {
+                    console.error(err);
+                    showToast("Error loading images", "error");
                 }
 
             }, (error) => {
-                console.error('Error listening to products:', error);
+                console.error("Error listening to products:", error);
                 updateSyncStatus(false);
                 loadingState.style.display = 'none';
-                showToast('⚠️ Error loading products', 'error');
+                showToast("⚠️ Error loading products", "error");
             });
         }
 
@@ -1739,6 +1752,7 @@
                     },
                     async () => {
                         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        console.log("Download URL:", downloadURL);
                         progress.classList.remove('show');
                         uploadingText.classList.remove('show');
                         resolve(downloadURL);
@@ -1894,12 +1908,65 @@
                 }
 
                 if (productId) {
-                    await updateDoc(doc(db, 'products', productId), productData);
-                    showToast('✅ Product updated successfully!', 'success');
+                    const oldProduct = allProducts.find(p => p.id === productId);
+                    const oldOrder = oldProduct.orderIndex || 0;
+                    const newOrder = orderIndex;
+
+                    const batch = writeBatch(db);
+
+                    if (newOrder < oldOrder) {
+                        allProducts.forEach(p => {
+                            if (p.id !== productId &&
+                                p.orderIndex >= newOrder &&
+                                p.orderIndex < oldOrder) {
+                                batch.update(doc(db, "products", p.id), {
+                                    orderIndex: p.orderIndex + 1
+                                });
+                            }
+                        });
+                    }
+                    else if (newOrder > oldOrder) {
+                        allProducts.forEach(p => {
+                            if (p.id !== productId &&
+                                p.orderIndex <= newOrder &&
+                                p.orderIndex > oldOrder) {
+                                batch.update(doc(db, "products", p.id), {
+                                    orderIndex: p.orderIndex - 1
+                                });
+                            }
+                        });
+                    }
+
+                    batch.update(doc(db, "products", productId), {
+                        ...productData,
+                        orderIndex: newOrder
+                    });
+
+                    await batch.commit();
+                    showToast("✅ Product updated successfully!", "success"); showToast('✅ Product updated successfully!', 'success');
                 } else {
+                    const newOrder = orderIndex || (allProducts.length + 1);
+
+                    // New order-ku mela irukkura products ellam +1
+                    const batch = writeBatch(db);
+
+                    allProducts.forEach(product => {
+                        if ((product.orderIndex || 0) >= newOrder) {
+                            const refDoc = doc(db, "products", product.id);
+                            batch.update(refDoc, {
+                                orderIndex: (product.orderIndex || 0) + 1
+                            });
+                        }
+                    });
+
+                    await batch.commit();
+
+                    productData.orderIndex = newOrder;
                     productData.createdAt = new Date().toISOString();
-                    await addDoc(collection(db, 'products'), productData);
-                    showToast('✅ Product added successfully!', 'success');
+
+                    await addDoc(collection(db, "products"), productData);
+
+                    showToast("✅ Product added successfully!", "success");
                 }
 
                 closeEditModal();
@@ -2016,15 +2083,8 @@
             loadCategories();
         });
 
-        // Make functions global
         window.openLightbox = openLightbox;
         window.closeLightbox = closeLightbox;
-        window.openEditModal = openEditModal;
-        window.openAddModal = openAddModal;
-        window.closeEditModal = closeEditModal;
-        window.saveProduct = saveProduct;
-        window.addNewCategory = addNewCategory;
-        window.removeCategory = removeCategory;
 
         // ============================================================
         // FILTER PRODUCTS

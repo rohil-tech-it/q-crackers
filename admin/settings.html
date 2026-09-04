@@ -303,7 +303,7 @@
             align-items: center;
             gap: 18px;
         }
-                  
+
 
         .page-content {
             padding: 28px 30px 40px;
@@ -558,7 +558,7 @@
                 </div>
             </div>
             <div class="header-actions">
-                         
+
             </div>
         </header>
 
@@ -712,14 +712,15 @@
     FIREBASE IMPORTS
     ============================================================ -->
     <script type="importmap">
-        {
-            "imports": {
-                "firebase/app": "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
-                "firebase/auth": "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js",
-                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js"
-            }
-        }
-    </script>
+{
+  "imports": {
+    "firebase/app":"https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
+    "firebase/auth":"https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js",
+    "firebase/firestore":"https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js",
+    "firebase/storage":"https://www.gstatic.com/firebasejs/10.13.0/firebase-storage.js"
+  }
+}
+</script>
 
     <script type="module">
         // ============================================================
@@ -737,6 +738,13 @@
             collection
         } from "firebase/firestore";
 
+        import {
+            getStorage,
+            ref,
+            uploadBytes,
+            getDownloadURL
+        } from "firebase/storage";
+
         // ============================================================
         // FIREBASE CONFIG
         // ============================================================
@@ -752,6 +760,7 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
         // ============================================================
         // DOM ELEMENTS
@@ -992,24 +1001,64 @@
         // ============================================================
         // SAVE PDF (simulated)
         // ============================================================
-        savePdfBtn.addEventListener('click', () => {
+        savePdfBtn.addEventListener('click', async () => {
+
             if (pdfUpload.files.length === 0) {
-                showToast('⚠️ Please select a PDF file first', 'error');
+                showToast("Please select a PDF first", "error");
                 return;
             }
-            const fileName = pdfUpload.files[0].name;
-            const data = {
-                pdfFileName: fileName,
-                pdfUploaded: new Date().toISOString()
-            };
-            saveSettings(savePdfBtn, data, '✅ PDF uploaded successfully!');
+
+            try {
+
+                savePdfBtn.disabled = true;
+                savePdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+
+                const file = pdfUpload.files[0];
+
+                const storageRef = ref(storage, "pricelist/Q-Crackers-Price-List.pdf");
+
+                await uploadBytes(storageRef, file);
+
+                const pdfUrl = await getDownloadURL(storageRef);
+
+                await setDoc(doc(db, "storeSettings", "settings"), {
+                    pdfFileName: file.name,
+                    pdfUploaded: new Date().toISOString(),
+                    pdfUrl: pdfUrl
+                }, { merge: true });
+
+                showToast("PDF uploaded successfully!", "success");
+
+            } catch (error) {
+
+                console.error(error);
+                showToast(error.message, "error");
+
+            } finally {
+
+                savePdfBtn.disabled = false;
+                savePdfBtn.innerHTML = '<i class="fas fa-upload"></i> Upload Pricelist';
+
+            }
+
         });
 
         // ============================================================
         // VIEW PDF (simulated)
         // ============================================================
-        document.getElementById('viewPdfBtn').addEventListener('click', () => {
-            showToast('📄 Viewing pricelist PDF (demo)', 'info');
+        document.getElementById("viewPdfBtn").addEventListener("click", async () => {
+
+            const snap = await getDoc(doc(db, "storeSettings", "settings"));
+
+            if (!snap.exists()) return;
+
+            const data = snap.data();
+
+            if (data.pdfUrl) {
+                window.open(data.pdfUrl, "_blank");
+            } else {
+                showToast("No PDF uploaded", "error");
+            }
         });
 
         // ============================================================
@@ -1038,9 +1087,13 @@
             document.getElementById('sidebarOverlay').classList.remove('active');
         });
 
-        document.getElementById('notificationBtn').addEventListener('click', () => {
-            alert('🔔 You have 3 new notifications');
-        });
+        const notificationBtn = document.getElementById("notificationBtn");
+
+        if (notificationBtn) {
+            notificationBtn.addEventListener("click", () => {
+                alert("🔔 You have 3 new notifications");
+            });
+        }
 
         console.log('✅ Q Crackers Settings loaded with Firebase!');
         console.log('📦 Orders & Products badges are live!');
