@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin — Products | Q Crackers</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- FAVICON / TAB LOGO -->
     <link rel="icon" type="image/png" href="../images/logo-removebg-preview.png">
@@ -82,7 +83,7 @@
             height: 44px;
             min-width: 44px;
             border-radius: 50%;
-            background: #ffffff;
+            background: var(--yellow);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -97,20 +98,6 @@
             display: block;
         }
 
-        .sidebar-brand .brand-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: #8B0000;
-            box-shadow: 0 0 0 2px rgba(255, 212, 0, 0.4);
-        }
-
         .sidebar-brand .brand-text {
             font-weight: 700;
             font-size: 1.1rem;
@@ -123,7 +110,7 @@
 
         .sidebar-brand .brand-sub {
             font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--bg-white);
             text-transform: uppercase;
             letter-spacing: 2px;
             display: block;
@@ -138,7 +125,7 @@
             font-size: 0.6rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--white);
+            color: --white;
             padding: 8px 12px 12px;
             font-weight: 600;
         }
@@ -231,7 +218,7 @@
 
         .sidebar-footer .user-email {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.5);
+            color:var(--bg-white);
         }
 
         .sidebar-footer .logout-btn {
@@ -240,7 +227,7 @@
             gap: 10px;
             padding: 10px 16px;
             border-radius: var(--radius-sm);
-            color: rgba(255, 255, 255, 0.5);
+            color:var(--bg-white);
             font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
@@ -1134,6 +1121,19 @@
             font-weight: 600;
             margin-left: 6px;
         }
+
+        .lightbox-title {
+            position: absolute;
+            top: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            background: rgba(0, 0, 0, .5);
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
     </style>
 </head>
 
@@ -1156,7 +1156,7 @@
         </div>
 
         <nav class="sidebar-nav">
-            <div class="nav-label">Main Menu</div>
+            <div class="nav-label" style="color: white;">Main Menu</div>
 
             <a href="dashboard.html" class="nav-item">
                 <i class="fas fa-chart-pie"></i> Dashboard
@@ -1165,12 +1165,12 @@
                 <i class="fas fa-shopping-bag"></i> Orders
                 <span class="badge" id="orderBadge">0</span>
             </a>
-            <a href="admin-products.html" class="nav-item active">
+            <a href="products.html" class="nav-item active">
                 <i class="fas fa-box"></i> Products
                 <span class="badge" id="productBadge">0</span>
             </a>
 
-            <div class="nav-label" style="margin-top:20px;">Settings</div>
+            <div class="nav-label" style="margin-top:20px; color: white;">Settings</div>
 
             <a href="settings.html" class="nav-item">
                 <i class="fas fa-cog"></i> Settings
@@ -1198,7 +1198,8 @@
             <div style="display:flex;align-items:center;gap:14px;">
                 <button class="hamburger-menu" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
                 <div class="page-title">
-                    <h2>Products <span>— admin catalog management</span></h2>
+                    <h2>Products <span>— admin catalog
+                            management</span></h2>
                 </div>
             </div>
             <div class="header-actions">
@@ -1206,11 +1207,7 @@
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search products..." id="globalSearch" onkeyup="filterProducts()">
                 </div>
-                <span class="sync-status" id="syncStatus">
-                    <i class="fas fa-circle live" id="syncStatusIcon"></i>
-                    <span id="syncStatusText">Live</span>
-                </span>
-            </div>
+                        </div>
         </header>
 
         <div class="page-content">
@@ -1238,6 +1235,13 @@
                     <button class="btn-primary" onclick="openAddModal()">
                         <i class="fas fa-plus"></i> Add Product
                     </button>
+
+                    <button class="btn-primary" onclick="selectExcelFile()">
+                        <i class="fas fa-file-excel"></i> Bulk Upload
+                    </button>
+
+                    <input type="file" id="excelInput" accept=".xlsx,.xls,.csv" hidden>
+
                     <button class="btn-danger"
                         onclick="if(confirm('Delete ALL products? This cannot be undone!')) deleteAllProducts()">
                         <i class="fas fa-trash"></i> Delete All
@@ -1247,7 +1251,8 @@
 
             <div id="loadingState" class="loading-spinner">
                 <i class="fas fa-spinner"></i>
-                <span style="margin-left:12px;color:var(--text-muted);">Loading products from Firebase...</span>
+                <span style="margin-left:12px;color:var(--text-muted);">Loading
+                    products from Firebase...</span>
             </div>
 
             <div id="productsGrid" class="items-grid" style="display:none;"></div>
@@ -1255,7 +1260,8 @@
             <div id="emptyState" class="empty-state" style="display:none;">
                 <i class="fas fa-box-open"></i>
                 <h3>No Products Found</h3>
-                <p style="color:var(--text-muted);">Click "Add Product" to start building your catalog.</p>
+                <p style="color:var(--text-muted);">Click "Add Product" to
+                    start building your catalog.</p>
                 <button class="btn-primary" onclick="openAddModal()" style="margin-top:16px;">
                     <i class="fas fa-plus"></i> Add First Product
                 </button>
@@ -1266,7 +1272,8 @@
     <!-- ===== LIGHTBOX ZOOM ===== -->
     <div class="lightbox-overlay" id="lightboxOverlay">
         <button class="lightbox-close" id="lightboxClose">&times;</button>
-        <img id="lightboxImage" src="" alt="Product Image">
+        <img id="lightboxImage" src alt="Product Image">
+        <div class="lightbox-title" id="lightboxTitle"></div>
         <div class="lightbox-counter" id="lightboxCounter"></div>
     </div>
 
@@ -1287,7 +1294,7 @@
                     <label>Product Image</label>
                     <div class="image-upload-container" id="imageUploadContainer">
                         <input type="file" id="imageInput" accept="image/*" onchange="handleImageSelect(event)">
-                        <img id="uploadPreview" class="upload-preview" src="" alt="Preview">
+                        <img id="uploadPreview" class="upload-preview" src alt="Preview">
                         <div class="upload-placeholder" id="uploadPlaceholder">
                             <i class="fas fa-cloud-upload-alt"></i>
                             <span>Click or drag to upload image</span>
@@ -1388,7 +1395,8 @@
             updateDoc,
             deleteDoc,
             addDoc,
-            writeBatch
+            writeBatch,
+            setDoc
         } from "firebase/firestore";
         import {
             getStorage,
@@ -1649,31 +1657,30 @@
                 const imageSrc = product.imageUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect width="200" height="200" fill="%23f0ebe6"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-size="14"%3E📷 No Image%3C/text%3E%3C/svg%3E';
 
                 return `
-                <div class="item-card" data-id="${product.id}" data-order="${product.orderIndex || 0}">
-                    <div class="item-image" onclick="openLightbox('${imageSrc}', '${product.name?.replace(/'/g, "\\'") || 'Product'}')">
-                        <img src="${imageSrc}" 
-                             alt="${product.name || 'Product'}" 
-                             loading="lazy"
-                             onerror="this.parentElement.innerHTML='<div class=\\'image-placeholder\\'><i class=\\'fas fa-image\\'></i></div>'">
-                    </div>
-                    <div class="item-name">${product.name || 'Unnamed Product'}</div>
-                    <div class="product-category">${product.category || 'Uncategorized'}</div>
-                    <div class="item-meta">
-                        <!-- ✅ ONLY ORDER INDEX SHOWN -->
-                        <div style="display:flex;justify-content:center;align-items:center;gap:8px;margin-top:4px;">
-                            <span style="font-size:0.75rem;color:var(--text-muted);">Order:</span>
-                            <span style="font-size:0.9rem;color:var(--card);font-weight:700;">${product.orderIndex || 'N/A'}</span>
-                        </div>
-                    </div>
-                    <div class="item-actions">
-                        <button class="action-btn edit" onclick="openEditModal('${product.id}')" title="Edit Product">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn delete" onclick="deleteProduct('${product.id}')" title="Delete Product">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
+        <div class="item-card" data-id="${product.id}" data-order="${product.orderIndex || 0}">
+    <div class="item-image" onclick="openLightbox('${imageSrc}', '${product.name?.replace(/'/g, "\\'") || 'Product'}')">
+        <img
+            src="${imageSrc}"
+            alt="${product.name || 'Product'}"
+            loading="lazy"
+            decoding="async"
+onerror="this.src='../images/logo-removebg-preview.png'"        >
+    </div>
+
+    <div class="item-name">${product.name || 'Unnamed Product'}</div>
+    <div class="product-category">${product.category || 'Uncategorized'}</div>
+    <div class="item-actions">
+    <button class="action-btn edit"
+        onclick="openEditModal('${product.id}')">
+        <i class="fas fa-pen"></i>
+    </button>
+
+    <button class="action-btn delete"
+        onclick="deleteProduct('${product.id}')">
+        <i class="fas fa-trash"></i>
+    </button>
+</div>
+</div>
             `}).join('');
         }
 
@@ -1729,6 +1736,114 @@
             progressBar.style.width = '0%';
             document.getElementById('uploadingText').classList.remove('show');
             document.getElementById('imageInput').value = '';
+        };
+
+        window.selectExcelFile = function () {
+            const input = document.getElementById("excelInput");
+
+            // reset previous selection
+            input.value = "";
+
+            input.onchange = (event) => {
+                if (!event.target.files.length) return;
+
+                // Direct-a bulk upload function call pannum
+                window.bulkUploadExcel(event);
+            };
+
+            input.click();
+        };
+
+
+        window.bulkUploadExcel = function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = async function (e) {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: "array" });
+                const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+                // Header row unga excel la row 5 (index 4) la iruku, adha specify pannurom
+                const rows = XLSX.utils.sheet_to_json(sheet, { range: 4, defval: "" });
+
+                if (!rows.length) {
+                    showToast("Excel file is empty!", "error");
+                    return;
+                }
+
+                console.log("Excel columns detected:", Object.keys(rows[0]));
+
+                // Quote & fraction normalize panra helper - Firebase vs Excel text difference fix
+                function normalizeName(str) {
+                    return String(str || "")
+                        .replace(/[\u2018\u2019]/g, "'")
+                        .replace(/[\u201C\u201D]/g, '"')
+                        .replace(/½/g, "1/2")
+                        .replace(/¾/g, "3/4")
+                        .replace(/¼/g, "1/4")
+                        .replace(/\s+/g, " ")
+                        .trim()
+                        .toUpperCase();
+                }
+
+                const ok = confirm(`Upload ${rows.length} products to Firebase?`);
+                if (!ok) { event.target.value = ""; return; }
+
+                let updated = 0;
+                let notFound = [];
+                let failed = [];
+
+                for (const row of rows) {
+                    const rawName = row["Name of Product"];
+
+                    // Category-section rows (e.g. "SINGLE SOUND CRACKERS") skip pannunga - avanga ku price columns empty
+                    if (!rawName || row["Before Discount"] === "") continue;
+
+                    const excelName = normalizeName(rawName);
+
+                    const product = allProducts.find(p => normalizeName(p.name) === excelName);
+
+                    if (!product) {
+                        notFound.push(rawName);
+                        continue;
+                    }
+
+                    const oldPrice = Number(row["Before Discount"]) || product.oldPrice || product.price;
+                    const newPrice = Number(row["After Discount"]);
+
+                    if (!newPrice) {
+                        notFound.push(rawName + " (no price in excel)");
+                        continue;
+                    }
+
+                    const discount = oldPrice ? Math.round((1 - newPrice / oldPrice) * 100) : 0;
+
+                    try {
+                        await updateDoc(doc(db, "products", product.id), {
+                            oldPrice: oldPrice,
+                            price: newPrice,
+                            discount: discount,
+                            updatedAt: new Date().toISOString()
+                        });
+                        updated++;
+                    } catch (err) {
+                        console.error("Update failed for", rawName, err);
+                        failed.push(`${rawName}: ${err.message}`);
+                    }
+                }
+
+                alert(`Updated : ${updated}\nNot Found : ${notFound.length}\nFailed : ${failed.length}`);
+
+                if (notFound.length) console.table(notFound);
+                if (failed.length) console.table(failed);
+
+                event.target.value = "";
+            };
+
+            reader.readAsArrayBuffer(file);
         };
 
         async function uploadImage(file, productId) {
@@ -2101,16 +2216,19 @@
         // ============================================================
         function openLightbox(imageUrl, productName) {
             const overlay = document.getElementById('lightboxOverlay');
-            const img = document.getElementById('lightboxImage');
-            const counter = document.getElementById('lightboxCounter');
+            const lightboxImage = document.getElementById('lightboxImage');
+            const lightboxTitle = document.getElementById('lightboxTitle');
 
-            img.src = imageUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect width="200" height="200" fill="%23f0ebe6"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-size="14"%3E📷 No Image%3C/text%3E%3C/svg%3E';
-            img.alt = productName || 'Product Image';
-            counter.textContent = productName || '';
+            lightboxImage.src = imageUrl;
+            lightboxImage.loading = "lazy";
+            lightboxImage.decoding = "async";
+            lightboxImage.onerror = () => {
+                lightboxImage.src = "../images/placeholder.jpg";
+            };
+
+            lightboxTitle.textContent = productName;
             overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
         }
-
         function closeLightbox() {
             const overlay = document.getElementById('lightboxOverlay');
             overlay.classList.remove('active');

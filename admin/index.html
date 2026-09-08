@@ -1056,7 +1056,7 @@
     </script>
 
     <script type="module">
-        import { initializeApp } from "firebase/app";
+        import {initializeApp} from "firebase/app";
         import {
             getAuth,
             signInWithEmailAndPassword,
@@ -1176,7 +1176,8 @@
 
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => {
-                    window.location.href = './dashboard.html';
+
+                    window.location.href = '/admin/dashboard.html';
                 })
                 .catch(err => {
                     showError(friendlyError(err.code));

@@ -114,56 +114,67 @@ h3,
 .accent {
     color: var(--yellow);
 }
+
 /* ============================================================
    🔥 PROFESSIONAL NAVIGATION - Q CRACKERS THEME COLORS
    ============================================================ */
+/* =========================
+   TOP OFFER BAR
+========================= */
 
-/* ---------- TOP BAR ---------- */
 .top-bar {
-    background: linear-gradient(90deg, #8b3a2a, var(--ember));
-    color: #fff;
-    font-size: 0.78rem;
-    padding: 6px 0;
-}
-
-.top-bar-inner {
+    width: 100%;
+    height: 38px;
+    background: var(--yellow-bright);
+    overflow: hidden;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
-    max-width: 1200px;
-    margin: 0 auto;
+    white-space: nowrap;
 }
 
-.top-bar-contacts {
-    display: flex;
-    gap: 20px;
+.offer-scroll {
+    display: inline-block;
+    padding-left: 100%;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    animation: offerScroll 18s linear infinite;
 }
 
-.top-bar-contacts a {
-    color: rgba(255,255,255,0.85);
-    font-size: 1rem;
-    transition: color 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    text-decoration: none;
+/* 80% OFFER highlight */
+.offer-scroll::first-line {
+    color: var(--card-hover);
 }
 
-.top-bar-contacts a:hover {
-    color: var(--yellow);
+@keyframes offerScroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
-.top-bar-msg {
-    color: rgba(255,255,255,0.7);
-    font-size: 1rem;
+/* Mobile */
+@media (max-width: 768px) {
+    .top-bar {
+        height: 34px;
+    }
+
+    .offer-scroll {
+        font-size: 13px;
+        animation-duration: 14s;
+    }
 }
 
 /* ---------- HEADER ---------- */
 .site-header {
     background: #fffdf8;
     border-bottom: 1px solid var(--border);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -331,7 +342,7 @@ h3,
     border-radius: 12px;
     min-width: 220px;
     padding: 8px;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
     display: none;
     z-index: 100;
 }
@@ -443,7 +454,9 @@ h3,
     .nav-actions .hamburger span {
         width: 17px;
     }
-}@media (max-width: 480px) {
+}
+
+@media (max-width: 480px) {
 
     .nav-bottom {
         gap: 5px;
@@ -481,6 +494,7 @@ h3,
         width: 16px;
     }
 }
+
 /* ============================================================
    🔥 MAIN NAV - CENTERED
    ============================================================ */
@@ -489,7 +503,8 @@ h3,
     flex: 1;
     display: flex;
     align-items: center;
-    justify-content: center; /* ← This centers the nav links */
+    justify-content: center;
+    /* ← This centers the nav links */
 }
 
 .main-nav ul {
@@ -534,13 +549,16 @@ h3,
     height: 2px;
     background: var(--yellow);
     border-radius: 2px;
-}/* ============================================================
+}
+
+/* ============================================================
    🔥 MOBILE - NAV LINKS LEFT ALIGNED
    ============================================================ */
 
 @media (max-width: 992px) {
     .main-nav {
-        justify-content: flex-start; /* Left align on mobile */
+        justify-content: flex-start;
+        /* Left align on mobile */
     }
 
     .main-nav ul {
@@ -562,9 +580,11 @@ h3,
     }
 
     .main-nav ul li a.active::after {
-        display: none; /* Remove underline on mobile */
+        display: none;
+        /* Remove underline on mobile */
     }
 }
+
 /* Nav Actions - Theme Colors */
 .nav-actions {
     display: flex;
@@ -663,7 +683,7 @@ h3,
         background: #ffffff;
         padding: 16px 20px;
         border-top: 1px solid var(--border);
-        box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
         z-index: 99;
     }
 
@@ -842,6 +862,7 @@ h3,
         font-size: 0.6rem;
     }
 }
+
 .cart-badge {
     position: absolute;
     top: -8px;
@@ -1279,6 +1300,7 @@ h3,
         text-align: left;
     }
 }
+
 /* ============================================================
    🔥 FIX: ORDER SUMMARY MODAL - FULLY RESPONSIVE
    ============================================================ */
@@ -1356,6 +1378,7 @@ h3,
    ============================================================ */
 
 @media (max-width: 768px) {
+
     /* Force table to stack on mobile */
     #os-table,
     #os-table thead,
@@ -1541,6 +1564,7 @@ h3,
    ============================================================ */
 
 @media (max-width: 768px) {
+
     /* Shopping Cart Modal Table */
     #cart-modal-table,
     #cart-modal-table thead,
@@ -1632,6 +1656,7 @@ h3,
         font-size: 0.8rem !important;
     }
 }
+
 /* ---- Order Summary table grand-total row ---- */
 .os-grand-total-row td {
     font-weight: 700;
@@ -2661,6 +2686,7 @@ h3,
 .section-head p {
     color: var(--text-muted);
 }
+
 /* ============================================================
    CATEGORIES - Q CRACKERS PRODUCT CARD STYLE
    RED + YELLOW THEME
@@ -2703,7 +2729,7 @@ h3,
     box-shadow: var(--shadow-glow);
 
     transition: transform 0.3s ease,
-                box-shadow 0.3s ease;
+        box-shadow 0.3s ease;
 }
 
 .category-card:hover {
@@ -2924,6 +2950,7 @@ h3,
         font-size: 11px;
     }
 }
+
 /* ============================================================
    TABLET
    ============================================================ */
@@ -4358,6 +4385,7 @@ Guide Index
         padding: 4px 8px;
     }
 }
+
 /* ---------- PRODUCT TILE (with fake image block) ---------- */
 .product-tile {
     background: var(--card);
@@ -6030,6 +6058,7 @@ Guide Index
         font-size: 0.62rem;
     }
 }
+
 /* ============================================================
    FOOTER - DARK RED + YELLOW THEME
    ============================================================ */
@@ -6064,8 +6093,15 @@ Guide Index
 }
 
 @keyframes shimmer {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 /* Footer Grid */
@@ -6231,6 +6267,7 @@ Guide Index
 .footer-links ul li a:hover i {
     transform: scale(1.2);
 }
+
 /* ============================================================
    CONTACT PAGE - WHITE THEME
    ============================================================ */
@@ -6738,7 +6775,7 @@ Guide Index
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color:var(--bg-white);
+    color: var(--bg-white);
 }
 
 .contact-detail a,
@@ -6762,7 +6799,7 @@ Guide Index
     gap: 12px;
     padding: 20px 0;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    color:var(--bg-white);
+    color: var(--bg-white);
     font-size: 0.82rem;
 }
 
@@ -6799,7 +6836,7 @@ Guide Index
     gap: 12px;
     padding: 16px 0 24px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
-    color:white;
+    color: white;
     font-size: 0.78rem;
     text-align: center;
 }
@@ -8998,6 +9035,7 @@ textarea:focus-visible {
         padding: 20px 16px;
     }
 }
+
 /* ============================================================
    🔥 FIX: CLIENT INFO FORM - FULLY RESPONSIVE
    ============================================================ */
@@ -9257,6 +9295,7 @@ textarea:focus-visible {
         font-size: 0.85rem !important;
     }
 }
+
 @media (max-width: 560px) {
     .client-info-grid {
         grid-template-columns: 1fr;
@@ -9278,118 +9317,118 @@ textarea:focus-visible {
 
 
 
-     /* ============================================================
+/* ============================================================
    MOBILE NAV - ALL 3 ITEMS IN ONE ROW
    All Categories | Download Price List | Hamburger
    ============================================================ */
-        @media (max-width: 768px) {
+@media (max-width: 768px) {
 
-            .nav-bottom {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                gap: 6px;
-                padding: 6px 10px;
-                min-height: 50px;
-                flex-wrap: nowrap;
-                width: 100%;
-                box-sizing: border-box;
-            }
+    .nav-bottom {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        padding: 6px 10px;
+        min-height: 50px;
+        flex-wrap: nowrap;
+        width: 100%;
+        box-sizing: border-box;
+    }
 
-            .all-categories {
-                flex: 1 1 auto;
-                min-width: 0;
-                width: auto;
-            }
+    .all-categories {
+        flex: 1 1 auto;
+        min-width: 0;
+        width: auto;
+    }
 
-            .all-categories-btn {
-                width: 100%;
-                height: 36px;
-                padding: 6px 8px;
-                font-size: 0.72rem;
-                justify-content: center;
-                white-space: nowrap;
-                box-sizing: border-box;
-            }
+    .all-categories-btn {
+        width: 100%;
+        height: 36px;
+        padding: 6px 8px;
+        font-size: 0.72rem;
+        justify-content: center;
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
 
-            .nav-actions {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 5px;
-                flex: 0 0 auto;
-                width: auto;
-                min-width: 0;
-            }
+    .nav-actions {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 5px;
+        flex: 0 0 auto;
+        width: auto;
+        min-width: 0;
+    }
 
-            .nav-actions .btn {
-                width: auto;
-                height: 36px;
-                padding: 6px 9px;
-                font-size: 0.65rem;
-                line-height: 1;
-                white-space: nowrap;
-                gap: 4px;
-                box-sizing: border-box;
-            }
+    .nav-actions .btn {
+        width: auto;
+        height: 36px;
+        padding: 6px 9px;
+        font-size: 0.65rem;
+        line-height: 1;
+        white-space: nowrap;
+        gap: 4px;
+        box-sizing: border-box;
+    }
 
-            .nav-actions .btn i {
-                font-size: 0.62rem;
-            }
+    .nav-actions .btn i {
+        font-size: 0.62rem;
+    }
 
-            .nav-actions .hamburger {
-                display: flex !important;
-                align-items: center;
-                justify-content: center;
-                width: 36px;
-                height: 36px;
-                min-width: 36px;
-                padding: 0;
-                flex: 0 0 36px;
-                box-sizing: border-box;
-            }
+    .nav-actions .hamburger {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        padding: 0;
+        flex: 0 0 36px;
+        box-sizing: border-box;
+    }
 
-            .nav-actions .hamburger span {
-                width: 17px;
-            }
-        }
+    .nav-actions .hamburger span {
+        width: 17px;
+    }
+}
 
-        @media (max-width: 480px) {
+@media (max-width: 480px) {
 
-            .nav-bottom {
-                gap: 5px;
-                padding: 5px 8px;
-            }
+    .nav-bottom {
+        gap: 5px;
+        padding: 5px 8px;
+    }
 
-            .all-categories-btn {
-                height: 34px;
-                padding: 5px 7px;
-                font-size: 0.65rem;
-            }
+    .all-categories-btn {
+        height: 34px;
+        padding: 5px 7px;
+        font-size: 0.65rem;
+    }
 
-            .nav-actions {
-                gap: 4px;
-            }
+    .nav-actions {
+        gap: 4px;
+    }
 
-            .nav-actions .btn {
-                height: 34px;
-                padding: 5px 7px;
-                font-size: 0.58rem;
-            }
+    .nav-actions .btn {
+        height: 34px;
+        padding: 5px 7px;
+        font-size: 0.58rem;
+    }
 
-            .nav-actions .btn i {
-                font-size: 0.55rem;
-            }
+    .nav-actions .btn i {
+        font-size: 0.55rem;
+    }
 
-            .nav-actions .hamburger {
-                width: 34px;
-                height: 34px;
-                min-width: 34px;
-                flex-basis: 34px;
-            }
+    .nav-actions .hamburger {
+        width: 34px;
+        height: 34px;
+        min-width: 34px;
+        flex-basis: 34px;
+    }
 
-            .nav-actions .hamburger span {
-                width: 16px;
-            }
-        }
+    .nav-actions .hamburger span {
+        width: 16px;
+    }
+}

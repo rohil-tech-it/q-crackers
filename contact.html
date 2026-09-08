@@ -176,15 +176,11 @@
 
   <!-- ===== TOP BAR ===== -->
   <div class="top-bar">
-    <div class="container top-bar-inner">
-      <span class="top-bar-msg" id="topBarMsg">Welcome to Q Crackers — Premium Sivakasi Fireworks, delivered across
-        Tamil Nadu.</span>
-      <div class="top-bar-contacts">
-        <a href="tel:+919655586461" id="headerPhone"><i class="fas fa-phone"></i> +91 96555 86461</a>
-        <a href="mailto:qcrackerss@gmail.com">
-          <i class="fas fa-envelope"></i> qcrackerss@gmail.com
-        </a>
-      </div>
+    <div class="offer-scroll">
+      🎉 <strong>WELCOME TO Q CRACKERS</strong> —
+      <strong>80% OFFER</strong> ON Q CRACKERS —
+      🔥 PREMIUM SIVAKASI FIREWORKS —
+      DELIVERED ACROSS TAMIL NADU 🎉
     </div>
   </div>
 
@@ -226,14 +222,14 @@
         </ul>
       </nav>
       <div class="nav-actions">
-                <a href="#" id="priceListBtn" class="btn btn-primary">
-                    Download Price List
-                </a>
+        <a href="#" id="priceListBtn" class="btn btn-primary">
+          Download Price List
+        </a>
 
-                <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
+        <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -1049,7 +1045,8 @@
         console.warn('⚠️ All Categories button or menu not found!');
       }
     });
-  </script>  <script type="importmap">
+  </script>
+  <script type="importmap">
 {
   "imports": {
     "firebase/app":"https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js",
@@ -1058,43 +1055,43 @@
 }
 </script>
 
-    <script type="module">
-        import { initializeApp } from "firebase/app";
-        import { getFirestore, doc, getDoc } from "firebase/firestore";
+  <script type="module">
+    import { initializeApp } from "firebase/app";
+    import { getFirestore, doc, getDoc } from "firebase/firestore";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
-            authDomain: "qcrackers.firebaseapp.com",
-            projectId: "qcrackers",
-            storageBucket: "qcrackers.firebasestorage.app",
-            messagingSenderId: "491899224672",
-            appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
-        };
+    const firebaseConfig = {
+      apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
+      authDomain: "qcrackers.firebaseapp.com",
+      projectId: "qcrackers",
+      storageBucket: "qcrackers.firebasestorage.app",
+      messagingSenderId: "491899224672",
+      appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
+    };
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        const priceListBtn = document.getElementById("priceListBtn");
+    const priceListBtn = document.getElementById("priceListBtn");
 
-        if (priceListBtn) {
-            priceListBtn.addEventListener("click", async (e) => {
-                e.preventDefault();
+    if (priceListBtn) {
+      priceListBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
 
-                try {
-                    const snap = await getDoc(doc(db, "storeSettings", "settings"));
+        try {
+          const snap = await getDoc(doc(db, "storeSettings", "settings"));
 
-                    if (snap.exists() && snap.data().pdfUrl) {
-                        window.open(snap.data().pdfUrl, "_blank");
-                    } else {
-                        alert("Price List not available.");
-                    }
-                } catch (err) {
-                    console.error(err);
-                    alert("Failed to open Price List.");
-                }
-            });
+          if (snap.exists() && snap.data().pdfUrl) {
+            window.open(snap.data().pdfUrl, "_blank");
+          } else {
+            alert("Price List not available.");
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Failed to open Price List.");
         }
-    </script>
+      });
+    }
+  </script>
   <script src="script.js"></script>
 </body>
 

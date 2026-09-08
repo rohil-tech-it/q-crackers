@@ -3262,127 +3262,128 @@
                 transform: translateY(0) scale(1);
             }
         }
+
         /* ============================================================
    TABLET FIX v2 — Qty stepper (+/-) never clips
    Range: 481px – 992px (iPad / tablet widths incl. 768px, 820px, 912px)
    ============================================================ */
-@media (min-width: 481px) and (max-width: 992px) {
+        @media (min-width: 481px) and (max-width: 992px) {
 
-    .table-wrap {
-        overflow: visible !important;
-    }
+            .table-wrap {
+                overflow: visible !important;
+            }
 
-    .product-table tbody tr {
-        display: grid !important;
-        grid-template-columns:
-            56px minmax(0, 1fr) 68px 100px 60px !important;
-        column-gap: 6px !important;
-        align-items: center !important;
-        padding: 12px 10px !important;
-    }
+            .product-table tbody tr {
+                display: grid !important;
+                grid-template-columns:
+                    56px minmax(0, 1fr) 68px 100px 60px !important;
+                column-gap: 6px !important;
+                align-items: center !important;
+                padding: 12px 10px !important;
+            }
 
-    .product-table tbody td {
-        overflow: visible !important;
-        min-width: 0 !important;
-    }
+            .product-table tbody td {
+                overflow: visible !important;
+                min-width: 0 !important;
+            }
 
-    /* Product name column can shrink text instead of pushing qty out */
-    .product-table td[data-label="Product"] {
-        min-width: 0 !important;
-        overflow: hidden !important;
-    }
+            /* Product name column can shrink text instead of pushing qty out */
+            .product-table td[data-label="Product"] {
+                min-width: 0 !important;
+                overflow: hidden !important;
+            }
 
-    .product-table .product-name {
-        font-size: 0.85rem !important;
-        line-height: 1.2 !important;
-        white-space: normal !important;
-        word-break: break-word !important;
-    }
+            .product-table .product-name {
+                font-size: 0.85rem !important;
+                line-height: 1.2 !important;
+                white-space: normal !important;
+                word-break: break-word !important;
+            }
 
-    .product-table .sub {
-        font-size: 0.7rem !important;
-    }
+            .product-table .sub {
+                font-size: 0.7rem !important;
+            }
 
-    .product-table td[data-label="MRP"],
-    .product-table td[data-label="Price"] {
-        font-size: 0.8rem !important;
-    }
+            .product-table td[data-label="MRP"],
+            .product-table td[data-label="Price"] {
+                font-size: 0.8rem !important;
+            }
 
-    .product-table .mrp-tag {
-        font-size: 0.68rem !important;
-    }
+            .product-table .mrp-tag {
+                font-size: 0.68rem !important;
+            }
 
-    .product-table .price-tag {
-        font-size: 0.9rem !important;
-    }
+            .product-table .price-tag {
+                font-size: 0.9rem !important;
+            }
 
-    /* ---- QTY STEPPER: fixed box so +/- never clip ---- */
-    .product-table td[data-label="Qty"] {
-        justify-content: center !important;
-        overflow: visible !important;
-        padding: 0 !important;
-    }
+            /* ---- QTY STEPPER: fixed box so +/- never clip ---- */
+            .product-table td[data-label="Qty"] {
+                justify-content: center !important;
+                overflow: visible !important;
+                padding: 0 !important;
+            }
 
-    .qty-stepper {
-        display: inline-flex !important;
-        flex-wrap: nowrap !important;
-        width: 100px !important;
-        min-width: 100px !important;
-        max-width: 100px !important;
-        height: 34px !important;
-        border-radius: 6px !important;
-        overflow: hidden !important;
-    }
+            .qty-stepper {
+                display: inline-flex !important;
+                flex-wrap: nowrap !important;
+                width: 100px !important;
+                min-width: 100px !important;
+                max-width: 100px !important;
+                height: 34px !important;
+                border-radius: 6px !important;
+                overflow: hidden !important;
+            }
 
-    .qty-btn {
-        flex: 0 0 30px !important;
-        width: 30px !important;
-        height: 34px !important;
-        font-size: 1rem !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 0 !important;
-    }
+            .qty-btn {
+                flex: 0 0 30px !important;
+                width: 30px !important;
+                height: 34px !important;
+                font-size: 1rem !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                padding: 0 !important;
+            }
 
-    .qty-input {
-        flex: 0 0 40px !important;
-        width: 40px !important;
-        height: 34px !important;
-        font-size: 0.9rem !important;
-        line-height: 34px !important;
-        padding: 0 !important;
-        text-align: center !important;
-    }
+            .qty-input {
+                flex: 0 0 40px !important;
+                width: 40px !important;
+                height: 34px !important;
+                font-size: 0.9rem !important;
+                line-height: 34px !important;
+                padding: 0 !important;
+                text-align: center !important;
+            }
 
-    .row-amount {
-        font-size: 0.85rem !important;
-        white-space: nowrap !important;
-    }
-}
+            .row-amount {
+                font-size: 0.85rem !important;
+                white-space: nowrap !important;
+            }
+        }
 
-/* Slightly tighter on the lower half of the range (e.g. 768px) */
-@media (min-width: 481px) and (max-width: 800px) {
-    .product-table tbody tr {
-        grid-template-columns: 52px minmax(0, 1fr) 62px 94px 55px !important;
-    }
+        /* Slightly tighter on the lower half of the range (e.g. 768px) */
+        @media (min-width: 481px) and (max-width: 800px) {
+            .product-table tbody tr {
+                grid-template-columns: 52px minmax(0, 1fr) 62px 94px 55px !important;
+            }
 
-    .qty-stepper {
-        width: 94px !important;
-        min-width: 94px !important;
-        max-width: 94px !important;
-    }
+            .qty-stepper {
+                width: 94px !important;
+                min-width: 94px !important;
+                max-width: 94px !important;
+            }
 
-    .qty-btn {
-        flex-basis: 28px !important;
-        width: 28px !important;
-    }
+            .qty-btn {
+                flex-basis: 28px !important;
+                width: 28px !important;
+            }
 
-    .qty-input {
-        flex-basis: 38px !important;
-        width: 38px !important;
-    }
-}
+            .qty-input {
+                flex-basis: 38px !important;
+                width: 38px !important;
+            }
+        }
     </style>
 
 </head>
@@ -3393,18 +3394,14 @@
         <img id="lightboxImage" src alt="Product Image">
         <div class="lightbox-counter" id="lightboxCounter"></div>
     </div>
-
     <div class="top-bar">
-        <div class="container top-bar-inner">
-            <span class="top-bar-msg" id="topBarMsg">Welcome to Q Crackers — Premium Sivakasi Fireworks, delivered
-                across Tamil Nadu.</span>
-            <div class="top-bar-contacts">
-                <a href="tel:+919655586461" id="headerPhone"><i class="fas fa-phone"></i> +91 96555 86461</a>
-                <a href="mailto:qcrackerss@gmail.com"><i class="fas fa-envelope"></i> qcrackerss@gmail.com</a>
-            </div>
+        <div class="offer-scroll">
+            🎉 <strong>WELCOME TO Q CRACKERS</strong> —
+            <strong>80% OFFER</strong> ON Q CRACKERS —
+            🔥 PREMIUM SIVAKASI FIREWORKS —
+            DELIVERED ACROSS TAMIL NADU 🎉
         </div>
     </div>
-
     <header class="site-header">
         <div class="nav-top">
             <a href="index.html" class="logo"><img src="images/logo-removebg-preview.png" alt="Q Crackers Logo"
@@ -4460,10 +4457,99 @@
             }
         }
 
-        function downloadBill() {
-            alert('📄 Download Bill functionality will generate PDF.');
+        // ============================================================
+        // GENERATE ORDER PDF (using jsPDF - already loaded in your file)
+        // ============================================================
+        function generateOrderPDF(orderData) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header
+            doc.setFontSize(18);
+            doc.setTextColor(230, 0, 0);
+            doc.text("Q CRACKERS", 105, 15, { align: "center" });
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text("Wholesale Dealers - Sivakasi Fireworks", 105, 21, { align: "center" });
+            doc.setDrawColor(230, 0, 0);
+            doc.line(14, 25, 196, 25);
+
+            // Order Info
+            doc.setFontSize(11);
+            doc.setTextColor(0);
+            doc.text(`Order ID: ${orderData.orderId}`, 14, 34);
+            doc.text(`Date: ${orderData.orderDate}`, 196, 34, { align: "right" });
+
+            // Customer Info
+            doc.setFontSize(10);
+            doc.text(`Name: ${orderData.name}`, 14, 42);
+            doc.text(`Phone: ${orderData.phone}`, 14, 48);
+            if (orderData.email) doc.text(`Email: ${orderData.email}`, 14, 54);
+            doc.text(`Address: ${orderData.address}`, 14, 60);
+            doc.text(`State: ${orderData.state}`, 14, 66);
+
+            // Table Header
+            let y = 76;
+            doc.setFillColor(230, 0, 0);
+            doc.setTextColor(255);
+            doc.rect(14, y - 6, 182, 8, "F");
+            doc.setFontSize(9);
+            doc.text("S.No", 17, y);
+            doc.text("Product", 32, y);
+            doc.text("Qty", 130, y);
+            doc.text("Price", 150, y);
+            doc.text("Amount", 175, y);
+
+            // Table Rows
+            doc.setTextColor(0);
+            y += 8;
+            orderData.items.forEach((item, i) => {
+                if (y > 270) { doc.addPage(); y = 20; }
+                doc.setFontSize(8.5);
+                const nameLines = doc.splitTextToSize(item.name, 90);
+                doc.text(String(i + 1), 17, y);
+                doc.text(nameLines, 32, y);
+                doc.text(String(item.qty), 130, y);
+                doc.text(`Rs.${item.price}`, 150, y);
+                doc.text(`Rs.${item.amount}`, 175, y);
+                y += Math.max(6, nameLines.length * 5);
+                doc.setDrawColor(230);
+                doc.line(14, y - 2, 196, y - 2);
+            });
+
+            // Total
+            y += 6;
+            doc.setFontSize(11);
+            doc.setFont(undefined, "bold");
+            doc.text(`Total Items: ${orderData.totalItems}`, 14, y);
+            doc.text(`Grand Total: Rs.${orderData.totalAmount.toLocaleString('en-IN')}`, 196, y, { align: "right" });
+
+            return doc;
         }
 
+        function downloadBill() {
+            const { cartItems, totalItems, totalAmount } = collectCartItems();
+            if (totalItems === 0) { alert('Cart is empty!'); return; }
+
+            const name = document.getElementById('client-name')?.value || 'Customer';
+            const phone = document.getElementById('client-phone')?.value || '';
+            const email = document.getElementById('client-email')?.value || '';
+            const address = document.getElementById('client-address')?.value || '';
+            const state = document.getElementById('client-state')?.value || 'TamilNadu & PY';
+
+            const orderId = 'QC-' + new Date().getFullYear() + '-' + String(Math.floor(100 + Math.random() * 900));
+            const timeStr = new Date().toLocaleString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
+
+            const orderData = {
+                orderId, name, phone, email, address, state,
+                items: cartItems.map(item => ({ name: item.name, qty: item.qty, price: item.price, amount: item.amount })),
+                totalItems, totalAmount, orderDate: timeStr
+            };
+
+            generateOrderPDF(orderData).save(`${orderId}.pdf`);
+        }
+
+        
         async function sendToWhatsApp() {
             const { cartItems, totalItems, totalAmount } = collectCartItems();
             if (totalItems === 0) {

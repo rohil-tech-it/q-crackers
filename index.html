@@ -208,31 +208,95 @@
 
         /* ADD TO CART BUTTON */
         .add-to-cart-btn {
+            background-color: var(--yellow);
+            color: var(--card);
             border: none;
+            border-radius: 999px;
+            padding: 11px 24px;
             cursor: pointer;
             font-family: inherit;
-            font-size: inherit;
+            font-size: 0.88rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 16px rgba(255, 212, 0, 0.35);
+            transition: all 0.25s ease;
+        }
+
+        .add-to-cart-btn:hover {
+            transform: translateY(-2px);
+            background-color: var(--card);
+            color: var(--yellow);
+            box-shadow: 0 10px 24px rgba(230, 0, 0, 0.4);
         }
 
         .add-to-cart-btn.added {
-            background: #1abc9c !important;
+            background-color: #ad0101 !important;
+            color: #ffffff !important;
+        }
+
+        /* OFFER BADGE ON IMAGE */
+        .category-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .offer-badge {
+            position: absolute;
+            top: 12px;
+            left: -32px;
+            background: linear-gradient(135deg, #e60000, #ff0000);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 5px 40px;
+            transform: rotate(-45deg);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            z-index: 5;
+            text-transform: uppercase;
+        }
+
+        .offer-badge::before,
+        .offer-badge::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            border-style: solid;
+        }
+
+        .offer-badge::before {
+            left: 0;
+            border-width: 4px 4px 0 0;
+            border-color: #8B0000 transparent transparent transparent;
+        }
+
+        .offer-badge::after {
+            right: 0;
+            border-width: 4px 0 0 4px;
+            border-color: #8B0000 transparent transparent transparent;
+        }
+
+        @media (max-width: 480px) {
+            .offer-badge {
+                font-size: 0.6rem;
+                padding: 4px 32px;
+                top: 8px;
+                left: -28px;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="top-bar">
-        <div class="container top-bar-inner">
-            <span class="top-bar-msg">Welcome to Q Crackers — Premium
-                Sivakasi Fireworks, delivered across Tamil
-                Nadu.</span>
-            <div class="top-bar-contacts">
-                <a href="tel:+919655586461"><i class="fas fa-phone"></i> +91
-                    96555 86461</a>
-                <a href="mailto:qcrackerss@gmail.com">
-                    <i class="fas fa-envelope"></i> qcrackerss@gmail.com
-                </a>
-            </div>
+        <div class="offer-scroll">
+            🎉 <strong>WELCOME TO Q CRACKERS</strong> —
+            <strong>80% OFFER</strong> ON Q CRACKERS —
+            🔥 PREMIUM SIVAKASI FIREWORKS —
+            DELIVERED ACROSS TAMIL NADU 🎉
         </div>
     </div>
 
@@ -558,14 +622,14 @@
 
                 <!-- Category 1 - Thala Diwali Pack -->
                 <div class="category-card reveal">
-                    <div class="category-image">
+                    <div class="category-image"><span class="offer-badge">50% OFF</span>
                         <img src="images/c1.jpeg" alt="Thala Diwali Pack" class="cat-img"
                             onclick="openZoom(this.src, 'Thala Diwali Pack')">
                     </div>
                     <div class="category-content">
                         <h3>Thala Diwali Pack</h3>
-                        <div class="category-price">₹ 150</div>
-                        <button class="category-enquire add-to-cart-btn" data-name="Thala Diwali Pack" data-price="150">
+                        <div class="category-price">₹ 7,499</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Thala Diwali Pack" data-price="7499">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
                     </div>
@@ -573,14 +637,14 @@
 
                 <!-- Category 2 - Kids Combo Pack -->
                 <div class="category-card reveal">
-                    <div class="category-image">
+                    <div class="category-image"><span class="offer-badge">50% OFF</span>
                         <img src="images/c2.jpeg" alt="Kids Combo Pack" class="cat-img"
                             onclick="openZoom(this.src, 'Kids Combo Pack')">
                     </div>
                     <div class="category-content">
                         <h3>Kids Combo Pack</h3>
-                        <div class="category-price">₹ 499</div>
-                        <button class="category-enquire add-to-cart-btn" data-name="Kids Combo Pack" data-price="499">
+                        <div class="category-price">₹ 3,999</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Kids Combo Pack" data-price="3999">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
                     </div>
@@ -588,14 +652,14 @@
 
                 <!-- Category 3 -  -->
                 <div class="category-card reveal">
-                    <div class="category-image">
+                    <div class="category-image"><span class="offer-badge">50% OFF</span>
                         <img src="images/c3.jpeg" alt="Family Pack" class="cat-img"
                             onclick="openZoom(this.src, 'Family Pack')">
                     </div>
                     <div class="category-content">
                         <h3>Family Pack</h3>
-                        <div class="category-price">₹ 350</div>
-                        <button class="category-enquire add-to-cart-btn" data-name="Family Pack" data-price="350">
+                        <div class="category-price">₹ 2,999</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="Family Pack" data-price="2999">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
                     </div>
@@ -603,14 +667,14 @@
 
                 <!-- Category 4 - Family Pack -->
                 <div class="category-card reveal">
-                    <div class="category-image">
-                        <img src="images/c4.jpeg" alt="Family Pack" class="cat-img"
-                            onclick="openZoom(this.src, 'Family Pack')">
+                    <div class="category-image"><span class="offer-badge">50% OFF</span>
+                        <img src="images/c4.jpeg" alt="Combo Family Pack" class="cat-img"
+                            onclick="openZoom(this.src, 'Combo Family Pack')">
                     </div>
                     <div class="category-content">
-                        <h3>Family Pack</h3>
-                        <div class="category-price">₹ 299</div>
-                        <button class="category-enquire add-to-cart-btn" data-name="Family Pack" data-price="299">
+                        <h3>Combo Family Pack</h3>
+                        <div class="category-price">₹ 4,999</div>
+                        <button class="category-enquire add-to-cart-btn" data-name="combo Family Pack" data-price="4999">
                             <i class="fas fa-cart-plus"></i> Add to Cart
                         </button>
                     </div>
@@ -2237,8 +2301,7 @@
                     var price = parseFloat(this.dataset.price) || 0;
 
                     if (typeof CartManager !== 'undefined' && CartManager.addItem) {
-                        CartManager.addItem(name, 1, price);
-                        CartManager.updateBadge();
+                        CartManager.addItem(name, price, 1); CartManager.updateBadge();
                     } else {
                         console.warn('CartManager not found — check cart.js');
                     }

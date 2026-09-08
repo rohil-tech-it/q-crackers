@@ -123,7 +123,7 @@
 
         .sidebar-brand .brand-sub {
             font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--bg-white);
             text-transform: uppercase;
             letter-spacing: 2px;
             display: block;
@@ -231,7 +231,7 @@
 
         .sidebar-footer .user-email {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--bg-white);
         }
 
         .sidebar-footer .logout-btn {
@@ -240,7 +240,7 @@
             gap: 10px;
             padding: 10px 16px;
             border-radius: var(--radius-sm);
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--bg-white);
             font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
@@ -327,38 +327,6 @@
             transform: translateY(-50%);
             color: var(--text-dim);
             font-size: 1rem;
-        }
-
-        .notification-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--bg-white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.25s ease;
-            position: relative;
-            font-size: 1.1rem;
-        }
-
-        .notification-btn:hover {
-            border-color: var(--yellow);
-            color: var(--yellow);
-        }
-
-        .notification-btn .dot {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #e74c3c;
-            border: 2px solid var(--bg-white);
         }
 
         .page-content {
@@ -959,6 +927,34 @@
             font-size: 1.1rem;
         }
 
+        .action-btn.bill-btn {
+            background: #f39c12;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: 38px;
+            width: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(243, 156, 18, 0.3);
+        }
+
+        .action-btn.bill-btn:hover {
+            background: #d68910;
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4);
+        }
+
+        .action-btn.bill-btn i {
+            font-size: 1.1rem;
+        }
+
         .action-btn.whatsapp-btn {
             background: #25D366;
             color: #fff;
@@ -1133,7 +1129,6 @@
             .section-header .sync-status,
             .action-group,
             .order-checkbox,
-            .notification-btn,
             .search-box,
             .hamburger-menu,
             .sidebar-overlay,
@@ -1376,8 +1371,6 @@
                     <input type="text" placeholder="Search by Order ID, Customer, Phone..." id="globalSearch"
                         onkeyup="filterOrders()" />
                 </div>
-                <button class="notification-btn" id="notificationBtn"><i class="fas fa-bell"></i><span
-                        class="dot"></span></button>
             </div>
         </header>
 
@@ -1498,13 +1491,51 @@
         </div>
     </main>
 
+    <!-- ===== PRODUCT DETAILS MODAL ===== -->
     <div class="product-modal-overlay" id="productModal">
         <div class="product-modal">
             <div class="modal-header">
-                <h3 id="modalOrderId">Order #QC001</h3>
+                <h3 id="modalOrderId"></h3>
                 <button class="close-btn" onclick="closeProductModal()">&times;</button>
             </div>
-            <div class="modal-body" id="modalBody">
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- ===== BILL EDIT MODAL (Tax + Package Price) ===== -->
+    <div class="product-modal-overlay" id="billEditModal">
+        <div class="product-modal" style="max-width:420px;">
+            <div class="modal-header">
+                <h3>Edit Bill — <span id="billEditOrderId"></span></h3>
+                <button class="close-btn" onclick="closeBillEditModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom:16px;">
+                    <label
+                        style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;">Tax
+                        (%)</label>
+                    <input type="number" id="billTaxPercent" value="0" min="0" step="0.1"
+                        style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:0.95rem;outline:none;" />
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label
+                        style="display:block;font-size:0.8rem;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;">Package
+                        / Packing Price (₹) <br>
+                        <p>(White Bundle Packing)</p>
+                    </label>
+                    <input type="number" id="billPackagePrice" value="0" min="0"
+                        style="width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:8px;font-family:inherit;font-size:0.95rem;outline:none;" />
+                </div>
+                <div style="background:var(--bg-elevated);border-radius:8px;padding:12px 16px;font-size:0.85rem;color:var(--text-muted);line-height:1.7;"
+                    id="billSubtotalPreview">
+                    Amount: ₹0<br>Tax (0%): ₹0<br>Package: ₹0<br><strong>Grand Total: ₹0</strong>
+                </div>
+                <div style="margin-top:20px;">
+                    <button class="action-btn print-btn" onclick="saveAndPrintBill()"
+                        style="width:100%;justify-content:center;padding:12px;font-size:0.9rem;border-radius:8px;">
+                        <i class="fas fa-print"></i> Save &amp; Print
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -1572,10 +1603,17 @@
         const modalOrderId = document.getElementById('modalOrderId');
         const modalBody = document.getElementById('modalBody');
 
+        const billEditModal = document.getElementById('billEditModal');
+        const billEditOrderId = document.getElementById('billEditOrderId');
+        const billTaxPercent = document.getElementById('billTaxPercent');
+        const billPackagePrice = document.getElementById('billPackagePrice');
+        const billSubtotalPreview = document.getElementById('billSubtotalPreview');
+
         let allOrders = [];
         let unsubscribeOrders = null;
         let selectedOrders = new Set();
         let slCounter = 0;
+        let currentBillOrderId = null;
 
         // ============================================================
         // GET PRODUCTS FROM ORDER
@@ -1791,8 +1829,19 @@
                 message += `No products found in this order.\n`;
             }
 
+            const taxPercent = Number(order.taxPercent || 0);
+            const packagePrice = Number(order.packagePrice || 0);
+            const taxAmount = amount * taxPercent / 100;
+            const grandTotal = amount + taxAmount + packagePrice;
+
             message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-            message += `💰 *Grand Total:* ₹${amount.toLocaleString('en-IN')}\n`;
+            if (taxPercent > 0) {
+                message += `➕ *Tax (${taxPercent}%):* ₹${taxAmount.toLocaleString('en-IN')}\n`;
+            }
+            if (packagePrice > 0) {
+                message += `➕ *Package Price:* ₹${packagePrice.toLocaleString('en-IN')}\n`;
+            }
+            message += `💰 *Grand Total:* ₹${grandTotal.toLocaleString('en-IN')}\n`;
             message += `📅 *Date:* ${dateStr} at ${timeStr}\n`;
             message += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
             message += `✅ Your order status has been updated to *${orderStatus}*.\n`;
@@ -2052,10 +2101,9 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                                         <td>
                             <div style="font-size:0.85rem;">
                                 <div style="font-weight:500;font-size:0.9rem;">${productDisplay}</div>
-                                ${productListHtml}
                                 <button class="product-details-btn" onclick="showProductDetails('${order.id}', '${orderId}')">
                                     <i class="fas fa-eye"></i> View All Products
                                 </button>
@@ -2089,6 +2137,9 @@
                             <div class="action-group">
                                 <button class="action-btn print-btn" onclick="printOrder('${order.id}', '${orderId}')" title="Print Order">
                                     <i class="fas fa-print"></i> Print
+                                </button>
+                                <button class="action-btn bill-btn" onclick="openBillEditModal('${order.id}', '${orderId}')" title="Edit Tax &amp; Package Price">
+                                    <i class="fas fa-file-invoice-dollar"></i> Edit Bill
                                 </button>
                                 <button class="action-btn whatsapp-btn" onclick="sendStatusWhatsApp('${order.id}')" title="Send Full Status via WhatsApp">
                                     <i class="fab fa-whatsapp"></i> WhatsApp
@@ -2199,8 +2250,98 @@
         document.addEventListener('keydown', function (e) {
             if (e.key === 'Escape') {
                 closeProductModal();
+                closeBillEditModal();
             }
         });
+
+        // ============================================================
+        // BILL EDIT MODAL (Tax % + Package Price)
+        // ============================================================
+        window.openBillEditModal = function (orderId, orderIdDisplay) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) {
+                showToast('Order not found', 'error');
+                return;
+            }
+
+            currentBillOrderId = orderId;
+            billEditOrderId.textContent = orderIdDisplay;
+            billTaxPercent.value = order.taxPercent || 0;
+            billPackagePrice.value = order.packagePrice || 0;
+
+            updateBillPreview();
+            billEditModal.classList.add('active');
+        };
+
+        window.closeBillEditModal = function () {
+            billEditModal.classList.remove('active');
+            currentBillOrderId = null;
+        };
+
+        function updateBillPreview() {
+            if (!currentBillOrderId) return;
+            const order = allOrders.find(o => o.id === currentBillOrderId);
+            if (!order) return;
+
+            const amount = getOrderAmount(order);
+            const taxPercent = parseFloat(billTaxPercent.value) || 0;
+            const packagePrice = parseFloat(billPackagePrice.value) || 0;
+            const taxAmount = amount * taxPercent / 100;
+            const grandTotal = amount + taxAmount + packagePrice;
+
+            billSubtotalPreview.innerHTML =
+                `Amount: ₹${amount.toLocaleString('en-IN')}<br>` +
+                `Tax (${taxPercent}%): ₹${taxAmount.toLocaleString('en-IN')}<br>` +
+                `Package: ₹${packagePrice.toLocaleString('en-IN')}<br>` +
+                `<strong>Grand Total: ₹${grandTotal.toLocaleString('en-IN')}</strong>`;
+        }
+
+        billTaxPercent.addEventListener('input', updateBillPreview);
+        billPackagePrice.addEventListener('input', updateBillPreview);
+
+        billEditModal.addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeBillEditModal();
+            }
+        });
+
+        window.saveAndPrintBill = async function () {
+            if (!currentBillOrderId) {
+                showToast('No order selected', 'error');
+                return;
+            }
+
+            const order = allOrders.find(o => o.id === currentBillOrderId);
+            if (!order) {
+                showToast('Order not found', 'error');
+                return;
+            }
+
+            const taxPercent = parseFloat(billTaxPercent.value) || 0;
+            const packagePrice = parseFloat(billPackagePrice.value) || 0;
+
+            try {
+                await updateDoc(doc(db, 'orders', currentBillOrderId), {
+                    taxPercent: taxPercent,
+                    packagePrice: packagePrice
+                });
+            } catch (e) {
+                console.error('Error saving bill details:', e);
+                showToast('❌ Error saving bill details', 'error');
+            }
+
+            const index = allOrders.findIndex(o => o.id === currentBillOrderId);
+            const orderIdDisplay = generateOrderId(index);
+
+            // Use local order object with the freshly-entered values so print
+            // reflects the update immediately (Firestore snapshot may lag a beat).
+            const localOrder = { ...order, taxPercent, packagePrice };
+            const html = buildInvoiceHtml(localOrder, orderIdDisplay, taxPercent, packagePrice);
+            openPrintWindow(html, 'Order ' + orderIdDisplay);
+
+            showToast('✅ Bill updated & sent to print', 'success');
+            closeBillEditModal();
+        };
 
         // ============================================================
         // TOGGLE FUNCTIONS
@@ -2379,9 +2520,9 @@
         };
 
         // ============================================================
-        // BUILD INVOICE HTML - WITH YOUR ACTUAL LOGO
+        // BUILD INVOICE HTML - WITH PROPER TABLE FORMAT
         // ============================================================
-        function buildInvoiceHtml(order, orderIdDisplay) {
+        function buildInvoiceHtml(order, orderIdDisplay, taxPercentOverride, packagePriceOverride) {
             const products = getOrderProducts(order);
             const amount = getOrderAmount(order);
             const customerName = order.customerName || order.name || 'N/A';
@@ -2391,6 +2532,13 @@
             const orderDate = order.orderDate || order.createdAt || new Date().toLocaleString();
             const orderStatus = order.orderStatus || 'Pending';
             const paymentStatus = order.paymentStatus || 'Pending';
+
+            const taxPercent = (taxPercentOverride !== undefined && taxPercentOverride !== null)
+                ? Number(taxPercentOverride) : Number(order.taxPercent || 0);
+            const packagePrice = (packagePriceOverride !== undefined && packagePriceOverride !== null)
+                ? Number(packagePriceOverride) : Number(order.packagePrice || 0);
+            const taxAmount = amount * taxPercent / 100;
+            const grandTotal = amount + taxAmount + packagePrice;
 
             let rows = '';
             let totalQty = 0;
@@ -2413,13 +2561,29 @@
                 rows = `<tr><td colspan="4" style="padding:20px;text-align:center;color:#999;">No products in this order</td></tr>`;
             }
 
+            // Format date nicely
+            let formattedDate = orderDate;
+            try {
+                const dateObj = new Date(orderDate);
+                if (!isNaN(dateObj.getTime())) {
+                    formattedDate = dateObj.toLocaleDateString('en-IN', {
+                        day: '2-digit',
+                        month: '2-digit',
+                        year: 'numeric'
+                    }) + ' ' + dateObj.toLocaleTimeString('en-IN', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                    });
+                }
+            } catch (e) { }
+
             return `
         <div style="page-break-after:always;padding:20px 30px;font-family:'Segoe UI',Arial,sans-serif;color:#1a0e08;background:#ffffff;">
             
-            <!-- ===== HEADER WITH YOUR LOGO ===== -->
+            <!-- ===== HEADER WITH LOGO ===== -->
             <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #e60000;padding-bottom:16px;margin-bottom:20px;">
                 <div style="display:flex;align-items:center;gap:14px;">
-                    <!-- ✅ YOUR LOGO IMAGE -->
                     <img src="../images/logo-removebg-preview.png" 
                          alt="Q Crackers Logo" 
                          style="height:55px;width:auto;object-fit:contain;border-radius:4px;"
@@ -2433,7 +2597,7 @@
                 <div style="text-align:right;">
                     <div style="font-size:1rem;font-weight:700;color:#e60000;letter-spacing:0.5px;">INVOICE</div>
                     <div style="font-size:0.85rem;font-weight:600;color:#1a0e08;">#${orderIdDisplay}</div>
-                    <div style="font-size:0.7rem;color:#888;">${orderDate}</div>
+                    <div style="font-size:0.7rem;color:#888;">${formattedDate}</div>
                 </div>
             </div>
 
@@ -2455,35 +2619,39 @@
             </div>
 
             <!-- ===== PRODUCT TABLE ===== -->
-            <table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:16px;">
+            <table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:16px;border:1px solid #ddd;">
                 <thead>
                     <tr style="background:#f0ebe4;">
-                        <th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e60000;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#555;">Product</th>
-                        <th style="padding:10px 12px;text-align:center;border-bottom:2px solid #e60000;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#555;">Qty</th>
-                        <th style="padding:10px 12px;text-align:right;border-bottom:2px solid #e60000;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#555;">Price</th>
-                        <th style="padding:10px 12px;text-align:right;border-bottom:2px solid #e60000;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#555;">Amount</th>
+                        <th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e60000;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#555;border:1px solid #ddd;">Product</th>
+                        <th style="padding:10px 12px;text-align:center;border-bottom:2px solid #e60000;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#555;border:1px solid #ddd;">Qty</th>
+                        <th style="padding:10px 12px;text-align:right;border-bottom:2px solid #e60000;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#555;border:1px solid #ddd;">Price</th>
+                        <th style="padding:10px 12px;text-align:right;border-bottom:2px solid #e60000;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;color:#555;border:1px solid #ddd;">Amount</th>
                     </tr>
                 </thead>
-                <tbody>${rows}</tbody>
+                <tbody>
+                    ${rows}
+                </tbody>
+                <tfoot>
+                    <tr style="background:#faf7f2;font-weight:700;">
+                        <td colspan="3" style="padding:10px 12px;text-align:right;border-top:2px solid #e60000;font-size:0.85rem;">Subtotal</td>
+                        <td style="padding:10px 12px;text-align:right;border-top:2px solid #e60000;font-size:0.85rem;color:#e60000;">₹${amount.toLocaleString('en-IN')}</td>
+                    </tr>
+                    ${taxPercent > 0 ? `
+                    <tr style="background:#faf7f2;">
+                        <td colspan="3" style="padding:6px 12px;text-align:right;font-size:0.8rem;color:#555;">Tax (${taxPercent}%)</td>
+                        <td style="padding:6px 12px;text-align:right;font-size:0.8rem;color:#555;">₹${taxAmount.toLocaleString('en-IN')}</td>
+                    </tr>` : ''}
+                    ${packagePrice > 0 ? `
+                    <tr style="background:#faf7f2;">
+                        <td colspan="3" style="padding:6px 12px;text-align:right;font-size:0.8rem;color:#555;">Package / Packing</td>
+                        <td style="padding:6px 12px;text-align:right;font-size:0.8rem;color:#555;">₹${packagePrice.toLocaleString('en-IN')}</td>
+                    </tr>` : ''}
+                    <tr style="background:#faf7f2;font-weight:700;border-top:2px solid #e60000;">
+                        <td colspan="3" style="padding:10px 12px;text-align:right;font-size:1rem;color:#e60000;">Grand Total</td>
+                        <td style="padding:10px 12px;text-align:right;font-size:1rem;color:#e60000;">₹${grandTotal.toLocaleString('en-IN')}</td>
+                    </tr>
+                </tfoot>
             </table>
-
-            <!-- ===== GRAND TOTAL ===== -->
-            <div style="display:flex;justify-content:flex-end;">
-                <div style="min-width:240px;background:#faf7f2;border-radius:8px;padding:14px 20px;">
-                    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:0.85rem;color:#555;">
-                        <span>Subtotal</span>
-                        <span>₹${amount.toLocaleString('en-IN')}</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:0.85rem;color:#555;border-bottom:1px solid #ddd;">
-                        <span>Shipping</span>
-                        <span>₹0</span>
-                    </div>
-                    <div style="display:flex;justify-content:space-between;padding:10px 0 4px;font-weight:700;font-size:1.1rem;color:#e60000;">
-                        <span>Grand Total</span>
-                        <span>₹${amount.toLocaleString('en-IN')}</span>
-                    </div>
-                </div>
-            </div>
 
             <!-- ===== FOOTER ===== -->
             <div style="margin-top:24px;text-align:center;border-top:2px solid #ffd400;padding-top:14px;">
@@ -2497,7 +2665,6 @@
         </div>
     `;
         }
-
 
 
         function openPrintWindow(bodyHtml, title) {
@@ -2605,19 +2772,7 @@
             document.getElementById('sidebarOverlay').classList.remove('active');
         });
 
-        document.getElementById('notificationBtn').addEventListener('click', () => {
-            const pending = allOrders.filter(o => {
-                const status = getOrderStatus(o).toLowerCase();
-                return status !== 'completed' && status !== 'paid' && status !== 'cancelled';
-            });
-            const unpaid = allOrders.filter(o => {
-                const payment = (o.paymentStatus || '').toLowerCase();
-                return payment !== 'paid';
-            });
-            showToast(`🔔 ${pending.length} orders pending\n💰 ${unpaid.length} payments pending`, 'info');
-        });
-
-        console.log('✅ Q Crackers Orders Page Loaded - Print functions fixed!');
+        console.log('✅ Q Crackers Orders Page Loaded - Bill edit (Tax + Package Price) added!');
     </script>
 </body>
 

@@ -127,7 +127,7 @@
 
         .sidebar-brand .brand-sub {
             font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--bg-white);
             text-transform: uppercase;
             letter-spacing: 2px;
             display: block;
@@ -142,7 +142,7 @@
             font-size: 0.6rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--white);
+            color: white;
             padding: 8px 12px 12px;
             font-weight: 600;
         }
@@ -235,7 +235,7 @@
 
         .sidebar-footer .user-email {
             font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.5);
+            color: white;
         }
 
         .sidebar-footer .logout-btn {
@@ -244,7 +244,7 @@
             gap: 10px;
             padding: 10px 16px;
             border-radius: var(--radius-sm);
-            color: rgba(255, 255, 255, 0.5);
+            color: var(--bg-white);
             font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
@@ -925,6 +925,21 @@
         let allProducts = [];
 
         // ============================================================
+        // CONVERT FIRESTORE TIMESTAMP TO JS DATE
+        // Handles Firestore Timestamp objects, {seconds, nanoseconds}
+        // plain objects (from cached/serialized data), and plain
+        // strings/numbers, so date parsing never breaks regardless
+        // of how createdAt was written to Firestore.
+        // ============================================================
+        function toJSDate(value) {
+            if (!value) return null;
+            if (typeof value.toDate === 'function') return value.toDate();
+            if (typeof value.seconds === 'number') return new Date(value.seconds * 1000);
+            const d = new Date(value);
+            return isNaN(d.getTime()) ? null : d;
+        }
+
+        // ============================================================
         // GENERATE ORDER ID (QC001, QC002, QC003...) - Same as orders page
         // ============================================================
         function generateOrderId(index) {
@@ -973,7 +988,7 @@
             if (!user) {
                 // User is not logged in
                 // Always go back to admin login page
-                window.location.href = '/admin';
+                window.location.href = '/admin/index.html';
                 return;
             }
 
@@ -1008,7 +1023,7 @@
                 await signOut(auth);
 
                 // After logout, always go to admin login
-                window.location.href = '/admin';
+                window.location.href = '/admin/index.html';
 
             } catch (error) {
                 console.error('Logout error:', error);
@@ -1093,8 +1108,8 @@
 
             // Sort by createdAt descending (newest first)
             const sortedOrders = [...orders].sort((a, b) => {
-                const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
-                const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+                const dateA = toJSDate(a.createdAt) || new Date(0);
+                const dateB = toJSDate(b.createdAt) || new Date(0);
                 return dateB - dateA;
             });
 
@@ -1119,7 +1134,8 @@
                 const orderId = generateOrderId(orderIndex - 1);
                 const status = getOrderStatus(order);
                 const statusClass = status.toLowerCase();
-                const date = order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-GB') : 'N/A';
+                const dateObj = toJSDate(order.createdAt);
+                const date = dateObj ? dateObj.toLocaleDateString('en-GB') : 'N/A';
                 const amount = getOrderAmount(order);
                 const customerName = order.customerName || order.name || 'Unknown';
 
@@ -1227,19 +1243,28 @@
             document.getElementById('sidebarOverlay').classList.remove('active');
         });
 
-        document.getElementById('notificationBtn').addEventListener('click', () => {
-            const pending = allOrders.filter(o => {
-                const status = getOrderStatus(o).toLowerCase();
-                return status !== 'completed' && status !== 'paid' && status !== 'cancelled';
-            }).length;
-            alert(`🔔 Notifications:\n\n📦 Total Orders: ${allOrders.length}\n⏳ Pending Orders: ${pending}\n✅ Completed: ${allOrders.length - pending}\n📦 Products: ${allProducts.length}`);
-        });
+        // Guarded: notificationBtn / globalSearch don't exist on this page.
+        // Calling addEventListener on a missing element throws and was
+        // silently killing the Escape-key listener below it.
+        const notificationBtn = document.getElementById('notificationBtn');
+        if (notificationBtn) {
+            notificationBtn.addEventListener('click', () => {
+                const pending = allOrders.filter(o => {
+                    const status = getOrderStatus(o).toLowerCase();
+                    return status !== 'completed' && status !== 'paid' && status !== 'cancelled';
+                }).length;
+                alert(`🔔 Notifications:\n\n📦 Total Orders: ${allOrders.length}\n⏳ Pending Orders: ${pending}\n✅ Completed: ${allOrders.length - pending}\n📦 Products: ${allProducts.length}`);
+            });
+        }
 
-        document.getElementById('globalSearch').addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                alert('🔍 Searching for: "' + e.target.value + '"');
-            }
-        });
+        const globalSearch = document.getElementById('globalSearch');
+        if (globalSearch) {
+            globalSearch.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    alert('🔍 Searching for: "' + e.target.value + '"');
+                }
+            });
+        }
 
         // Close sidebar on Escape key
         document.addEventListener('keydown', (e) => {
