@@ -3520,6 +3520,7 @@
                     </div>
                     <div class="field field-full"><textarea id="client-address" placeholder="Delivery Address *"
                             rows="2"></textarea></div>
+
                     <p class="client-form-error" id="client-form-error"><i class="fas fa-exclamation-circle"></i>
                         <span></span>
                     </p>
@@ -3832,8 +3833,6 @@
         <i class="fas fa-arrow-up"></i>
     </button>
 
-
-    <script src="cart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
     <script type="importmap">
@@ -4061,8 +4060,8 @@
                     const oldPrice = product.oldPrice || price;
                     const sub = product.sub || '1 Pkt';
 
-                    html += `<tr data-id="${product.id}" data-name="${product.name}" data-mrp="${oldPrice}" data-price="${price}" data-unit="${sub}">
-    <td data-label="#">${globalSno}</td>
+                    const safeName = escapeHtmlAttr(product.name);
+                    html += `<tr data-id="${product.id}" data-name="${safeName}" data-mrp="${oldPrice}" data-price="${price}" data-unit="${sub}">    <td data-label="#">${globalSno}</td>
 
     <td data-label="Image">
     <img
@@ -4247,33 +4246,36 @@
             if (tbody) {
                 tbody.innerHTML = cartItems.map((item) => {
                     let imageHtml = '';
-                    const productRow = document.querySelector(`.product-table tbody tr[data-name="${item.name}"]`);
-                    if (productRow) {
+                    const safeName = item.name.replace(/"/g, '\\"');
+                    const productRow = document.querySelector(
+                        `.product-table tbody tr[data-name="${safeName}"]`
+                    ); if (productRow) {
                         const img = productRow.querySelector('.product-image');
                         if (img) {
                             imageHtml = `<img src="${img.src}" alt="${item.name}" style="width:40px;height:40px;object-fit:cover;border-radius:6px;border:1px solid #ddd;margin-right:10px;">`;
                         }
                     }
+                    const safeItemName = escapeHtmlAttr(item.name);
                     return `
-            <tr>
-                <td>
-                    <div style="display:flex;align-items:center;gap:0;">
-                        ${imageHtml}
-                        <strong>${item.name}</strong>
-                    </div>
-                </td>
-                <td>
-                    <div class="cart-qty-control">
-                        <button type="button" class="cart-qty-btn cart-qty-minus" data-name="${item.name}"><i class="fas fa-minus"></i></button>
-                        <span class="cart-qty-value">${item.qty}</span>
-                        <button type="button" class="cart-qty-btn cart-qty-plus" data-name="${item.name}"><i class="fas fa-plus"></i></button>
-                    </div>
-                </td>
-                <td>₹${item.price.toLocaleString('en-IN')}</td>
-                <td>₹${item.amount.toLocaleString('en-IN')}</td>
-                <td><button type="button" class="cart-remove-btn" data-name="${item.name}"><i class="fas fa-trash-alt"></i> Remove</button></td>
-            </tr>
-        `;
+    <tr>
+        <td>
+            <div style="display:flex;align-items:center;gap:0;">
+                ${imageHtml}
+                <strong>${item.name}</strong>
+            </div>
+        </td>
+        <td>
+            <div class="cart-qty-control">
+                <button type="button" class="cart-qty-btn cart-qty-minus" data-name="${safeItemName}"><i class="fas fa-minus"></i></button>
+                <span class="cart-qty-value">${item.qty}</span>
+                <button type="button" class="cart-qty-btn cart-qty-plus" data-name="${safeItemName}"><i class="fas fa-plus"></i></button>
+            </div>
+        </td>
+        <td>₹${item.price.toLocaleString('en-IN')}</td>
+        <td>₹${item.amount.toLocaleString('en-IN')}</td>
+        <td><button type="button" class="cart-remove-btn" data-name="${safeItemName}"><i class="fas fa-trash-alt"></i> Remove</button></td>
+    </tr>
+`;
                 }).join('');
 
                 tbody.querySelectorAll('.cart-qty-plus').forEach(btn => {
@@ -4549,7 +4551,7 @@
             generateOrderPDF(orderData).save(`${orderId}.pdf`);
         }
 
-        
+
         async function sendToWhatsApp() {
             const { cartItems, totalItems, totalAmount } = collectCartItems();
             if (totalItems === 0) {
@@ -4790,6 +4792,7 @@
             });
         }
     </script>
+    <script src="cart.js"></script>
 
 </body>
 
