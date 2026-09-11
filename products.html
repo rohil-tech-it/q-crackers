@@ -3384,6 +3384,368 @@
                 width: 38px !important;
             }
         }
+
+        /* =========================================================
+   PICKUP DETAILS - RED + GREY THEME
+   ========================================================= */
+
+        .pickup-provider-label,
+        .pickup-location-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #222222;
+            margin: 14px 0 8px;
+        }
+
+
+        /* =========================================================
+   METTUR TRANSPORT PROVIDER
+   ========================================================= */
+
+        .pickup-provider-option {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            border: 1.5px solid #dddddd;
+            border-radius: 8px;
+            padding: 14px;
+            background: #ffffff;
+
+            transition: all 0.2s ease;
+        }
+
+        .pickup-provider-option:hover {
+            border-color: #e60000;
+            background: #fafafa;
+        }
+
+
+        /* =========================================================
+   HIDDEN CHECKBOX
+   ========================================================= */
+
+        .pickup-radio-input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+
+        /* =========================================================
+   RADIO CIRCLE - UNSELECTED
+   ========================================================= */
+
+        .pickup-provider-option .pickup-radio {
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+
+            border-radius: 50%;
+            border: 2px solid #cfcfcf;
+
+            background: #ffffff;
+
+            position: relative;
+
+            transition: all 0.2s ease;
+        }
+
+
+        /* =========================================================
+   SELECTED PROVIDER
+   ========================================================= */
+
+        .pickup-provider-option.selected {
+            border-color: #e60000;
+            background: #fff5f5;
+        }
+
+        .pickup-provider-option.selected .pickup-radio {
+            border-color: #e60000;
+        }
+
+
+        /* =========================================================
+   RED DOT
+   ========================================================= */
+
+        .pickup-provider-option.selected .pickup-radio::after {
+            content: '';
+
+            position: absolute;
+            inset: 3px;
+
+            border-radius: 50%;
+            background: #e60000;
+        }
+
+
+        /* =========================================================
+   PROVIDER TEXT
+   ========================================================= */
+
+        .pickup-provider-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .pickup-provider-info strong {
+            font-size: 0.92rem;
+            color: #222222;
+        }
+
+        .pickup-provider-info span {
+            font-size: 0.78rem;
+            color: #777777;
+        }
+
+
+        /* =========================================================
+   PICKUP SEARCH
+   ========================================================= */
+
+        .pickup-search-wrap {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .pickup-search-wrap i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #999999;
+            font-size: 0.85rem;
+        }
+
+        .pickup-search-wrap input {
+            width: 100%;
+
+            border: 1.5px solid #dddddd;
+            border-radius: 8px;
+
+            padding: 11px 14px 11px 38px;
+
+            font-size: 0.88rem;
+            color: #333333;
+
+            outline: none;
+
+            transition: all 0.2s ease;
+        }
+
+        .pickup-search-wrap input:focus {
+            border-color: #e60000;
+            box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.08);
+        }
+
+
+        /* =========================================================
+   PICKUP LOCATION LIST
+   ========================================================= */
+
+        .pickup-location-list {
+            max-height: 260px;
+
+            overflow-y: auto;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 8px;
+
+            padding-right: 4px;
+        }
+
+        .pickup-location-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .pickup-location-list::-webkit-scrollbar-thumb {
+            background: #cccccc;
+            border-radius: 3px;
+        }
+
+
+        /* =========================================================
+   PICKUP LOCATION CARD
+   ========================================================= */
+
+        .pickup-location-card {
+            display: flex;
+            align-items: flex-start;
+
+            gap: 12px;
+
+            border: 1.5px solid #eeeeee;
+            border-radius: 10px;
+
+            padding: 11px 14px;
+
+            cursor: pointer;
+
+            transition: all 0.2s ease;
+
+            background: #ffffff;
+        }
+
+        .pickup-location-card:hover {
+            border-color: #cccccc;
+            background: #fafafa;
+        }
+
+
+        /* SELECTED LOCATION */
+
+        .pickup-location-card.selected {
+            border-color: #e60000;
+            background: #fff5f5;
+        }
+
+
+        /* LOCATION RADIO */
+
+        .pickup-location-card .pickup-radio {
+            margin-top: 2px;
+
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+
+            border-radius: 50%;
+
+            border: 2px solid #cccccc;
+
+            background: #ffffff;
+
+            position: relative;
+
+            transition: all 0.2s ease;
+        }
+
+        .pickup-location-card.selected .pickup-radio {
+            border-color: #e60000;
+        }
+
+        .pickup-location-card.selected .pickup-radio::after {
+            content: '';
+
+            position: absolute;
+            inset: 3px;
+
+            border-radius: 50%;
+
+            background: #e60000;
+        }
+
+
+        /* =========================================================
+   LOCATION INFORMATION
+   ========================================================= */
+
+        .pickup-location-info {
+            display: flex;
+            flex-direction: column;
+
+            gap: 3px;
+        }
+
+        .pickup-location-info .branch-name {
+            font-size: 0.9rem;
+            font-weight: 700;
+
+            color: #222222;
+        }
+
+        .pickup-location-info .branch-address {
+            font-size: 0.78rem;
+
+            color: #666666;
+
+            line-height: 1.35;
+        }
+
+
+        /* =========================================================
+   LOCATION META
+   ========================================================= */
+
+        .pickup-location-meta {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 4px;
+
+            font-size: 0.72rem;
+
+            color: #777777;
+        }
+
+        .pickup-location-meta span {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 5px;
+        }
+
+
+        /* RED ICONS - NO BROWN */
+
+        .pickup-location-meta i {
+            color: #e60000;
+            font-size: 0.7rem;
+        }
+
+
+        /* =========================================================
+   EMPTY MESSAGE
+   ========================================================= */
+
+        .pickup-empty-msg {
+            text-align: center;
+
+            font-size: 0.82rem;
+
+            color: #888888;
+
+            padding: 16px 0;
+        }
+
+
+        /* =========================================================
+   MOBILE
+   ========================================================= */
+
+        @media (max-width: 480px) {
+
+            .pickup-location-list {
+                max-height: 200px;
+            }
+
+            .pickup-provider-option {
+                padding: 10px 12px;
+            }
+
+            .pickup-location-card {
+                padding: 9px 11px;
+            }
+
+            .pickup-location-info .branch-name {
+                font-size: 0.84rem;
+            }
+
+            .pickup-location-info .branch-address {
+                font-size: 0.72rem;
+            }
+        }
     </style>
 
 </head>
@@ -3453,11 +3815,13 @@
     <div class="cart-modal" id="cart-modal">
         <div class="cart-modal-content">
             <div class="cart-modal-header">
-                <h2><i class="fas fa-shopping-cart"></i> Shopping Cart (<span id="cart-modal-count">0</span> items)</h2>
+                <h2><i class="fas fa-shopping-cart"></i> Shopping Cart
+                    (<span id="cart-modal-count">0</span> items)</h2>
                 <button class="cart-modal-close" id="cart-modal-close"><i class="fas fa-times"></i></button>
             </div>
             <div class="cart-modal-body">
-                <p class="cart-empty-msg" id="cart-empty-msg">Your cart is empty. Add some crackers!</p>
+                <p class="cart-empty-msg" id="cart-empty-msg">Your cart is
+                    empty. Add some crackers!</p>
                 <table class="cart-modal-table" id="cart-modal-table" style="display:none;">
                     <thead>
                         <tr>
@@ -3478,15 +3842,16 @@
                         <span>Discount: <strong id="cart-modal-discount">₹0</strong></span>
                     </div>
                     <div class="cart-modal-totals-col align-right">
-                        <span class="cart-modal-overall">Overall Total: <strong
-                                id="cart-modal-overall-total">₹0</strong></span>
-                        <span class="cart-modal-minorder">Min Order: <strong>₹2500</strong></span>
+                        <span class="cart-modal-overall">Overall Total:
+                            <strong id="cart-modal-overall-total">₹0</strong></span>
+                        <span class="cart-modal-minorder">Min Order:
+                            <strong>₹2500</strong></span>
                     </div>
                 </div>
                 <div id="cart-min-order-warning" class="min-order-warning" style="display:none;">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Minimum order amount is ₹2500. Please add more items (current total: <strong
-                            id="cart-warning-total">₹0</strong>).</span>
+                    <span>Minimum order amount is ₹2500. Please add more
+                        items (current total: <strong id="cart-warning-total">₹0</strong>).</span>
                 </div>
                 <div class="cart-modal-actions">
                     <button class="btn btn-ghost" id="cart-continue-btn">Continue Shopping</button>
@@ -3503,6 +3868,8 @@
                 <button class="cart-modal-close" id="order-summary-close"><i class="fas fa-times"></i></button>
             </div>
             <div class="cart-modal-body" id="order-summary-body">
+                <!-- In the order-summary-modal, right after the client-info-section div -->
+
                 <div class="client-info-section">
                     <h3><i class="fas fa-user"></i> Client Information</h3>
                     <div class="client-info-grid">
@@ -3514,7 +3881,8 @@
                         <div class="field">
                             <select id="client-state">
                                 <option value="TamilNadu & PY" selected>TamilNadu &amp; PY</option>
-                                <option value="Other States">Other States</option>
+                                <option value="Other States">Other
+                                    States</option>
                             </select>
                         </div>
                     </div>
@@ -3525,6 +3893,45 @@
                         <span></span>
                     </p>
                 </div>
+
+                <!-- ========== PICKUP DETAILS SECTION STARTS HERE ========== -->
+                <div class="client-info-section">
+                    <h3><i class="fas fa-truck"></i> Pickup Details *</h3>
+
+                    <!-- Transport Provider -->
+                    <div class="pickup-provider-label">Select Transport
+                        Provider</div>
+                    <label class="pickup-provider-option" id="provider-mettur">
+
+                        <input type="checkbox" id="mettur-transport-checkbox" class="pickup-radio-input"
+                            name="transport-provider" value="Mettur Transports">
+
+                        <span class="pickup-radio"></span>
+
+                        <div class="pickup-provider-info">
+                            <strong>Mettur Transports</strong>
+                            <span>Reliable transport service with wide
+                                coverage</span>
+                        </div>
+
+                    </label>
+
+                    <!-- Pickup Location -->
+                    <div class="pickup-location-label">Select Pickup
+                        Location</div>
+                    <div class="pickup-search-wrap">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="pickup-search" placeholder="Search by location name, area, or city...">
+                    </div>
+                    <div class="pickup-location-list" id="pickup-location-list">
+                        <!-- Populated by JS from METTUR_BRANCHES -->
+                    </div>
+                    <p class="pickup-empty-msg" id="pickup-empty-msg" style="display:none;">No matching branch found.
+                    </p>
+                    <input type="hidden" id="selected-pickup-branch" value>
+                </div>
+                <!-- ========== PICKUP DETAILS SECTION ENDS HERE ========== -->
+
                 <h3 class="order-details-heading"><i class="fas fa-receipt"></i> Order Details</h3>
                 <div class="order-summary-meta">
                     <div class="order-summary-meta-col">
@@ -3539,10 +3946,12 @@
                 </div>
                 <div id="os-min-order-warning" class="min-order-warning" style="display:none;">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Minimum order amount is <strong id="os-min-order-amount">₹2500</strong>. Please add more items
+                    <span>Minimum order amount is <strong id="os-min-order-amount">₹2500</strong>. Please
+                        add more items
                         (current total: <strong id="os-warning-total">₹0</strong>).</span>
                 </div>
-                <p class="cart-empty-msg" id="os-empty-msg">Your cart is empty. Add some crackers!</p>
+                <p class="cart-empty-msg" id="os-empty-msg">Your cart is
+                    empty. Add some crackers!</p>
                 <table class="cart-modal-table" id="os-table" style="display:none;">
                     <thead>
                         <tr>
@@ -3566,7 +3975,8 @@
                     <button class="btn btn-ghost" id="cart-download-bill"><i class="fas fa-download"></i> Download
                         Bill</button>
                     <button class="btn btn-whatsapp" id="cart-send-whatsapp"
-                        style="background-color: #25D366; color:white;">Place Order</button>
+                        style="background-color: #25D366; color:white;">Place
+                        Order</button>
                 </div>
             </div>
         </div>
@@ -3575,7 +3985,8 @@
     <section class="page-hero products-hero">
         <div class="container">
             <h1>Our <span class="accent">Catalogue</span></h1>
-            <p style="color:var(--text-muted); max-width:520px; margin:0 auto;">Premium fireworks from Sivakasi — shop
+            <p style="color:var(--text-muted); max-width:520px; margin:0 auto;">Premium
+                fireworks from Sivakasi — shop
                 with confidence.</p>
             <div style="margin-top:12px;"></div>
         </div>
@@ -3585,11 +3996,14 @@
         <div class="container">
             <div class="catalog-info-content">
                 <h2>Product Catalog</h2>
-                <p class="catalog-tagline"><i class="fas fa-star"></i> Q Crackers is the best Crackers Shop in Sivakasi.
+                <p class="catalog-tagline"><i class="fas fa-star"></i> Q
+                    Crackers is the best Crackers Shop in Sivakasi.
                 </p>
                 <p class="catalog-desc">
-                    Explore our premium Sivakasi crackers collection featuring exciting offers, quality products, and
-                    wholesale-friendly pricing for every festive celebration.
+                    Explore our premium Sivakasi crackers collection
+                    featuring exciting offers, quality products, and
+                    wholesale-friendly pricing for every festive
+                    celebration.
                 </p>
             </div>
         </div>
@@ -3618,32 +4032,43 @@
                 <div class="category-box">
                     <select id="category-select">
                         <option value="all">All Products</option>
-                        <option value="Sound Crackers">Sound Crackers</option>
-                        <option value="Electric Crackers">Electric Crackers</option>
-                        <option value="Bijili Crackers">Bijili Crackers</option>
+                        <option value="Sound Crackers">Sound
+                            Crackers</option>
+                        <option value="Electric Crackers">Electric
+                            Crackers</option>
+                        <option value="Bijili Crackers">Bijili
+                            Crackers</option>
                         <option value="Flower Pots">Flower Pots</option>
-                        <option value="Ground Chakkars">Ground Chakkars</option>
-                        <option value="Rainbow Chakkars">Rainbow Chakkars</option>
-                        <option value="Childrens Special">Children's Special</option>
+                        <option value="Ground Chakkars">Ground
+                            Chakkars</option>
+                        <option value="Rainbow Chakkars">Rainbow
+                            Chakkars</option>
+                        <option value="Childrens Special">Children's
+                            Special</option>
                         <option value="Atom Bombs">Atom Bombs</option>
                         <option value="Jaguvar Varities">Jaguvars</option>
                         <option value="Rocket">Rocket</option>
                         <option value="Chotta Fancy">Chotta Fancy</option>
                         <option value="New Wonders">New Wonders</option>
-                        <option value="New Attraction Fancy">New Attraction Fancy</option>
+                        <option value="New Attraction Fancy">New Attraction
+                            Fancy</option>
                         <option value="Multishots">Multishots</option>
                         <option value="Novelties">Novelties</option>
                         <option value="Setout">Setout</option>
-                        <option value="Roll Caps">Roll Caps &amp; Serpant Eggs</option>
+                        <option value="Roll Caps">Roll Caps &amp; Serpant
+                            Eggs</option>
                         <option value="Sparklers">Sparklers</option>
-                        <option value="New Fancy Sparklers">New Fancy Sparklers</option>
+                        <option value="New Fancy Sparklers">New Fancy
+                            Sparklers</option>
                         <option value="Gift Boxes">Gift Boxes</option>
-                        <option value="Gift Boxes Family Package">Family Packages</option>
+                        <option value="Gift Boxes Family Package">Family
+                            Packages</option>
                     </select>
                 </div>
             </div>
 
-            <p class="min-order-note" id="minOrderNote"><i class="fas fa-info-circle"></i> Minimum Order: Tamil Nadu
+            <p class="min-order-note" id="minOrderNote"><i class="fas fa-info-circle"></i> Minimum Order: Tamil
+                Nadu
                 &amp; PY — ₹2500 &nbsp;|&nbsp; Other States — ₹5000</p>
 
             <div id="products-container">
@@ -3662,13 +4087,14 @@
             <div class="cart-stat"><span>Items</span><strong id="cart-items">0</strong></div>
             <div class="cart-stat"><span>Discount</span><strong id="cart-discount">₹0</strong></div>
             <div class="cart-stat"><span>Total</span><strong id="cart-total">₹0</strong></div>
-            <span class="min-order-badge" id="minOrderBadge">Min Order: TN &amp; PY - ₹2500</span>
+            <span class="min-order-badge" id="minOrderBadge">Min Order: TN
+                &amp; PY - ₹2500</span>
             <div class="submit-container">
                 <button class="btn btn-primary btn-submit-disabled" id="submit-enquiry">Submit</button>
                 <div class="min-order-warning" id="submit-warning">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <span>Minimum order is <strong id="submit-min-order">₹2500</strong>. Current total: <strong
-                            id="submit-warning-total">₹0</strong></span>
+                    <span>Minimum order is <strong id="submit-min-order">₹2500</strong>. Current
+                        total: <strong id="submit-warning-total">₹0</strong></span>
                 </div>
             </div>
         </div>
@@ -3679,8 +4105,11 @@
             <div class="order-success-icon-wrapper">
                 <div class="order-success-icon"><i class="fas fa-check"></i></div>
             </div>
-            <h2 class="success-title">ORDER PLACED <span>SUCCESSFULLY!</span></h2>
-            <p class="success-subtitle">Thank you for choosing <strong>Q Crackers</strong>!</p>
+            <h2 class="success-title">ORDER PLACED
+                <span>SUCCESSFULLY!</span>
+            </h2>
+            <p class="success-subtitle">Thank you for choosing <strong>Q
+                    Crackers</strong>!</p>
             <p style="color: #888; font-size: 0.8rem; margin-top: 16px;"><i class="fas fa-spinner fa-spin"></i>
                 Redirecting...</p>
         </div>
@@ -3763,7 +4192,8 @@
                             <div class="contact-icon"><i class="fas fa-phone"></i></div>
                             <div class="contact-detail">
                                 <span class="contact-label">Call Us</span>
-                                <a href="tel:+919655586461">+91 96555 86461</a>
+                                <a href="tel:+919655586461">+91 96555
+                                    86461</a>
 
                             </div>
                         </li>
@@ -3772,7 +4202,8 @@
                             <div class="contact-detail">
                                 <span class="contact-label">Email Us</span>
                                 <a href="mailto:qcrackerss@gmail.com">
-                                    <i class="fas fa-envelope"></i> qcrackerss@gmail.com
+                                    <i class="fas fa-envelope"></i>
+                                    qcrackerss@gmail.com
                                 </a>
                             </div>
                         </li>
@@ -3803,7 +4234,8 @@
                         reserved.</span>
                 </div>
                 <div class="footer-bottom-right">
-                    <span><i class="fas fa-shield-alt" style="color:var(--yellow);"></i> 100% Safe &amp;
+                    <span><i class="fas fa-shield-alt" style="color:var(--yellow);"></i> 100% Safe
+                        &amp;
                         Trusted</span>
                     <span><i class="fas fa-truck-fast" style="color:var(--yellow);"></i> Fast
                         Delivery</span>
@@ -3844,12 +4276,13 @@
             }
         }
     </script>
+    <script src="mettur-branches.js"></script>
 
     <script type="module">
         import { initializeApp } from "firebase/app";
         import {
             getFirestore, collection, addDoc, getDocs, onSnapshot,
-            query, orderBy, serverTimestamp, updateDoc, doc
+            query, orderBy, serverTimestamp, updateDoc, doc, setDoc, getDoc
         } from "firebase/firestore";
         import { getStorage, ref, getDownloadURL, listAll } from "firebase/storage";
 
@@ -3862,9 +4295,177 @@
             appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
         };
 
+
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
+
+        /* ============================================================
+           UTILITY
+           ============================================================ */
+        function escapeHtmlAttr(str) {
+            return String(str || '').replace(/[&<>"']/g, s => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[s]));
+        }
+
+        /* ============================================================
+           PICKUP DETAILS — Mettur Transports
+           ============================================================ */
+        const pickupSearchInput = document.getElementById('pickup-search');
+        const pickupListEl = document.getElementById('pickup-location-list');
+        const pickupEmptyMsg = document.getElementById('pickup-empty-msg');
+        const selectedBranchInput = document.getElementById('selected-pickup-branch');
+
+        const metturCheckbox = document.getElementById('mettur-transport-checkbox');
+        const metturOption = document.getElementById('provider-mettur');
+
+        let selectedPickupBranch = null;
+
+        /* =========================================================
+   METTUR TRANSPORT PROVIDER TOGGLE
+   ========================================================= */
+
+        function updateMetturTransport() {
+
+            if (!metturCheckbox || !metturOption) return;
+
+            if (metturCheckbox.checked) {
+
+                // Provider selected
+                metturOption.classList.add('selected');
+
+                // Show pickup locations
+                if (pickupListEl) {
+                    pickupListEl.style.display = 'block';
+                }
+
+                // Render locations
+                renderPickupLocations(
+                    pickupSearchInput ? pickupSearchInput.value : ''
+                );
+
+            } else {
+
+                // Provider unselected
+                metturOption.classList.remove('selected');
+
+                // Hide pickup locations
+                if (pickupListEl) {
+                    pickupListEl.style.display = 'none';
+                }
+
+                // Clear selected branch
+                selectedPickupBranch = null;
+
+                if (selectedBranchInput) {
+                    selectedBranchInput.value = '';
+                }
+
+                // Remove selected location
+                if (pickupListEl) {
+                    pickupListEl
+                        .querySelectorAll('.pickup-location-card')
+                        .forEach(card => {
+                            card.classList.remove('selected');
+                        });
+                }
+            }
+        }
+
+
+        /* Click / Unclick */
+        if (metturCheckbox) {
+            metturCheckbox.addEventListener('change', function () {
+                updateMetturTransport();
+            });
+        }
+
+
+        /* Initial state */
+        updateMetturTransport();
+
+
+        function renderPickupLocations(filterText) {
+            if (!pickupListEl) return;
+            const branches = window.METTUR_BRANCHES || [];
+            const term = (filterText || '').toLowerCase().trim();
+
+            const filtered = term
+                ? branches.filter(b =>
+                    (b.name || '').toLowerCase().includes(term) ||
+                    (b.city || '').toLowerCase().includes(term) ||
+                    (b.address || '').toLowerCase().includes(term))
+                : branches;
+
+            if (filtered.length === 0) {
+                pickupListEl.innerHTML = '';
+                if (pickupEmptyMsg) pickupEmptyMsg.style.display = 'block';
+                return;
+            }
+            if (pickupEmptyMsg) pickupEmptyMsg.style.display = 'none';
+
+            pickupListEl.innerHTML = filtered.map((branch) => {
+                const isSelected = selectedPickupBranch && selectedPickupBranch.name === branch.name;
+                return `
+            <div class="pickup-location-card ${isSelected ? 'selected' : ''}"
+                 data-branch-name="${escapeHtmlAttr(branch.name)}"
+                 role="button"
+                 tabindex="0">
+                <span class="pickup-radio"></span>
+                <div class="pickup-location-info">
+                    <span class="branch-name">${branch.name}</span>
+                    <span class="branch-address">${branch.address}</span>
+                    <div class="pickup-location-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> ${branch.city}</span>
+                        ${branch.phone ? `<span><i class="fas fa-phone-alt"></i> ${branch.phone}</span>` : ''}
+                        <span><i class="fas fa-truck"></i> Mettur Transports</span>
+                    </div>
+                </div>
+            </div>`;
+            }).join('');
+        }
+
+        function selectPickupBranch(branchName) {
+            const branches = window.METTUR_BRANCHES || [];
+            selectedPickupBranch = branches.find(b => b.name === branchName) || null;
+            if (selectedBranchInput) {
+                selectedBranchInput.value = selectedPickupBranch ? selectedPickupBranch.name : '';
+            }
+            pickupListEl.querySelectorAll('.pickup-location-card').forEach(c => {
+                if (c.dataset.branchName === branchName) c.classList.add('selected');
+                else c.classList.remove('selected');
+            });
+        }
+
+        /* Card-a click pannaa — select aagum */
+        if (pickupListEl) {
+            pickupListEl.addEventListener('click', function (e) {
+                const card = e.target.closest('.pickup-location-card');
+                if (!card) return;
+                selectPickupBranch(card.dataset.branchName);
+            });
+
+            /* Keyboard-a Enter press pannaa — select aagum */
+            pickupListEl.addEventListener('keydown', function (e) {
+                if (e.key !== 'Enter' && e.key !== ' ') return;
+                const card = e.target.closest('.pickup-location-card');
+                if (!card) return;
+                e.preventDefault();
+                selectPickupBranch(card.dataset.branchName);
+            });
+        }
+
+        /* Search filter */
+        if (pickupSearchInput) {
+            pickupSearchInput.addEventListener('input', function () {
+                renderPickupLocations(this.value);
+            });
+        }
+
+        /* Initial render */
+        updateMetturTransport();
 
         const container = document.getElementById('products-container');
         const loadingState = container.querySelector('.loading-spinner');
@@ -4387,9 +4988,31 @@
 
         async function saveOrderToFirebase(orderData) {
             try {
+                // ============================================================
+                // GENERATE SEQUENTIAL ORDER ID FROM FIREBASE COUNTER
+                // ============================================================
+                const counterRef = doc(db, 'settings', 'orderCounter');
+                let orderNumber = 1;
+
+                try {
+                    const counterSnap = await getDoc(counterRef);
+                    if (counterSnap.exists()) {
+                        orderNumber = (counterSnap.data().lastOrderNumber || 0) + 1;
+                    }
+                    await setDoc(counterRef, { lastOrderNumber: orderNumber }, { merge: true });
+                } catch (e) {
+                    console.error('Counter error:', e);
+                    // Fallback: use timestamp
+                    orderNumber = Math.floor(Date.now() / 1000) % 100000;
+                }
+
+                // Format: QC001, QC002, ...
+                const formattedOrderId = 'QC' + String(orderNumber).padStart(3, '0');
+
                 const ordersRef = collection(db, 'orders');
                 const order = {
-                    orderId: orderData.orderId,
+                    orderId: formattedOrderId,
+                    orderNumber: orderNumber,
                     customerName: orderData.name,
                     customerPhone: orderData.phone,
                     customerEmail: orderData.email || '',
@@ -4403,7 +5026,14 @@
                     timestamp: serverTimestamp(),
                     status: 'pending',
                     source: 'website',
-                    whatsappSent: true
+                    whatsappSent: true,
+
+                    // ---------- PICKUP DETAILS ----------
+                    pickupTransport: 'Mettur Transports',
+                    pickupBranchName: selectedPickupBranch ? selectedPickupBranch.name : '',
+                    pickupBranchAddress: selectedPickupBranch ? selectedPickupBranch.address : '',
+                    pickupBranchCity: selectedPickupBranch ? selectedPickupBranch.city : '',
+                    pickupBranchPhone: selectedPickupBranch ? selectedPickupBranch.phone : ''
                 };
                 const docRef = await addDoc(ordersRef, order);
                 return docRef.id;
@@ -4459,9 +5089,6 @@
             }
         }
 
-        // ============================================================
-        // GENERATE ORDER PDF (using jsPDF - already loaded in your file)
-        // ============================================================
         function generateOrderPDF(orderData) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
@@ -4479,7 +5106,7 @@
             // Order Info
             doc.setFontSize(11);
             doc.setTextColor(0);
-            doc.text(`Order ID: ${orderData.orderId}`, 14, 34);
+            doc.text(`Order ID: ${orderData.orderId || 'N/A'}`, 14, 34);
             doc.text(`Date: ${orderData.orderDate}`, 196, 34, { align: "right" });
 
             // Customer Info
@@ -4490,8 +5117,33 @@
             doc.text(`Address: ${orderData.address}`, 14, 60);
             doc.text(`State: ${orderData.state}`, 14, 66);
 
+            // ---------- PICKUP BRANCH (BOX) ----------
+            let y;
+            if (orderData.pickupBranch) {
+                doc.setDrawColor(230, 0, 0);
+                doc.setFillColor(255, 245, 245);
+                doc.roundedRect(14, 70, 182, 26, 2, 2, 'FD');
+
+                doc.setFontSize(9);
+                doc.setTextColor(230, 0, 0);
+                doc.setFont(undefined, 'bold');
+                doc.text('PICKUP DETAILS', 18, 76);
+
+                doc.setTextColor(0);
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(8.5);
+                doc.text(`Branch: ${orderData.pickupBranch.name}`, 18, 82);
+                doc.text(`Address: ${orderData.pickupBranch.address}`, 18, 88);
+                if (orderData.pickupBranch.phone) {
+                    doc.text(`Phone: ${orderData.pickupBranch.phone}`, 18, 94);
+                }
+
+                y = 105;
+            } else {
+                y = 76;
+            }
+
             // Table Header
-            let y = 76;
             doc.setFillColor(230, 0, 0);
             doc.setTextColor(255);
             doc.rect(14, y - 6, 182, 8, "F");
@@ -4529,7 +5181,7 @@
             return doc;
         }
 
-        function downloadBill() {
+        async function downloadBill() {
             const { cartItems, totalItems, totalAmount } = collectCartItems();
             if (totalItems === 0) { alert('Cart is empty!'); return; }
 
@@ -4539,18 +5191,22 @@
             const address = document.getElementById('client-address')?.value || '';
             const state = document.getElementById('client-state')?.value || 'TamilNadu & PY';
 
-            const orderId = 'QC-' + new Date().getFullYear() + '-' + String(Math.floor(100 + Math.random() * 900));
-            const timeStr = new Date().toLocaleString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
+            // Generate a temporary ID for the bill (does NOT save to Firebase)
+            const orderId = 'QC' + String(Date.now()).slice(-6);
+            const timeStr = new Date().toLocaleString('en-IN', {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', hour12: true
+            });
 
             const orderData = {
                 orderId, name, phone, email, address, state,
                 items: cartItems.map(item => ({ name: item.name, qty: item.qty, price: item.price, amount: item.amount })),
-                totalItems, totalAmount, orderDate: timeStr
+                totalItems, totalAmount, orderDate: timeStr,
+                pickupBranch: selectedPickupBranch
             };
 
             generateOrderPDF(orderData).save(`${orderId}.pdf`);
         }
-
 
         async function sendToWhatsApp() {
             const { cartItems, totalItems, totalAmount } = collectCartItems();
@@ -4570,14 +5226,48 @@
                 return;
             }
 
-            const orderId = 'QC-' + new Date().getFullYear() + '-' + String(Math.floor(100 + Math.random() * 900));
+            // ============================================================
+            // GENERATE SEQUENTIAL ORDER ID (QC001, QC002, ...)
+            // ============================================================
+            let orderId = 'QC001';
+            let orderNumber = 1;
+
+            try {
+                const counterRef = doc(db, 'settings', 'orderCounter');
+                const counterSnap = await getDoc(counterRef);
+
+                if (counterSnap.exists()) {
+                    orderNumber = (counterSnap.data().lastOrderNumber || 0) + 1;
+                }
+
+                // Reserve the number in Firebase (atomic)
+                await setDoc(counterRef, {
+                    lastOrderNumber: orderNumber,
+                    lastUpdated: serverTimestamp()
+                }, { merge: true });
+
+                orderId = 'QC' + String(orderNumber).padStart(3, '0');
+            } catch (e) {
+                console.error('Counter error:', e);
+                // Fallback
+                orderId = 'QC' + String(Date.now()).slice(-6);
+            }
+
             const now = new Date();
-            const timeStr = now.toLocaleString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true });
+            const timeStr = now.toLocaleString('en-IN', {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', hour12: true
+            });
 
             const orderData = {
-                orderId, name, phone, email, address, state,
-                items: cartItems.map(item => ({ name: item.name, qty: item.qty, price: item.price, amount: item.amount })),
-                totalItems, totalAmount, orderDate: timeStr
+                orderId,
+                orderNumber,        // ✅ Save this too for sorting
+                name, phone, email, address, state,
+                items: cartItems.map(item => ({
+                    name: item.name, qty: item.qty, price: item.price, amount: item.amount
+                })),
+                totalItems, totalAmount, orderDate: timeStr,
+                pickupBranch: selectedPickupBranch
             };
 
             await saveOrderToFirebase(orderData);
@@ -4591,8 +5281,13 @@
             if (phone) message += `Phone: ${phone}\n`;
             if (email) message += `Email: ${email}\n`;
             if (address) message += `Address: ${address}\n`;
-            message += `State: ${state}\n\n`;
-            message += `📦 *Order Items*\n`;
+            message += `State: ${state}\n`;
+            if (selectedPickupBranch) {
+                message += `\n🚚 *Pickup Branch:* ${selectedPickupBranch.name}\n`;
+                message += `📍 ${selectedPickupBranch.address}\n`;
+                if (selectedPickupBranch.phone) message += `📞 ${selectedPickupBranch.phone}\n`;
+            }
+            message += `\n📦 *Order Items*\n`;
             message += `━━━━━━━━━━━━━━━━━━━\n`;
             cartItems.forEach((item, index) => {
                 message += `  ${index + 1}. ${item.name}\n`;
@@ -4754,7 +5449,6 @@
         }
     </script>
 
-
     <script type="module">
         import { initializeApp } from "firebase/app";
         import { getFirestore, doc, getDoc } from "firebase/firestore";
@@ -4791,6 +5485,7 @@
                 }
             });
         }
+
     </script>
     <script src="cart.js"></script>
 

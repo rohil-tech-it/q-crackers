@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin — Products | Q Crackers</title>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- FAVICON / TAB LOGO -->
     <link rel="icon" type="image/png" href="../images/logo-removebg-preview.png">
@@ -1236,11 +1239,11 @@
                         <i class="fas fa-plus"></i> Add Product
                     </button>
 
-                    <button class="btn-primary" onclick="selectExcelFile()">
-                        <i class="fas fa-file-excel"></i> Bulk Upload
+                    <button class="btn-primary" onclick="selectPDFFile()">
+                        <i class="fas fa-file-pdf"></i> Bulk Upload (PDF)
                     </button>
 
-                    <input type="file" id="excelInput" accept=".xlsx,.xls,.csv" hidden>
+                    <input type="file" id="pdfInput" accept=".pdf" hidden>
 
                     <button class="btn-danger"
                         onclick="if(confirm('Delete ALL products? This cannot be undone!')) deleteAllProducts()">
@@ -1443,27 +1446,32 @@
         // DEFAULT CATEGORIES
         // ============================================================
         const defaultCategories = [
-            'Sound Crackers',
+            'Single Sound Crackers',
+            'Bijilli Crackers',
+            'Flowerpots',
+            'Ground Chakkar',
+            'Rainbow Chakkar',
             'Electric Crackers',
-            'Bijili Crackers',
-            'Flower Pots',
-            'Ground Chakkars',
-            'Rainbow Chakkars',
-            'Childrens Special',
+            'Children\'s Special',
             'Atom Bombs',
             'Jaguvar Varities',
-            'Rocket',
-            'Chotta Fancy',
+            'Rockets',
+            'Colour Fountains',
+            'New Special Fountains',
             'New Wonders',
-            'New Attraction Fancy',
-            'Multishots',
+            'Chotta Fancy',
+            'Night Attraction Fancy',
+            'Ayyan\'s Special Elite Series',
+            '2026 New Elite Fancy',
             'Novelties',
-            'Setout',
-            'Roll Caps',
+            'Multishots',
+            'Festival Series (Set Out)',
+            'Roll Caps & Serpent Eggs',
+            '2026 New Varities',
             'Sparklers',
-            'New Fancy Sparklers',
+            'New Varities Sparklers',
             'Gift Boxes',
-            'Gift Boxes Family Package'
+            'Combo Pack'
         ];
 
         // ============================================================
@@ -1471,25 +1479,45 @@
         // ============================================================
         let allCategories = [...defaultCategories];
 
+        const CATEGORY_STORAGE_KEY = 'qcrackers_categories_v2';
+
+        // Removes duplicate category names, ignoring case/extra spaces.
+        // Keeps the first spelling it sees, so defaultCategories wins over old saved ones.
+        function dedupeCategories(list) {
+            const seen = new Set();
+            const result = [];
+            list.forEach(cat => {
+                const key = String(cat || '').trim().toLowerCase();
+                if (!key || seen.has(key)) return;
+                seen.add(key);
+                result.push(cat.trim());
+            });
+            return result;
+        }
+
         function loadCategories() {
-            // Try to load from localStorage
-            const saved = localStorage.getItem('qcrackers_categories');
+            // Try to load from localStorage (only genuinely custom categories are kept here)
+            const saved = localStorage.getItem(CATEGORY_STORAGE_KEY);
+            let customSaved = [];
             if (saved) {
                 try {
                     const parsed = JSON.parse(saved);
-                    if (Array.isArray(parsed) && parsed.length > 0) {
-                        allCategories = [...new Set([...defaultCategories, ...parsed])];
-                    }
+                    if (Array.isArray(parsed)) customSaved = parsed;
                 } catch (e) {
                     console.log('Using default categories');
                 }
             }
+            allCategories = dedupeCategories([...defaultCategories, ...customSaved]);
             renderCategoryDropdown();
             renderCategoryTags();
         }
 
         function saveCategories() {
-            localStorage.setItem('qcrackers_categories', JSON.stringify(allCategories));
+            allCategories = dedupeCategories(allCategories);
+            // Only persist categories that aren't already part of the built-in list
+            const defaultKeys = new Set(defaultCategories.map(c => c.trim().toLowerCase()));
+            const customOnly = allCategories.filter(c => !defaultKeys.has(c.trim().toLowerCase()));
+            localStorage.setItem(CATEGORY_STORAGE_KEY, JSON.stringify(customOnly));
             renderCategoryDropdown();
             renderCategoryTags();
         }
@@ -1515,7 +1543,8 @@
             const container = document.getElementById('categoryTags');
             container.innerHTML = '';
 
-            const customCategories = allCategories.filter(c => !defaultCategories.includes(c));
+            const defaultKeysForTags = new Set(defaultCategories.map(c => c.trim().toLowerCase()));
+            const customCategories = allCategories.filter(c => !defaultKeysForTags.has(c.trim().toLowerCase()));
 
             if (customCategories.length === 0) {
                 container.innerHTML = '<span style="font-size:0.7rem;color:var(--text-dim);">All default categories loaded</span>';
@@ -1738,8 +1767,8 @@ onerror="this.src='../images/logo-removebg-preview.png'"        >
             document.getElementById('imageInput').value = '';
         };
 
-        window.selectExcelFile = function () {
-            const input = document.getElementById("excelInput");
+        window.selectPDFFile = function () {
+            const input = document.getElementById("pdfInput");
 
             // reset previous selection
             input.value = "";
@@ -1748,99 +1777,238 @@ onerror="this.src='../images/logo-removebg-preview.png'"        >
                 if (!event.target.files.length) return;
 
                 // Direct-a bulk upload function call pannum
-                window.bulkUploadExcel(event);
+                window.bulkUploadPDF(event);
             };
 
             input.click();
         };
 
+        // ============================================================
+        // PDF TABLE EXTRACTION (position-based column detection)
+        // ============================================================
+        // Column boundaries (in PDF points) calibrated against the
+        // Q Crackers price-list PDF layout: S.No | Name (Eng) | Name (Tamil)
+        // | PER | BEFORE DISCOUNT | AFTER DISCOUNT | REQ | TOTAL
+        const PDF_COLS = {
+            SNO: 36,
+            NAME_END: 240,
+            TAMIL_END: 377,
+            PER_END: 418,
+            BEFORE_END: 473,
+            AFTER_END: 520
+        };
 
-        window.bulkUploadExcel = function (event) {
+        async function extractPdfRows(arrayBuffer) {
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            const rows = [];
+
+            // Page 1 is the cover page - table data starts from page 2
+            for (let pageNum = 2; pageNum <= pdf.numPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const viewport = page.getViewport({ scale: 1 });
+                const textContent = await page.getTextContent();
+
+                const words = textContent.items
+                    .filter(item => item.str && item.str.trim().length > 0)
+                    .map(item => ({
+                        x0: item.transform[4],
+                        top: viewport.height - item.transform[5],
+                        text: item.str.trim()
+                    }));
+
+                words.sort((a, b) => (a.top - b.top) || (a.x0 - b.x0));
+
+                // Cluster words into visual rows (same line = similar 'top')
+                const TOL = 3;
+                const lineGroups = [];
+                let cur = [];
+                let curTop = null;
+                for (const w of words) {
+                    if (curTop === null || Math.abs(w.top - curTop) <= TOL) {
+                        cur.push(w);
+                        if (curTop === null) curTop = w.top;
+                    } else {
+                        lineGroups.push(cur);
+                        cur = [w];
+                        curTop = w.top;
+                    }
+                }
+                if (cur.length) lineGroups.push(cur);
+
+                for (const line of lineGroups) {
+                    let sno = '', nameTokens = [], perTokens = [], beforeTokens = [], afterTokens = [];
+                    for (const w of line) {
+                        const x = w.x0;
+                        if (x < PDF_COLS.SNO) sno += w.text;
+                        else if (x < PDF_COLS.NAME_END) nameTokens.push(w.text);
+                        else if (x < PDF_COLS.TAMIL_END) { /* Tamil column - not needed */ }
+                        else if (x < PDF_COLS.PER_END) perTokens.push(w.text);
+                        else if (x < PDF_COLS.BEFORE_END) beforeTokens.push(w.text);
+                        else if (x < PDF_COLS.AFTER_END) afterTokens.push(w.text);
+                        // REQ / TOTAL columns are left blank by design - ignored
+                    }
+
+                    const name = nameTokens.join(' ').trim();
+                    if (!name) continue;
+                    if (/^NAME\s+OF/i.test(name)) continue; // repeated table header row
+
+                    const per = perTokens.join(' ').trim();
+                    const before = beforeTokens.join('').trim();
+                    const after = afterTokens.join('').trim();
+                    const isCategory = (sno === '' && per === '' && before === '' && after === '');
+
+                    rows.push({ sno, name, per, before, after, isCategory });
+                }
+            }
+
+            return rows;
+        }
+
+        window.bulkUploadPDF = function (event) {
             const file = event.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
 
             reader.onload = async function (e) {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: "array" });
-                const sheet = workbook.Sheets[workbook.SheetNames[0]];
+                try {
+                    const arrayBuffer = e.target.result;
+                    const rows = await extractPdfRows(arrayBuffer);
 
-                // Header row unga excel la row 5 (index 4) la iruku, adha specify pannurom
-                const rows = XLSX.utils.sheet_to_json(sheet, { range: 4, defval: "" });
-
-                if (!rows.length) {
-                    showToast("Excel file is empty!", "error");
-                    return;
-                }
-
-                console.log("Excel columns detected:", Object.keys(rows[0]));
-
-                // Quote & fraction normalize panra helper - Firebase vs Excel text difference fix
-                function normalizeName(str) {
-                    return String(str || "")
-                        .replace(/[\u2018\u2019]/g, "'")
-                        .replace(/[\u201C\u201D]/g, '"')
-                        .replace(/½/g, "1/2")
-                        .replace(/¾/g, "3/4")
-                        .replace(/¼/g, "1/4")
-                        .replace(/\s+/g, " ")
-                        .trim()
-                        .toUpperCase();
-                }
-
-                const ok = confirm(`Upload ${rows.length} products to Firebase?`);
-                if (!ok) { event.target.value = ""; return; }
-
-                let updated = 0;
-                let notFound = [];
-                let failed = [];
-
-                for (const row of rows) {
-                    const rawName = row["Name of Product"];
-
-                    // Category-section rows (e.g. "SINGLE SOUND CRACKERS") skip pannunga - avanga ku price columns empty
-                    if (!rawName || row["Before Discount"] === "") continue;
-
-                    const excelName = normalizeName(rawName);
-
-                    const product = allProducts.find(p => normalizeName(p.name) === excelName);
-
-                    if (!product) {
-                        notFound.push(rawName);
-                        continue;
+                    if (!rows.length) {
+                        showToast("PDF-la data edhuvum kidaikala!", "error");
+                        event.target.value = "";
+                        return;
                     }
 
-                    const oldPrice = Number(row["Before Discount"]) || product.oldPrice || product.price;
-                    const newPrice = Number(row["After Discount"]);
+                    console.log("PDF rows detected:", rows.length);
 
-                    if (!newPrice) {
-                        notFound.push(rawName + " (no price in excel)");
-                        continue;
+                    // Quote & fraction normalize panra helper - Firebase vs PDF text difference fix
+                    function normalizeName(str) {
+                        return String(str || "")
+                            .replace(/[\u2018\u2019]/g, "'")
+                            .replace(/[\u201C\u201D]/g, '"')
+                            .replace(/½/g, "1/2")
+                            .replace(/¾/g, "3/4")
+                            .replace(/¼/g, "1/4")
+                            .replace(/\s+/g, " ")
+                            .trim()
+                            .toUpperCase();
                     }
 
-                    const discount = oldPrice ? Math.round((1 - newPrice / oldPrice) * 100) : 0;
+                    // PDF section-header text (ALL CAPS) -> exact dropdown category name.
+                    // Keys are normalized (trim + uppercase + straight quotes) so PDF's curly
+                    // apostrophes and spacing differences don't matter.
+                    const categoryHeaderMap = {
+                        "SINGLE SOUND CRACKERS": "Single Sound Crackers",
+                        "BIJILLI CRACKERS": "Bijilli Crackers",
+                        "FLOWERPOTS": "Flowerpots",
+                        "GROUND CHAKKAR": "Ground Chakkar",
+                        "RAINBOW CHAKKAR": "Rainbow Chakkar",
+                        "ELECTRIC CRACKERS": "Electric Crackers",
+                        "CHILDREN'S SPECIAL": "Children's Special",
+                        "ATOM BOMBS": "Atom Bombs",
+                        "ROCKETS": "Rockets",
+                        "JAGUVAR VARITIES": "Jaguvar Varities",
+                        "COLOUR FOUNTAIN'S": "Colour Fountains",
+                        "NEW SPECIAL FOUNTAIN'S": "New Special Fountains",
+                        "NEW WONDERS": "New Wonders",
+                        "CHOTTA FANCY": "Chotta Fancy",
+                        "NIGHT ATTRACTION FANCY": "Night Attraction Fancy",
+                        "AYYAN'S SPECIAL ELITE SERIES": "Ayyan's Special Elite Series",
+                        "2026 NEW ELITE FANCY": "2026 New Elite Fancy",
+                        "NOVELTIES": "Novelties",
+                        "MULTISHOTS": "Multishots",
+                        "FESTIVAL SERIES (SET OUT)": "Festival Series (Set Out)",
+                        "ROLL CAPS & SERPANT EGGS": "Roll Caps & Serpent Eggs",
+                        "2026 NEW VARITIES": "2026 New Varities",
+                        "SPARKLERS": "Sparklers",
+                        "NEW VARITIES SPARKLERS": "New Varities Sparklers",
+                        "GIFT BOXES (NET RATE)": "Gift Boxes",
+                        "COMBO PACK": "Combo Pack"
+                    };
 
-                    try {
-                        await updateDoc(doc(db, "products", product.id), {
+                    function matchCategoryHeader(rawText) {
+                        const key = String(rawText || "")
+                            .replace(/[\u2018\u2019]/g, "'")
+                            .trim()
+                            .toUpperCase()
+                            .replace(/\s+/g, " ");
+                        return categoryHeaderMap[key] || null;
+                    }
+
+                    const productRows = rows.filter(r => !r.isCategory && /^\d+$/.test(r.sno));
+
+                    const ok = confirm(`Upload ${productRows.length} products to Firebase?`);
+                    if (!ok) { event.target.value = ""; return; }
+
+                    let updated = 0;
+                    let notFound = [];
+                    let failed = [];
+                    let currentCategory = null; // tracks which section (e.g. "Single Sound Crackers") we're currently in
+
+                    for (const row of rows) {
+
+                        // Category-section rows (e.g. "SINGLE SOUND CRACKERS") - no price data on these.
+                        if (row.isCategory) {
+                            const mapped = matchCategoryHeader(row.name);
+                            if (mapped) currentCategory = mapped;
+                            continue;
+                        }
+
+                        // Skip stray text (footnotes etc.) that isn't a real numbered product row
+                        if (!/^\d+$/.test(row.sno)) continue;
+
+                        const rawName = row.name;
+                        const excelName = normalizeName(rawName);
+
+                        const product = allProducts.find(p => normalizeName(p.name) === excelName);
+
+                        if (!product) {
+                            notFound.push(rawName);
+                            continue;
+                        }
+
+                        const oldPrice = Number(row.before) || product.oldPrice || product.price;
+                        const newPrice = Number(row.after);
+
+                        if (!newPrice) {
+                            notFound.push(rawName + " (no price in PDF)");
+                            continue;
+                        }
+
+                        const discount = oldPrice ? Math.round((1 - newPrice / oldPrice) * 100) : 0;
+
+                        // Only price/discount/category are touched - name, image, unit, order stay exactly as-is.
+                        const updatePayload = {
                             oldPrice: oldPrice,
                             price: newPrice,
                             discount: discount,
                             updatedAt: new Date().toISOString()
-                        });
-                        updated++;
-                    } catch (err) {
-                        console.error("Update failed for", rawName, err);
-                        failed.push(`${rawName}: ${err.message}`);
+                        };
+                        if (currentCategory) {
+                            updatePayload.category = currentCategory;
+                        }
+
+                        try {
+                            await updateDoc(doc(db, "products", product.id), updatePayload);
+                            updated++;
+                        } catch (err) {
+                            console.error("Update failed for", rawName, err);
+                            failed.push(`${rawName}: ${err.message}`);
+                        }
                     }
+
+                    alert(`Updated : ${updated}\nNot Found : ${notFound.length}\nFailed : ${failed.length}`);
+
+                    if (notFound.length) console.table(notFound);
+                    if (failed.length) console.table(failed);
+                } catch (err) {
+                    console.error(err);
+                    showToast("PDF padikkardhula error: " + err.message, "error");
+                } finally {
+                    event.target.value = "";
                 }
-
-                alert(`Updated : ${updated}\nNot Found : ${notFound.length}\nFailed : ${failed.length}`);
-
-                if (notFound.length) console.table(notFound);
-                if (failed.length) console.table(failed);
-
-                event.target.value = "";
             };
 
             reader.readAsArrayBuffer(file);
@@ -1912,7 +2080,7 @@ onerror="this.src='../images/logo-removebg-preview.png'"        >
             if (product.category && allCategories.includes(product.category)) {
                 document.getElementById('editProductCategory').value = product.category;
             } else {
-                document.getElementById('editProductCategory').value = 'Sound Crackers';
+                document.getElementById('editProductCategory').value = 'Single Sound Crackers';
             }
 
             document.getElementById('editProductPrice').value = product.price || 0;
@@ -1948,7 +2116,7 @@ onerror="this.src='../images/logo-removebg-preview.png'"        >
 
             document.getElementById('editProductId').value = '';
             document.getElementById('editProductName').value = '';
-            document.getElementById('editProductCategory').value = 'Sound Crackers';
+            document.getElementById('editProductCategory').value = 'Single Sound Crackers';
             document.getElementById('editProductPrice').value = '';
             document.getElementById('editProductOldPrice').value = '';
             document.getElementById('editProductSub').value = '';
