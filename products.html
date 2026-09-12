@@ -3746,6 +3746,88 @@
                 font-size: 0.72rem;
             }
         }
+
+        .upi-payment-box {
+            margin-top: 25px;
+            padding: 20px;
+            border: 2px dashed #e60000;
+            border-radius: 15px;
+            text-align: center;
+            background: #fffdf8;
+        }
+
+        .upi-payment-box h3 {
+            color: #e60000;
+            margin-bottom: 15px;
+        }
+
+        .upi-qr {
+            width: 220px;
+            max-width: 100%;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .upi-qr:hover {
+            transform: scale(1.05);
+        }
+
+        .upi-id {
+            margin-top: 12px;
+            font-size: 16px;
+        }
+
+        .upi-text-link {
+            color: #e60000;
+            font-weight: 700;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .upi-text-link:hover {
+            color: #b00000;
+        }
+
+        /* QR Image Center */
+        #upiLink {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .upi-qr {
+            width: 220px;
+            max-width: 100%;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .upi-qr:hover {
+            transform: scale(1.05);
+        }
+
+        .paid-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #e60000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .paid-btn:hover {
+            background: #c40000;
+        }
+
+        .paid-btn.success {
+            background: #28a745;
+        }
     </style>
 
 </head>
@@ -3950,6 +4032,29 @@
                         add more items
                         (current total: <strong id="os-warning-total">₹0</strong>).</span>
                 </div>
+
+                <div class="upi-payment-box">
+                    <h3><i class="fas fa-qrcode"></i> Pay via UPI</h3>
+
+                    <a id="upiLink" href="#">
+                        <img src="images/qr.png" alt="UPI QR" class="upi-qr">
+                    </a>
+
+                    <p class="upi-id">
+                        UPI ID:
+                        <a id="upiTextLink" href="upi://pay?pa=sskaathimech@okhdfcbank&pn=Athi%20Narayanan%20K&cu=INR"
+                            class="upi-text-link">
+                            sskaathimech@okhdfcbank
+                        </a>
+                    </p>
+
+                    <small>Click the QR to open GPay / PhonePe</small>
+                </div>
+
+                <button id="paidBtn" class="paid-btn" onclick="markAsPaid()">
+                    I Paid
+                </button>
+
                 <p class="cart-empty-msg" id="os-empty-msg">Your cart is
                     empty. Add some crackers!</p>
                 <table class="cart-modal-table" id="os-table" style="display:none;">
@@ -4286,6 +4391,30 @@
         } from "firebase/firestore";
         import { getStorage, ref, getDownloadURL, listAll } from "firebase/storage";
 
+        async function markAsPaid() {
+
+            if (!currentOrderId) {
+                alert("Order not found");
+                return;
+            }
+
+            await updateDoc(doc(db, "orders", currentOrderId), {
+
+                paymentStatus: "Paid"
+
+            });
+
+            const btn = document.getElementById("paidBtn");
+
+            btn.innerHTML = "Paid ✓";
+
+            btn.classList.add("success");
+
+            btn.disabled = true;
+
+        }
+
+        window.markAsPaid = markAsPaid;
         const firebaseConfig = {
             apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
             authDomain: "qcrackers.firebaseapp.com",
@@ -4295,8 +4424,7 @@
             appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
         };
 
-
-
+        // Initialize Firebase (ONLY ONCE)
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
@@ -4476,6 +4604,7 @@
         let allProducts = [];
         let storageImageMap = new Map();
         let lastRenderedSignature = '';
+        let currentOrderId = null;
 
         function computeProductsSignature(products) {
             return products.map(p => [p.id, p.name, p.price, p.oldPrice, p.category, p.sub, p.imageUrl].join('|')).join('\n');
@@ -5270,7 +5399,7 @@
                 pickupBranch: selectedPickupBranch
             };
 
-            await saveOrderToFirebase(orderData);
+            currentOrderId = await saveOrderToFirebase(orderData);
 
             let message = `🧨 *Q Crackers - New Order*\n`;
             message += `━━━━━━━━━━━━━━━━━━━\n\n`;
@@ -5450,9 +5579,10 @@
     </script>
 
     <script type="module">
-        import { initializeApp } from "firebase/app";
+        import { initializeApp, getApps, getApp } from "firebase/app";
         import { getFirestore, doc, getDoc } from "firebase/firestore";
 
+        /* Reuse existing Firebase app */
         const firebaseConfig = {
             apiKey: "AIzaSyAJo1hyj4nDX890w5dTtlFoMMa5fnY_c-0",
             authDomain: "qcrackers.firebaseapp.com",
@@ -5462,8 +5592,12 @@
             appId: "1:491899224672:web:acc45f1e3cb5f4af1bb905"
         };
 
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
         const db = getFirestore(app);
+
+        /* ===========================
+           PRICE LIST BUTTON
+        =========================== */
 
         const priceListBtn = document.getElementById("priceListBtn");
 
@@ -5479,6 +5613,7 @@
                     } else {
                         alert("Price List not available.");
                     }
+
                 } catch (err) {
                     console.error(err);
                     alert("Failed to open Price List.");
@@ -5486,6 +5621,24 @@
             });
         }
 
+        /* ===========================
+           UPI PAYMENT LINK
+        =========================== */
+
+        const upiId = "sskaathimech@okhdfcbank";
+        const receiverName = "Athi Narayanan K";
+
+        window.updateUPILinks = function (totalAmount = 0) {
+
+            const upiUrl =
+                `upi://pay?pa=${upiId}&pn=${encodeURIComponent(receiverName)}&am=${totalAmount}&cu=INR`;
+
+            const qrLink = document.getElementById("upiLink");
+            const textLink = document.getElementById("upiTextLink");
+
+            if (qrLink) qrLink.href = upiUrl;
+            if (textLink) textLink.href = upiUrl;
+        };
     </script>
     <script src="cart.js"></script>
 
