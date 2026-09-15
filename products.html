@@ -3828,6 +3828,30 @@
         .paid-btn.success {
             background: #28a745;
         }
+
+        .product-table tbody tr.out-of-stock-row {
+            opacity: 0.55;
+        }
+
+        .product-table tbody tr.out-of-stock-row .product-image {
+            filter: grayscale(100%);
+        }
+
+        .stock-badge-customer {
+            display: inline-block;
+            background: #e74c3c;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 999px;
+            margin-top: 4px;
+        }
+
+        .qty-stepper.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
     </style>
 
 </head>
@@ -3978,7 +4002,8 @@
 
                 <!-- ========== PICKUP DETAILS SECTION STARTS HERE ========== -->
                 <div class="client-info-section">
-                    <h3><i class="fas fa-truck"></i> Delivery Destination *</h3>
+                    <h3><i class="fas fa-truck"></i> Delivery Destination
+                        *</h3>
 
                     <!-- Transport Provider -->
                     <div class="pickup-provider-label">Select Transport
@@ -4787,8 +4812,8 @@
                     const sub = product.sub || '1 Pkt';
 
                     const safeName = escapeHtmlAttr(product.name);
-                    html += `<tr data-id="${product.id}" data-name="${safeName}" data-mrp="${oldPrice}" data-price="${price}" data-unit="${sub}">    <td data-label="#">${globalSno}</td>
-
+                    const inStock = product.inStock !== false; // field illainaa default in-stock
+                    html += `<tr data-id="${product.id}" data-name="${safeName}" data-mrp="${oldPrice}" data-price="${price}" data-unit="${sub}" data-instock="${inStock}" class="${inStock ? '' : 'out-of-stock-row'}">    <td data-label="#">${globalSno}</td>
     <td data-label="Image">
     <img
         src="${imageUrl}"
@@ -4801,10 +4826,11 @@
         onerror="this.src='images/logo-removebg-preview.png'">
     </td>
 
-    <td data-label="Product">
-        <span class="product-name">${product.name || 'Unnamed'}</span>
-        <span class="sub">${sub}</span>
-    </td>
+<td data-label="Product">
+    <span class="product-name">${product.name || 'Unnamed'}</span>
+    <span class="sub">${sub}</span>
+    ${!inStock ? '<span class="stock-badge-customer">Out of Stock</span>' : ''}
+</td>
 
     <td data-label="Unit">${sub}</td>
     <td data-label="MRP" class="mrp-tag">₹${oldPrice}</td>
@@ -4818,14 +4844,13 @@
         </span>
     </td>
 
-    <td data-label="Qty">
-        <div class="qty-stepper">
-            <button type="button" class="qty-btn minus">−</button>
-            <input type="number" class="qty-input" value="0" min="0">
-            <button type="button" class="qty-btn plus">+</button>
-        </div>
-    </td>
-
+<td data-label="Qty">
+    <div class="qty-stepper ${inStock ? '' : 'disabled'}">
+        <button type="button" class="qty-btn minus" ${inStock ? '' : 'disabled'}>−</button>
+        <input type="number" class="qty-input" value="0" min="0" ${inStock ? '' : 'disabled'}>
+        <button type="button" class="qty-btn plus" ${inStock ? '' : 'disabled'}>+</button>
+    </div>
+</td>
     <td data-label="Amount" class="row-amount">₹0</td>
 </tr>`;
                 });
@@ -4853,8 +4878,9 @@
             const stepper = btn.closest('.qty-stepper');
             if (!stepper) return;
             const input = stepper.querySelector('.qty-input');
-            const row = stepper.closest('tr');
-            if (!input || !row) return;
+            const row = input.closest('tr');
+            if (!row) return;
+            if (row.dataset.instock === 'false') { input.value = 0; return; }
 
             const name = row.dataset.name;
             const price = parseFloat(row.dataset.price) || 0;

@@ -221,7 +221,7 @@
 
         .sidebar-footer .user-email {
             font-size: 0.7rem;
-            color:var(--bg-white);
+            color: var(--bg-white);
         }
 
         .sidebar-footer .logout-btn {
@@ -230,7 +230,7 @@
             gap: 10px;
             padding: 10px 16px;
             border-radius: var(--radius-sm);
-            color:var(--bg-white);
+            color: var(--bg-white);
             font-size: 0.85rem;
             font-weight: 500;
             transition: all 0.2s;
@@ -1137,6 +1137,77 @@
             padding: 8px 16px;
             border-radius: 20px;
         }
+
+        .stock-toggle {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+        }
+
+        .switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #ccc;
+            border-radius: 30px;
+            transition: .3s;
+        }
+
+        .slider:before {
+            content: "";
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            left: 3px;
+            top: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: .3s;
+        }
+
+        .switch input:checked+.slider {
+            background: #2ecc71;
+        }
+
+        .switch input:checked+.slider:before {
+            transform: translateX(24px);
+        }
+
+        .stock-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            z-index: 10;
+        }
+
+        .stock-badge.in {
+            background: #2ecc71;
+        }
+
+        .stock-badge.out {
+            background: #e74c3c;
+        }.out-stock{
+    opacity: .6;
+}
+
+.out-stock img{
+    filter: grayscale(100%);
+}
     </style>
 </head>
 
@@ -1210,7 +1281,7 @@
                     <i class="fas fa-search"></i>
                     <input type="text" placeholder="Search products..." id="globalSearch" onkeyup="filterProducts()">
                 </div>
-                        </div>
+            </div>
         </header>
 
         <div class="page-content">
@@ -1359,6 +1430,21 @@
                 <div class="form-group">
                     <label>Order Index</label>
                     <input type="number" id="editProductOrder" placeholder="0" min="0">
+                </div>
+
+                <div class="form-group">
+                    <label>Stock Status</label>
+
+                    <div class="stock-toggle">
+                        <span>Out of Stock</span>
+
+                        <label class="switch">
+                            <input type="checkbox" id="editProductStock" checked>
+                            <span class="slider"></span>
+                        </label>
+
+                        <span>In Stock</span>
+                    </div>
                 </div>
             </div>
             <div class="edit-modal-footer">
@@ -1684,846 +1770,858 @@
 
             productsGrid.innerHTML = products.map(product => {
                 const imageSrc = product.imageUrl || 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="200" height="200"%3E%3Crect width="200" height="200" fill="%23f0ebe6"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-size="14"%3E📷 No Image%3C/text%3E%3C/svg%3E';
-
                 return `
-        <div class="item-card" data-id="${product.id}" data-order="${product.orderIndex || 0}">
-    <div class="item-image" onclick="openLightbox('${imageSrc}', '${product.name?.replace(/'/g, "\\'") || 'Product'}')">
+<div class="item-card ${product.inStock === false ? 'out-stock' : ''}"
+     data-id="${product.id}"
+     data-order="${product.orderIndex || 0}">
+
+    ${product.inStock === false ? `
+        <div class="stock-badge out">Out of Stock</div>
+    ` : `
+        <div class="stock-badge in">In Stock</div>
+    `}
+
+    <div class="item-image"
+        onclick="openLightbox('${imageSrc}','${product.name?.replace(/'/g, "\\'") || 'Product'}')">
+
         <img
             src="${imageSrc}"
             alt="${product.name || 'Product'}"
             loading="lazy"
             decoding="async"
-onerror="this.src='../images/logo-removebg-preview.png'"        >
+            onerror="this.src='../images/logo-removebg-preview.png'">
     </div>
 
     <div class="item-name">${product.name || 'Unnamed Product'}</div>
     <div class="product-category">${product.category || 'Uncategorized'}</div>
+
     <div class="item-actions">
-    <button class="action-btn edit"
-        onclick="openEditModal('${product.id}')">
-        <i class="fas fa-pen"></i>
-    </button>
+        <button class="action-btn edit"
+            onclick="openEditModal('${product.id}')">
+            <i class="fas fa-pen"></i>
+        </button>
 
-    <button class="action-btn delete"
-        onclick="deleteProduct('${product.id}')">
-        <i class="fas fa-trash"></i>
-    </button>
+        <button class="action-btn delete"
+            onclick="deleteProduct('${product.id}')">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
 </div>
-</div>
-            `}).join('');
+`;
+            }).join('');
         }
+                // ============================================================
+                // IMAGE UPLOAD FUNCTIONS
+                // ============================================================
+                window.handleImageSelect = function (event) {
+                    const file = event.target.files[0];
+                    if (!file) return;
 
-        // ============================================================
-        // IMAGE UPLOAD FUNCTIONS
-        // ============================================================
-        window.handleImageSelect = function (event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-            if (!validTypes.includes(file.type)) {
-                showToast('Please upload JPG, PNG, WEBP, or GIF images only.', 'error');
-                return;
-            }
-
-            if (file.size > 2 * 1024 * 1024) {
-                showToast('Image size must be less than 2MB.', 'error');
-                return;
-            }
-
-            selectedFile = file;
-
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const preview = document.getElementById('uploadPreview');
-                const placeholder = document.getElementById('uploadPlaceholder');
-                const removeBtn = document.getElementById('removeImageBtn');
-
-                preview.src = e.target.result;
-                preview.classList.add('show');
-                placeholder.style.display = 'none';
-                removeBtn.classList.add('show');
-            };
-            reader.readAsDataURL(file);
-
-            event.target.value = '';
-        };
-
-        window.removeImage = function () {
-            selectedFile = null;
-            const preview = document.getElementById('uploadPreview');
-            const placeholder = document.getElementById('uploadPlaceholder');
-            const removeBtn = document.getElementById('removeImageBtn');
-            const progress = document.getElementById('uploadProgress');
-            const progressBar = document.getElementById('progressBar');
-
-            preview.classList.remove('show');
-            preview.src = '';
-            placeholder.style.display = 'block';
-            removeBtn.classList.remove('show');
-            progress.classList.remove('show');
-            progressBar.style.width = '0%';
-            document.getElementById('uploadingText').classList.remove('show');
-            document.getElementById('imageInput').value = '';
-        };
-
-        window.selectPDFFile = function () {
-            const input = document.getElementById("pdfInput");
-
-            // reset previous selection
-            input.value = "";
-
-            input.onchange = (event) => {
-                if (!event.target.files.length) return;
-
-                // Direct-a bulk upload function call pannum
-                window.bulkUploadPDF(event);
-            };
-
-            input.click();
-        };
-
-        // ============================================================
-        // PDF TABLE EXTRACTION (position-based column detection)
-        // ============================================================
-        // Column boundaries (in PDF points) calibrated against the
-        // Q Crackers price-list PDF layout: S.No | Name (Eng) | Name (Tamil)
-        // | PER | BEFORE DISCOUNT | AFTER DISCOUNT | REQ | TOTAL
-        const PDF_COLS = {
-            SNO: 36,
-            NAME_END: 240,
-            TAMIL_END: 377,
-            PER_END: 418,
-            BEFORE_END: 473,
-            AFTER_END: 520
-        };
-
-        async function extractPdfRows(arrayBuffer) {
-            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-            const rows = [];
-
-            // Page 1 is the cover page - table data starts from page 2
-            for (let pageNum = 2; pageNum <= pdf.numPages; pageNum++) {
-                const page = await pdf.getPage(pageNum);
-                const viewport = page.getViewport({ scale: 1 });
-                const textContent = await page.getTextContent();
-
-                const words = textContent.items
-                    .filter(item => item.str && item.str.trim().length > 0)
-                    .map(item => ({
-                        x0: item.transform[4],
-                        top: viewport.height - item.transform[5],
-                        text: item.str.trim()
-                    }));
-
-                words.sort((a, b) => (a.top - b.top) || (a.x0 - b.x0));
-
-                // Cluster words into visual rows (same line = similar 'top')
-                const TOL = 3;
-                const lineGroups = [];
-                let cur = [];
-                let curTop = null;
-                for (const w of words) {
-                    if (curTop === null || Math.abs(w.top - curTop) <= TOL) {
-                        cur.push(w);
-                        if (curTop === null) curTop = w.top;
-                    } else {
-                        lineGroups.push(cur);
-                        cur = [w];
-                        curTop = w.top;
-                    }
-                }
-                if (cur.length) lineGroups.push(cur);
-
-                for (const line of lineGroups) {
-                    let sno = '', nameTokens = [], perTokens = [], beforeTokens = [], afterTokens = [];
-                    for (const w of line) {
-                        const x = w.x0;
-                        if (x < PDF_COLS.SNO) sno += w.text;
-                        else if (x < PDF_COLS.NAME_END) nameTokens.push(w.text);
-                        else if (x < PDF_COLS.TAMIL_END) { /* Tamil column - not needed */ }
-                        else if (x < PDF_COLS.PER_END) perTokens.push(w.text);
-                        else if (x < PDF_COLS.BEFORE_END) beforeTokens.push(w.text);
-                        else if (x < PDF_COLS.AFTER_END) afterTokens.push(w.text);
-                        // REQ / TOTAL columns are left blank by design - ignored
-                    }
-
-                    const name = nameTokens.join(' ').trim();
-                    if (!name) continue;
-                    if (/^NAME\s+OF/i.test(name)) continue; // repeated table header row
-
-                    const per = perTokens.join(' ').trim();
-                    const before = beforeTokens.join('').trim();
-                    const after = afterTokens.join('').trim();
-                    const isCategory = (sno === '' && per === '' && before === '' && after === '');
-
-                    rows.push({ sno, name, per, before, after, isCategory });
-                }
-            }
-
-            return rows;
-        }
-
-        window.bulkUploadPDF = function (event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-
-            reader.onload = async function (e) {
-                try {
-                    const arrayBuffer = e.target.result;
-                    const rows = await extractPdfRows(arrayBuffer);
-
-                    if (!rows.length) {
-                        showToast("PDF-la data edhuvum kidaikala!", "error");
-                        event.target.value = "";
+                    const validTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+                    if (!validTypes.includes(file.type)) {
+                        showToast('Please upload JPG, PNG, WEBP, or GIF images only.', 'error');
                         return;
                     }
 
-                    console.log("PDF rows detected:", rows.length);
-
-                    // Quote & fraction normalize panra helper - Firebase vs PDF text difference fix
-                    function normalizeName(str) {
-                        return String(str || "")
-                            .replace(/[\u2018\u2019]/g, "'")
-                            .replace(/[\u201C\u201D]/g, '"')
-                            .replace(/½/g, "1/2")
-                            .replace(/¾/g, "3/4")
-                            .replace(/¼/g, "1/4")
-                            .replace(/\s+/g, " ")
-                            .trim()
-                            .toUpperCase();
+                    if (file.size > 2 * 1024 * 1024) {
+                        showToast('Image size must be less than 2MB.', 'error');
+                        return;
                     }
 
-                    // PDF section-header text (ALL CAPS) -> exact dropdown category name.
-                    // Keys are normalized (trim + uppercase + straight quotes) so PDF's curly
-                    // apostrophes and spacing differences don't matter.
-                    const categoryHeaderMap = {
-                        "SINGLE SOUND CRACKERS": "Single Sound Crackers",
-                        "BIJILLI CRACKERS": "Bijilli Crackers",
-                        "FLOWERPOTS": "Flowerpots",
-                        "GROUND CHAKKAR": "Ground Chakkar",
-                        "RAINBOW CHAKKAR": "Rainbow Chakkar",
-                        "ELECTRIC CRACKERS": "Electric Crackers",
-                        "CHILDREN'S SPECIAL": "Children's Special",
-                        "ATOM BOMBS": "Atom Bombs",
-                        "ROCKETS": "Rockets",
-                        "JAGUVAR VARITIES": "Jaguvar Varities",
-                        "COLOUR FOUNTAIN'S": "Colour Fountains",
-                        "NEW SPECIAL FOUNTAIN'S": "New Special Fountains",
-                        "NEW WONDERS": "New Wonders",
-                        "CHOTTA FANCY": "Chotta Fancy",
-                        "NIGHT ATTRACTION FANCY": "Night Attraction Fancy",
-                        "AYYAN'S SPECIAL ELITE SERIES": "Ayyan's Special Elite Series",
-                        "2026 NEW ELITE FANCY": "2026 New Elite Fancy",
-                        "NOVELTIES": "Novelties",
-                        "MULTISHOTS": "Multishots",
-                        "FESTIVAL SERIES (SET OUT)": "Festival Series (Set Out)",
-                        "ROLL CAPS & SERPANT EGGS": "Roll Caps & Serpent Eggs",
-                        "2026 NEW VARITIES": "2026 New Varities",
-                        "SPARKLERS": "Sparklers",
-                        "NEW VARITIES SPARKLERS": "New Varities Sparklers",
-                        "GIFT BOXES (NET RATE)": "Gift Boxes",
-                        "COMBO PACK": "Combo Pack"
+                    selectedFile = file;
+
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const preview = document.getElementById('uploadPreview');
+                        const placeholder = document.getElementById('uploadPlaceholder');
+                        const removeBtn = document.getElementById('removeImageBtn');
+
+                        preview.src = e.target.result;
+                        preview.classList.add('show');
+                        placeholder.style.display = 'none';
+                        removeBtn.classList.add('show');
                     };
+                    reader.readAsDataURL(file);
 
-                    function matchCategoryHeader(rawText) {
-                        const key = String(rawText || "")
-                            .replace(/[\u2018\u2019]/g, "'")
-                            .trim()
-                            .toUpperCase()
-                            .replace(/\s+/g, " ");
-                        return categoryHeaderMap[key] || null;
-                    }
-
-                    const productRows = rows.filter(r => !r.isCategory && /^\d+$/.test(r.sno));
-
-                    const ok = confirm(`Upload ${productRows.length} products to Firebase?`);
-                    if (!ok) { event.target.value = ""; return; }
-
-                    let updated = 0;
-                    let notFound = [];
-                    let failed = [];
-                    let currentCategory = null; // tracks which section (e.g. "Single Sound Crackers") we're currently in
-
-                    for (const row of rows) {
-
-                        // Category-section rows (e.g. "SINGLE SOUND CRACKERS") - no price data on these.
-                        if (row.isCategory) {
-                            const mapped = matchCategoryHeader(row.name);
-                            if (mapped) currentCategory = mapped;
-                            continue;
-                        }
-
-                        // Skip stray text (footnotes etc.) that isn't a real numbered product row
-                        if (!/^\d+$/.test(row.sno)) continue;
-
-                        const rawName = row.name;
-                        const excelName = normalizeName(rawName);
-
-                        const product = allProducts.find(p => normalizeName(p.name) === excelName);
-
-                        if (!product) {
-                            notFound.push(rawName);
-                            continue;
-                        }
-
-                        const oldPrice = Number(row.before) || product.oldPrice || product.price;
-                        const newPrice = Number(row.after);
-
-                        if (!newPrice) {
-                            notFound.push(rawName + " (no price in PDF)");
-                            continue;
-                        }
-
-                        const discount = oldPrice ? Math.round((1 - newPrice / oldPrice) * 100) : 0;
-
-                        // Only price/discount/category are touched - name, image, unit, order stay exactly as-is.
-                        const updatePayload = {
-                            oldPrice: oldPrice,
-                            price: newPrice,
-                            discount: discount,
-                            updatedAt: new Date().toISOString()
-                        };
-                        if (currentCategory) {
-                            updatePayload.category = currentCategory;
-                        }
-
-                        try {
-                            await updateDoc(doc(db, "products", product.id), updatePayload);
-                            updated++;
-                        } catch (err) {
-                            console.error("Update failed for", rawName, err);
-                            failed.push(`${rawName}: ${err.message}`);
-                        }
-                    }
-
-                    alert(`Updated : ${updated}\nNot Found : ${notFound.length}\nFailed : ${failed.length}`);
-
-                    if (notFound.length) console.table(notFound);
-                    if (failed.length) console.table(failed);
-                } catch (err) {
-                    console.error(err);
-                    showToast("PDF padikkardhula error: " + err.message, "error");
-                } finally {
-                    event.target.value = "";
-                }
-            };
-
-            reader.readAsArrayBuffer(file);
-        };
-
-        async function uploadImage(file, productId) {
-            return new Promise((resolve, reject) => {
-                const storageRef = ref(storage, `product-images/${productId}/${Date.now()}_${file.name}`);
-                const uploadTask = uploadBytesResumable(storageRef, file);
-
-                const progress = document.getElementById('uploadProgress');
-                const progressBar = document.getElementById('progressBar');
-                const uploadingText = document.getElementById('uploadingText');
-
-                progress.classList.add('show');
-                uploadingText.classList.add('show');
-
-                uploadTask.on('state_changed',
-                    (snapshot) => {
-                        const progressPercent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                        progressBar.style.width = progressPercent + '%';
-                    },
-                    (error) => {
-                        progress.classList.remove('show');
-                        uploadingText.classList.remove('show');
-                        reject(error);
-                    },
-                    async () => {
-                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-                        console.log("Download URL:", downloadURL);
-                        progress.classList.remove('show');
-                        uploadingText.classList.remove('show');
-                        resolve(downloadURL);
-                    }
-                );
-            });
-        }
-
-        async function deleteOldImage(imageUrl) {
-            if (!imageUrl) return;
-            try {
-                const oldRef = ref(storage, imageUrl);
-                await deleteObject(oldRef);
-                console.log('Old image deleted');
-            } catch (error) {
-                console.log('No old image to delete or error:', error.message);
-            }
-        }
-
-        // ============================================================
-        // OPEN EDIT MODAL
-        // ============================================================
-        window.openEditModal = function (productId) {
-            const product = allProducts.find(p => p.id === productId);
-            if (!product) {
-                showToast('Product not found!', 'error');
-                return;
-            }
-
-            currentEditId = productId;
-            currentImageUrl = product.imageUrl || null;
-
-            removeImage();
-
-            document.getElementById('editProductId').value = productId;
-            document.getElementById('editProductName').value = product.name || '';
-
-            loadCategories();
-            if (product.category && allCategories.includes(product.category)) {
-                document.getElementById('editProductCategory').value = product.category;
-            } else {
-                document.getElementById('editProductCategory').value = 'Single Sound Crackers';
-            }
-
-            document.getElementById('editProductPrice').value = product.price || 0;
-            document.getElementById('editProductOldPrice').value = product.oldPrice || 0;
-            document.getElementById('editProductSub').value = product.sub || '';
-            document.getElementById('editProductOrder').value = product.orderIndex || 0;
-
-            if (product.imageUrl) {
-                const preview = document.getElementById('uploadPreview');
-                const placeholder = document.getElementById('uploadPlaceholder');
-                const removeBtn = document.getElementById('removeImageBtn');
-
-                preview.src = product.imageUrl;
-                preview.classList.add('show');
-                placeholder.style.display = 'none';
-                removeBtn.classList.add('show');
-                currentImageUrl = product.imageUrl;
-            }
-
-            document.querySelector('.edit-modal-header h2').innerHTML = `<i class="fas fa-pen"></i> Edit Product`;
-            document.querySelector('.edit-modal-footer .btn-save').innerHTML = `<i class="fas fa-save"></i> Save Changes`;
-
-            document.getElementById('editModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
-
-        // ============================================================
-        // OPEN ADD MODAL
-        // ============================================================
-        window.openAddModal = function () {
-            currentEditId = null;
-            currentImageUrl = null;
-
-            document.getElementById('editProductId').value = '';
-            document.getElementById('editProductName').value = '';
-            document.getElementById('editProductCategory').value = 'Single Sound Crackers';
-            document.getElementById('editProductPrice').value = '';
-            document.getElementById('editProductOldPrice').value = '';
-            document.getElementById('editProductSub').value = '';
-            document.getElementById('editProductOrder').value = allProducts.length + 1;
-
-            loadCategories();
-
-            removeImage();
-
-            document.querySelector('.edit-modal-header h2').innerHTML = `<i class="fas fa-plus"></i> Add New Product`;
-            document.querySelector('.edit-modal-footer .btn-save').innerHTML = `<i class="fas fa-plus"></i> Add Product`;
-
-            document.getElementById('editModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        };
-
-        // ============================================================
-        // CLOSE EDIT MODAL
-        // ============================================================
-        window.closeEditModal = function () {
-            document.getElementById('editModal').classList.remove('active');
-            document.body.style.overflow = '';
-            selectedFile = null;
-            removeImage();
-        };
-
-        // ============================================================
-        // SAVE PRODUCT
-        // ============================================================
-        window.saveProduct = async function () {
-            const saveBtn = document.getElementById('saveBtn');
-
-            if (isUploading) return;
-
-            const name = document.getElementById('editProductName').value.trim();
-            const category = document.getElementById('editProductCategory').value;
-            const price = parseInt(document.getElementById('editProductPrice').value) || 0;
-            const oldPrice = parseInt(document.getElementById('editProductOldPrice').value) || 0;
-            const sub = document.getElementById('editProductSub').value.trim() || '1 Pkt';
-            const orderIndex = parseInt(document.getElementById('editProductOrder').value) || 0;
-            const productId = document.getElementById('editProductId').value;
-
-            if (!name) {
-                showToast('Please enter a product name!', 'error');
-                return;
-            }
-
-            saveBtn.disabled = true;
-            isUploading = true;
-
-            try {
-                let imageUrl = currentImageUrl;
-
-                if (selectedFile) {
-                    if (productId && currentImageUrl) {
-                        await deleteOldImage(currentImageUrl);
-                    }
-
-                    const tempId = productId || `temp_${Date.now()}`;
-                    imageUrl = await uploadImage(selectedFile, tempId);
-                }
-
-                const productData = {
-                    name: name,
-                    category: category,
-                    price: price,
-                    oldPrice: oldPrice,
-                    sub: sub,
-                    orderIndex: orderIndex || allProducts.length + 1,
-                    updatedAt: new Date().toISOString()
+                    event.target.value = '';
                 };
 
-                if (imageUrl) {
-                    productData.imageUrl = imageUrl;
+                window.removeImage = function () {
+                    selectedFile = null;
+                    const preview = document.getElementById('uploadPreview');
+                    const placeholder = document.getElementById('uploadPlaceholder');
+                    const removeBtn = document.getElementById('removeImageBtn');
+                    const progress = document.getElementById('uploadProgress');
+                    const progressBar = document.getElementById('progressBar');
+
+                    preview.classList.remove('show');
+                    preview.src = '';
+                    placeholder.style.display = 'block';
+                    removeBtn.classList.remove('show');
+                    progress.classList.remove('show');
+                    progressBar.style.width = '0%';
+                    document.getElementById('uploadingText').classList.remove('show');
+                    document.getElementById('imageInput').value = '';
+                };
+
+                window.selectPDFFile = function () {
+                    const input = document.getElementById("pdfInput");
+
+                    // reset previous selection
+                    input.value = "";
+
+                    input.onchange = (event) => {
+                        if (!event.target.files.length) return;
+
+                        // Direct-a bulk upload function call pannum
+                        window.bulkUploadPDF(event);
+                    };
+
+                    input.click();
+                };
+
+                // ============================================================
+                // PDF TABLE EXTRACTION (position-based column detection)
+                // ============================================================
+                // Column boundaries (in PDF points) calibrated against the
+                // Q Crackers price-list PDF layout: S.No | Name (Eng) | Name (Tamil)
+                // | PER | BEFORE DISCOUNT | AFTER DISCOUNT | REQ | TOTAL
+                const PDF_COLS = {
+                    SNO: 36,
+                    NAME_END: 240,
+                    TAMIL_END: 377,
+                    PER_END: 418,
+                    BEFORE_END: 473,
+                    AFTER_END: 520
+                };
+
+                async function extractPdfRows(arrayBuffer) {
+                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                    const rows = [];
+
+                    // Page 1 is the cover page - table data starts from page 2
+                    for (let pageNum = 2; pageNum <= pdf.numPages; pageNum++) {
+                        const page = await pdf.getPage(pageNum);
+                        const viewport = page.getViewport({ scale: 1 });
+                        const textContent = await page.getTextContent();
+
+                        const words = textContent.items
+                            .filter(item => item.str && item.str.trim().length > 0)
+                            .map(item => ({
+                                x0: item.transform[4],
+                                top: viewport.height - item.transform[5],
+                                text: item.str.trim()
+                            }));
+
+                        words.sort((a, b) => (a.top - b.top) || (a.x0 - b.x0));
+
+                        // Cluster words into visual rows (same line = similar 'top')
+                        const TOL = 3;
+                        const lineGroups = [];
+                        let cur = [];
+                        let curTop = null;
+                        for (const w of words) {
+                            if (curTop === null || Math.abs(w.top - curTop) <= TOL) {
+                                cur.push(w);
+                                if (curTop === null) curTop = w.top;
+                            } else {
+                                lineGroups.push(cur);
+                                cur = [w];
+                                curTop = w.top;
+                            }
+                        }
+                        if (cur.length) lineGroups.push(cur);
+
+                        for (const line of lineGroups) {
+                            let sno = '', nameTokens = [], perTokens = [], beforeTokens = [], afterTokens = [];
+                            for (const w of line) {
+                                const x = w.x0;
+                                if (x < PDF_COLS.SNO) sno += w.text;
+                                else if (x < PDF_COLS.NAME_END) nameTokens.push(w.text);
+                                else if (x < PDF_COLS.TAMIL_END) { /* Tamil column - not needed */ }
+                                else if (x < PDF_COLS.PER_END) perTokens.push(w.text);
+                                else if (x < PDF_COLS.BEFORE_END) beforeTokens.push(w.text);
+                                else if (x < PDF_COLS.AFTER_END) afterTokens.push(w.text);
+                                // REQ / TOTAL columns are left blank by design - ignored
+                            }
+
+                            const name = nameTokens.join(' ').trim();
+                            if (!name) continue;
+                            if (/^NAME\s+OF/i.test(name)) continue; // repeated table header row
+
+                            const per = perTokens.join(' ').trim();
+                            const before = beforeTokens.join('').trim();
+                            const after = afterTokens.join('').trim();
+                            const isCategory = (sno === '' && per === '' && before === '' && after === '');
+
+                            rows.push({ sno, name, per, before, after, isCategory });
+                        }
+                    }
+
+                    return rows;
                 }
 
-                if (productId) {
-                    const oldProduct = allProducts.find(p => p.id === productId);
-                    const oldOrder = oldProduct.orderIndex || 0;
-                    const newOrder = orderIndex;
+                window.bulkUploadPDF = function (event) {
+                    const file = event.target.files[0];
+                    if (!file) return;
 
-                    const batch = writeBatch(db);
+                    const reader = new FileReader();
 
-                    if (newOrder < oldOrder) {
-                        allProducts.forEach(p => {
-                            if (p.id !== productId &&
-                                p.orderIndex >= newOrder &&
-                                p.orderIndex < oldOrder) {
-                                batch.update(doc(db, "products", p.id), {
-                                    orderIndex: p.orderIndex + 1
-                                });
+                    reader.onload = async function (e) {
+                        try {
+                            const arrayBuffer = e.target.result;
+                            const rows = await extractPdfRows(arrayBuffer);
+
+                            if (!rows.length) {
+                                showToast("PDF-la data edhuvum kidaikala!", "error");
+                                event.target.value = "";
+                                return;
                             }
-                        });
-                    }
-                    else if (newOrder > oldOrder) {
-                        allProducts.forEach(p => {
-                            if (p.id !== productId &&
-                                p.orderIndex <= newOrder &&
-                                p.orderIndex > oldOrder) {
-                                batch.update(doc(db, "products", p.id), {
-                                    orderIndex: p.orderIndex - 1
-                                });
-                            }
-                        });
-                    }
 
-                    batch.update(doc(db, "products", productId), {
-                        ...productData,
-                        orderIndex: newOrder
+                            console.log("PDF rows detected:", rows.length);
+
+                            // Quote & fraction normalize panra helper - Firebase vs PDF text difference fix
+                            function normalizeName(str) {
+                                return String(str || "")
+                                    .replace(/[\u2018\u2019]/g, "'")
+                                    .replace(/[\u201C\u201D]/g, '"')
+                                    .replace(/½/g, "1/2")
+                                    .replace(/¾/g, "3/4")
+                                    .replace(/¼/g, "1/4")
+                                    .replace(/\s+/g, " ")
+                                    .trim()
+                                    .toUpperCase();
+                            }
+
+                            // PDF section-header text (ALL CAPS) -> exact dropdown category name.
+                            // Keys are normalized (trim + uppercase + straight quotes) so PDF's curly
+                            // apostrophes and spacing differences don't matter.
+                            const categoryHeaderMap = {
+                                "SINGLE SOUND CRACKERS": "Single Sound Crackers",
+                                "BIJILLI CRACKERS": "Bijilli Crackers",
+                                "FLOWERPOTS": "Flowerpots",
+                                "GROUND CHAKKAR": "Ground Chakkar",
+                                "RAINBOW CHAKKAR": "Rainbow Chakkar",
+                                "ELECTRIC CRACKERS": "Electric Crackers",
+                                "CHILDREN'S SPECIAL": "Children's Special",
+                                "ATOM BOMBS": "Atom Bombs",
+                                "ROCKETS": "Rockets",
+                                "JAGUVAR VARITIES": "Jaguvar Varities",
+                                "COLOUR FOUNTAIN'S": "Colour Fountains",
+                                "NEW SPECIAL FOUNTAIN'S": "New Special Fountains",
+                                "NEW WONDERS": "New Wonders",
+                                "CHOTTA FANCY": "Chotta Fancy",
+                                "NIGHT ATTRACTION FANCY": "Night Attraction Fancy",
+                                "AYYAN'S SPECIAL ELITE SERIES": "Ayyan's Special Elite Series",
+                                "2026 NEW ELITE FANCY": "2026 New Elite Fancy",
+                                "NOVELTIES": "Novelties",
+                                "MULTISHOTS": "Multishots",
+                                "FESTIVAL SERIES (SET OUT)": "Festival Series (Set Out)",
+                                "ROLL CAPS & SERPANT EGGS": "Roll Caps & Serpent Eggs",
+                                "2026 NEW VARITIES": "2026 New Varities",
+                                "SPARKLERS": "Sparklers",
+                                "NEW VARITIES SPARKLERS": "New Varities Sparklers",
+                                "GIFT BOXES (NET RATE)": "Gift Boxes",
+                                "COMBO PACK": "Combo Pack"
+                            };
+
+                            function matchCategoryHeader(rawText) {
+                                const key = String(rawText || "")
+                                    .replace(/[\u2018\u2019]/g, "'")
+                                    .trim()
+                                    .toUpperCase()
+                                    .replace(/\s+/g, " ");
+                                return categoryHeaderMap[key] || null;
+                            }
+
+                            const productRows = rows.filter(r => !r.isCategory && /^\d+$/.test(r.sno));
+
+                            const ok = confirm(`Upload ${productRows.length} products to Firebase?`);
+                            if (!ok) { event.target.value = ""; return; }
+
+                            let updated = 0;
+                            let notFound = [];
+                            let failed = [];
+                            let currentCategory = null; // tracks which section (e.g. "Single Sound Crackers") we're currently in
+
+                            for (const row of rows) {
+
+                                // Category-section rows (e.g. "SINGLE SOUND CRACKERS") - no price data on these.
+                                if (row.isCategory) {
+                                    const mapped = matchCategoryHeader(row.name);
+                                    if (mapped) currentCategory = mapped;
+                                    continue;
+                                }
+
+                                // Skip stray text (footnotes etc.) that isn't a real numbered product row
+                                if (!/^\d+$/.test(row.sno)) continue;
+
+                                const rawName = row.name;
+                                const excelName = normalizeName(rawName);
+
+                                const product = allProducts.find(p => normalizeName(p.name) === excelName);
+
+                                if (!product) {
+                                    notFound.push(rawName);
+                                    continue;
+                                }
+
+                                const oldPrice = Number(row.before) || product.oldPrice || product.price;
+                                const newPrice = Number(row.after);
+
+                                if (!newPrice) {
+                                    notFound.push(rawName + " (no price in PDF)");
+                                    continue;
+                                }
+
+                                const discount = oldPrice ? Math.round((1 - newPrice / oldPrice) * 100) : 0;
+
+                                // Only price/discount/category are touched - name, image, unit, order stay exactly as-is.
+                                const updatePayload = {
+                                    oldPrice: oldPrice,
+                                    price: newPrice,
+                                    discount: discount,
+                                    updatedAt: new Date().toISOString()
+                                };
+                                if (currentCategory) {
+                                    updatePayload.category = currentCategory;
+                                }
+
+                                try {
+                                    await updateDoc(doc(db, "products", product.id), updatePayload);
+                                    updated++;
+                                } catch (err) {
+                                    console.error("Update failed for", rawName, err);
+                                    failed.push(`${rawName}: ${err.message}`);
+                                }
+                            }
+
+                            alert(`Updated : ${updated}\nNot Found : ${notFound.length}\nFailed : ${failed.length}`);
+
+                            if (notFound.length) console.table(notFound);
+                            if (failed.length) console.table(failed);
+                        } catch (err) {
+                            console.error(err);
+                            showToast("PDF padikkardhula error: " + err.message, "error");
+                        } finally {
+                            event.target.value = "";
+                        }
+                    };
+
+                    reader.readAsArrayBuffer(file);
+                };
+
+                async function uploadImage(file, productId) {
+                    return new Promise((resolve, reject) => {
+                        const storageRef = ref(storage, `product-images/${productId}/${Date.now()}_${file.name}`);
+                        const uploadTask = uploadBytesResumable(storageRef, file);
+
+                        const progress = document.getElementById('uploadProgress');
+                        const progressBar = document.getElementById('progressBar');
+                        const uploadingText = document.getElementById('uploadingText');
+
+                        progress.classList.add('show');
+                        uploadingText.classList.add('show');
+
+                        uploadTask.on('state_changed',
+                            (snapshot) => {
+                                const progressPercent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                                progressBar.style.width = progressPercent + '%';
+                            },
+                            (error) => {
+                                progress.classList.remove('show');
+                                uploadingText.classList.remove('show');
+                                reject(error);
+                            },
+                            async () => {
+                                const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                                console.log("Download URL:", downloadURL);
+                                progress.classList.remove('show');
+                                uploadingText.classList.remove('show');
+                                resolve(downloadURL);
+                            }
+                        );
                     });
+                }
 
-                    await batch.commit();
-                    showToast("✅ Product updated successfully!", "success"); showToast('✅ Product updated successfully!', 'success');
-                } else {
-                    const newOrder = orderIndex || (allProducts.length + 1);
+                async function deleteOldImage(imageUrl) {
+                    if (!imageUrl) return;
+                    try {
+                        const oldRef = ref(storage, imageUrl);
+                        await deleteObject(oldRef);
+                        console.log('Old image deleted');
+                    } catch (error) {
+                        console.log('No old image to delete or error:', error.message);
+                    }
+                }
 
-                    // New order-ku mela irukkura products ellam +1
-                    const batch = writeBatch(db);
+                // ============================================================
+                // OPEN EDIT MODAL
+                // ============================================================
+                window.openEditModal = function (productId) {
+                    const product = allProducts.find(p => p.id === productId);
+                    if (!product) {
+                        showToast('Product not found!', 'error');
+                        return;
+                    }
 
-                    allProducts.forEach(product => {
-                        if ((product.orderIndex || 0) >= newOrder) {
-                            const refDoc = doc(db, "products", product.id);
-                            batch.update(refDoc, {
-                                orderIndex: (product.orderIndex || 0) + 1
+                    currentEditId = productId;
+                    currentImageUrl = product.imageUrl || null;
+
+                    removeImage();
+
+                    document.getElementById('editProductId').value = productId;
+                    document.getElementById('editProductName').value = product.name || '';
+
+                    loadCategories();
+                    if (product.category && allCategories.includes(product.category)) {
+                        document.getElementById('editProductCategory').value = product.category;
+                    } else {
+                        document.getElementById('editProductCategory').value = 'Single Sound Crackers';
+                    }
+
+                    document.getElementById('editProductPrice').value = product.price || 0;
+                    document.getElementById('editProductOldPrice').value = product.oldPrice || 0;
+                    document.getElementById('editProductSub').value = product.sub || '';
+                    document.getElementById('editProductOrder').value = product.orderIndex || 0;
+
+                    if (product.imageUrl) {
+                        const preview = document.getElementById('uploadPreview');
+                        const placeholder = document.getElementById('uploadPlaceholder');
+                        const removeBtn = document.getElementById('removeImageBtn');
+
+                        preview.src = product.imageUrl;
+                        preview.classList.add('show');
+                        placeholder.style.display = 'none';
+                        removeBtn.classList.add('show');
+                        currentImageUrl = product.imageUrl;
+                    }
+
+                    document.querySelector('.edit-modal-header h2').innerHTML = `<i class="fas fa-pen"></i> Edit Product`;
+                    document.querySelector('.edit-modal-footer .btn-save').innerHTML = `<i class="fas fa-save"></i> Save Changes`;
+
+                    document.getElementById('editModal').classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                };
+
+                // ============================================================
+                // OPEN ADD MODAL
+                // ============================================================
+                window.openAddModal = function () {
+                    currentEditId = null;
+                    currentImageUrl = null;
+
+                    document.getElementById('editProductId').value = '';
+                    document.getElementById('editProductName').value = '';
+                    document.getElementById('editProductCategory').value = 'Single Sound Crackers';
+                    document.getElementById('editProductPrice').value = '';
+                    document.getElementById('editProductOldPrice').value = '';
+                    document.getElementById('editProductSub').value = '';
+                    document.getElementById('editProductOrder').value = allProducts.length + 1;
+
+                    loadCategories();
+
+                    removeImage();
+
+                    document.querySelector('.edit-modal-header h2').innerHTML = `<i class="fas fa-plus"></i> Add New Product`;
+                    document.querySelector('.edit-modal-footer .btn-save').innerHTML = `<i class="fas fa-plus"></i> Add Product`;
+
+                    document.getElementById('editModal').classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                };
+
+                // ============================================================
+                // CLOSE EDIT MODAL
+                // ============================================================
+                window.closeEditModal = function () {
+                    document.getElementById('editModal').classList.remove('active');
+                    document.body.style.overflow = '';
+                    selectedFile = null;
+                    removeImage();
+                };
+
+                // ============================================================
+                // SAVE PRODUCT
+                // ============================================================
+                window.saveProduct = async function () {
+                    const saveBtn = document.getElementById('saveBtn');
+
+                    if (isUploading) return;
+
+                    const name = document.getElementById('editProductName').value.trim();
+                    const category = document.getElementById('editProductCategory').value;
+                    const price = parseInt(document.getElementById('editProductPrice').value) || 0;
+                    const oldPrice = parseInt(document.getElementById('editProductOldPrice').value) || 0;
+                    const sub = document.getElementById('editProductSub').value.trim() || '1 Pkt';
+                    const orderIndex = parseInt(document.getElementById('editProductOrder').value) || 0;
+                    const productId = document.getElementById('editProductId').value;
+
+                    if (!name) {
+                        showToast('Please enter a product name!', 'error');
+                        return;
+                    }
+
+                    saveBtn.disabled = true;
+                    isUploading = true;
+
+                    try {
+                        let imageUrl = currentImageUrl;
+
+                        if (selectedFile) {
+                            if (productId && currentImageUrl) {
+                                await deleteOldImage(currentImageUrl);
+                            }
+
+                            const tempId = productId || `temp_${Date.now()}`;
+                            imageUrl = await uploadImage(selectedFile, tempId);
+                        }
+
+                        const productData = {
+                            name: name,
+                            category: category,
+                            price: price,
+                            oldPrice: oldPrice,
+                            sub: sub,
+                            orderIndex: orderIndex || allProducts.length + 1,
+                            updatedAt: new Date().toISOString(),
+                            inStock: document.getElementById('editProductStock').checked,
+                        };
+
+                        if (imageUrl) {
+                            productData.imageUrl = imageUrl;
+                        }
+
+                        if (productId) {
+                            const oldProduct = allProducts.find(p => p.id === productId);
+                            const oldOrder = oldProduct.orderIndex || 0;
+                            const newOrder = orderIndex;
+
+                            const batch = writeBatch(db);
+
+                            if (newOrder < oldOrder) {
+                                allProducts.forEach(p => {
+                                    if (p.id !== productId &&
+                                        p.orderIndex >= newOrder &&
+                                        p.orderIndex < oldOrder) {
+                                        batch.update(doc(db, "products", p.id), {
+                                            orderIndex: p.orderIndex + 1
+                                        });
+                                    }
+                                });
+                            }
+                            else if (newOrder > oldOrder) {
+                                allProducts.forEach(p => {
+                                    if (p.id !== productId &&
+                                        p.orderIndex <= newOrder &&
+                                        p.orderIndex > oldOrder) {
+                                        batch.update(doc(db, "products", p.id), {
+                                            orderIndex: p.orderIndex - 1
+                                        });
+                                    }
+                                });
+                            }
+
+                            batch.update(doc(db, "products", productId), {
+                                ...productData,
+                                orderIndex: newOrder
                             });
+
+                            await batch.commit();
+                            showToast("✅ Product updated successfully!", "success"); showToast('✅ Product updated successfully!', 'success');
+                        } else {
+                            const newOrder = orderIndex || (allProducts.length + 1);
+
+                            // New order-ku mela irukkura products ellam +1
+                            const batch = writeBatch(db);
+
+                            allProducts.forEach(product => {
+                                if ((product.orderIndex || 0) >= newOrder) {
+                                    const refDoc = doc(db, "products", product.id);
+                                    batch.update(refDoc, {
+                                        orderIndex: (product.orderIndex || 0) + 1
+                                    });
+                                }
+                            });
+
+                            await batch.commit();
+
+                            productData.orderIndex = newOrder;
+                            productData.createdAt = new Date().toISOString();
+
+                            await addDoc(collection(db, "products"), productData);
+
+                            showToast("✅ Product added successfully!", "success");
+                        }
+
+                        closeEditModal();
+                    } catch (error) {
+                        console.error('Error saving product:', error);
+                        showToast('❌ Error: ' + error.message, 'error');
+                    } finally {
+                        saveBtn.disabled = false;
+                        isUploading = false;
+                    }
+                };
+
+                // ============================================================
+                // DELETE PRODUCT
+                // ============================================================
+
+                window.deleteProduct = async function (productId) {
+                    if (!confirm('Are you sure you want to delete this product?')) return;
+
+                    try {
+                        const product = allProducts.find(p => p.id === productId);
+                        if (!product) {
+                            showToast('Product not found!', 'error');
+                            return;
+                        }
+
+                        const deletedOrder = product.orderIndex || 0;
+
+                        // Delete image from storage first
+                        if (product.imageUrl) {
+                            await deleteOldImage(product.imageUrl);
+                        }
+
+                        // Shift down orderIndex of all products that come AFTER the deleted one
+                        const batch = writeBatch(db);
+
+                        allProducts.forEach(p => {
+                            if (p.id !== productId && (p.orderIndex || 0) > deletedOrder) {
+                                batch.update(doc(db, "products", p.id), {
+                                    orderIndex: (p.orderIndex || 0) - 1
+                                });
+                            }
+                        });
+
+                        // Delete the product itself
+                        batch.delete(doc(db, "products", productId));
+
+                        await batch.commit();
+
+                        showToast('✅ Product deleted & order re-numbered!', 'success');
+                    } catch (err) {
+                        showToast('❌ Error deleting: ' + err.message, 'error');
+                    }
+                };
+
+
+                // ============================================================
+                // RENUMBER ALL PRODUCTS (fixes existing gaps like 9,11,12...)
+                // ============================================================
+                window.renumberProducts = async function () {
+                    if (!confirm('This will re-number ALL products in order as 1, 2, 3... Continue?')) return;
+                    try {
+                        const sorted = [...allProducts].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
+
+                        const batch = writeBatch(db);
+                        let changed = 0;
+
+                        sorted.forEach((product, index) => {
+                            const correctOrder = index + 1;
+                            if ((product.orderIndex || 0) !== correctOrder) {
+                                batch.update(doc(db, "products", product.id), {
+                                    orderIndex: correctOrder
+                                });
+                                changed++;
+                            }
+                        });
+
+                        if (changed === 0) {
+                            showToast('✅ Already in correct order — no gaps found!', 'info');
+                            return;
+                        }
+
+                        await batch.commit();
+                        showToast(`✅ Fixed! ${changed} products re-numbered.`, 'success');
+                    } catch (err) {
+                        showToast('❌ Error renumbering: ' + err.message, 'error');
+                    }
+                };
+
+                // ============================================================
+                // DELETE ALL PRODUCTS
+                // ============================================================
+                window.deleteAllProducts = function () {
+                    if (!confirm('⚠️ This will delete ALL products from Firebase! Are you sure?')) return;
+                    if (!confirm('⚠️ FINAL CONFIRMATION: Delete all products?')) return;
+
+                    const batch = writeBatch(db);
+                    const productsRef = collection(db, 'products');
+
+                    getDocs(productsRef).then((snapshot) => {
+                        if (snapshot.empty) {
+                            showToast('No products to delete', 'info');
+                            return;
+                        }
+
+                        snapshot.forEach((doc) => {
+                            const data = doc.data();
+                            if (data.imageUrl) {
+                                deleteOldImage(data.imageUrl);
+                            }
+                        });
+
+                        snapshot.forEach((doc) => {
+                            batch.delete(doc.ref);
+                        });
+
+                        batch.commit().then(() => {
+                            showToast(`🗑️ Deleted ${snapshot.size} products!`, 'success');
+                        }).catch(err => {
+                            showToast('❌ Error deleting: ' + err.message, 'error');
+                        });
+                    }).catch(err => {
+                        showToast('❌ Error: ' + err.message, 'error');
+                    });
+                };
+
+                // ============================================================
+                // LIGHTBOX ZOOM FUNCTIONS
+                // ============================================================
+                function openLightbox(imageUrl, productName) {
+                    const overlay = document.getElementById('lightboxOverlay');
+                    const lightboxImage = document.getElementById('lightboxImage');
+                    const lightboxTitle = document.getElementById('lightboxTitle');
+
+                    lightboxImage.src = imageUrl;
+                    lightboxImage.loading = "lazy";
+                    lightboxImage.decoding = "async";
+                    lightboxImage.onerror = () => {
+                        lightboxImage.src = "../images/placeholder.jpg";
+                    };
+
+                    lightboxTitle.textContent = productName;
+                    overlay.classList.add('active');
+                }
+                function closeLightbox() {
+                    const overlay = document.getElementById('lightboxOverlay');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+
+                document.addEventListener('DOMContentLoaded', function () {
+                    const overlay = document.getElementById('lightboxOverlay');
+                    const closeBtn = document.getElementById('lightboxClose');
+
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', closeLightbox);
+                    }
+
+                    if (overlay) {
+                        overlay.addEventListener('click', function (e) {
+                            if (e.target === this) {
+                                closeLightbox();
+                            }
+                        });
+                    }
+
+                    document.addEventListener('keydown', function (e) {
+                        if (e.key === 'Escape') {
+                            closeLightbox();
+                            closeEditModal();
                         }
                     });
 
-                    await batch.commit();
+                    loadCategories();
+                });
 
-                    productData.orderIndex = newOrder;
-                    productData.createdAt = new Date().toISOString();
+                window.openLightbox = openLightbox;
+                window.closeLightbox = closeLightbox;
 
-                    await addDoc(collection(db, "products"), productData);
+                // ============================================================
+                // FILTER PRODUCTS
+                // ============================================================
+                window.filterProducts = function () {
+                    const searchTerm = globalSearch.value.toLowerCase().trim();
+                    if (searchTerm === '') {
+                        renderProducts(allProducts);
+                        return;
+                    }
+                    const filtered = allProducts.filter(p =>
+                        (p.name || '').toLowerCase().includes(searchTerm) ||
+                        (p.category || '').toLowerCase().includes(searchTerm)
+                    );
+                    renderProducts(filtered);
+                };
 
-                    showToast("✅ Product added successfully!", "success");
+                // ============================================================
+                // REFRESH PRODUCTS
+                // ============================================================
+                window.refreshProducts = function () {
+                    showToast('🔄 Syncing products...', 'info');
+                    if (unsubscribeProducts) {
+                        unsubscribeProducts();
+                    }
+                    if (unsubscribeOrders) {
+                        unsubscribeOrders();
+                    }
+                    listenToProducts();
+                };
+
+                // ============================================================
+                // UPDATE SYNC STATUS
+                // ============================================================
+                function updateSyncStatus(isLive) {
+                    const icon = document.getElementById('syncStatusIcon');
+                    const text = document.getElementById('syncStatusText');
+                    const dot = document.getElementById('statusDot');
+                    const statusText = document.getElementById('statusText');
+
+                    if (isLive) {
+                        if (icon) icon.className = 'fas fa-circle live';
+                        if (text) text.textContent = 'Live';
+                        if (dot) dot.className = 'fas fa-circle live';
+                        if (statusText) statusText.textContent = 'Live from Firebase';
+                    } else {
+                        if (icon) icon.className = 'fas fa-circle offline';
+                        if (text) text.textContent = 'Offline';
+                        if (dot) dot.className = 'fas fa-circle offline';
+                        if (statusText) statusText.textContent = 'Offline — Retrying...';
+                    }
                 }
 
-                closeEditModal();
-            } catch (error) {
-                console.error('Error saving product:', error);
-                showToast('❌ Error: ' + error.message, 'error');
-            } finally {
-                saveBtn.disabled = false;
-                isUploading = false;
-            }
-        };
-
-        // ============================================================
-        // DELETE PRODUCT
-        // ============================================================
-
-        window.deleteProduct = async function (productId) {
-            if (!confirm('Are you sure you want to delete this product?')) return;
-
-            try {
-                const product = allProducts.find(p => p.id === productId);
-                if (!product) {
-                    showToast('Product not found!', 'error');
-                    return;
+                // ============================================================
+                // TOAST NOTIFICATION
+                // ============================================================
+                function showToast(message, type = 'info') {
+                    const toast = document.getElementById('toast');
+                    toast.textContent = message;
+                    toast.className = `toast ${type} show`;
+                    clearTimeout(toast._timeout);
+                    toast._timeout = setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
                 }
 
-                const deletedOrder = product.orderIndex || 0;
+                // ============================================================
+                // UI INTERACTIONS
+                // ============================================================
+                document.getElementById('hamburgerBtn').addEventListener('click', () => {
+                    document.getElementById('sidebar').classList.toggle('open');
+                    document.getElementById('sidebarOverlay').classList.toggle('active');
+                });
 
-                // Delete image from storage first
-                if (product.imageUrl) {
-                    await deleteOldImage(product.imageUrl);
-                }
+                document.getElementById('sidebarOverlay').addEventListener('click', () => {
+                    document.getElementById('sidebar').classList.remove('open');
+                    document.getElementById('sidebarOverlay').classList.remove('active');
+                });
 
-                // Shift down orderIndex of all products that come AFTER the deleted one
-                const batch = writeBatch(db);
-
-                allProducts.forEach(p => {
-                    if (p.id !== productId && (p.orderIndex || 0) > deletedOrder) {
-                        batch.update(doc(db, "products", p.id), {
-                            orderIndex: (p.orderIndex || 0) - 1
-                        });
+                document.getElementById('globalSearch').addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') {
+                        window.filterProducts();
                     }
                 });
 
-                // Delete the product itself
-                batch.delete(doc(db, "products", productId));
+                // ============================================================
+                // INIT
+                // ============================================================
+                console.log('🚀 Loading admin products from Firebase...');
+                listenToProducts();
 
-                await batch.commit();
-
-                showToast('✅ Product deleted & order re-numbered!', 'success');
-            } catch (err) {
-                showToast('❌ Error deleting: ' + err.message, 'error');
-            }
-        };
-
-
-        // ============================================================
-        // RENUMBER ALL PRODUCTS (fixes existing gaps like 9,11,12...)
-        // ============================================================
-        window.renumberProducts = async function () {
-            if (!confirm('This will re-number ALL products in order as 1, 2, 3... Continue?')) return;
-            try {
-                const sorted = [...allProducts].sort((a, b) => (a.orderIndex || 0) - (b.orderIndex || 0));
-
-                const batch = writeBatch(db);
-                let changed = 0;
-
-                sorted.forEach((product, index) => {
-                    const correctOrder = index + 1;
-                    if ((product.orderIndex || 0) !== correctOrder) {
-                        batch.update(doc(db, "products", product.id), {
-                            orderIndex: correctOrder
-                        });
-                        changed++;
-                    }
-                });
-
-                if (changed === 0) {
-                    showToast('✅ Already in correct order — no gaps found!', 'info');
-                    return;
-                }
-
-                await batch.commit();
-                showToast(`✅ Fixed! ${changed} products re-numbered.`, 'success');
-            } catch (err) {
-                showToast('❌ Error renumbering: ' + err.message, 'error');
-            }
-        };
-
-        // ============================================================
-        // DELETE ALL PRODUCTS
-        // ============================================================
-        window.deleteAllProducts = function () {
-            if (!confirm('⚠️ This will delete ALL products from Firebase! Are you sure?')) return;
-            if (!confirm('⚠️ FINAL CONFIRMATION: Delete all products?')) return;
-
-            const batch = writeBatch(db);
-            const productsRef = collection(db, 'products');
-
-            getDocs(productsRef).then((snapshot) => {
-                if (snapshot.empty) {
-                    showToast('No products to delete', 'info');
-                    return;
-                }
-
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    if (data.imageUrl) {
-                        deleteOldImage(data.imageUrl);
-                    }
-                });
-
-                snapshot.forEach((doc) => {
-                    batch.delete(doc.ref);
-                });
-
-                batch.commit().then(() => {
-                    showToast(`🗑️ Deleted ${snapshot.size} products!`, 'success');
-                }).catch(err => {
-                    showToast('❌ Error deleting: ' + err.message, 'error');
-                });
-            }).catch(err => {
-                showToast('❌ Error: ' + err.message, 'error');
-            });
-        };
-
-        // ============================================================
-        // LIGHTBOX ZOOM FUNCTIONS
-        // ============================================================
-        function openLightbox(imageUrl, productName) {
-            const overlay = document.getElementById('lightboxOverlay');
-            const lightboxImage = document.getElementById('lightboxImage');
-            const lightboxTitle = document.getElementById('lightboxTitle');
-
-            lightboxImage.src = imageUrl;
-            lightboxImage.loading = "lazy";
-            lightboxImage.decoding = "async";
-            lightboxImage.onerror = () => {
-                lightboxImage.src = "../images/placeholder.jpg";
-            };
-
-            lightboxTitle.textContent = productName;
-            overlay.classList.add('active');
-        }
-        function closeLightbox() {
-            const overlay = document.getElementById('lightboxOverlay');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const overlay = document.getElementById('lightboxOverlay');
-            const closeBtn = document.getElementById('lightboxClose');
-
-            if (closeBtn) {
-                closeBtn.addEventListener('click', closeLightbox);
-            }
-
-            if (overlay) {
-                overlay.addEventListener('click', function (e) {
-                    if (e.target === this) {
-                        closeLightbox();
-                    }
-                });
-            }
-
-            document.addEventListener('keydown', function (e) {
-                if (e.key === 'Escape') {
-                    closeLightbox();
-                    closeEditModal();
-                }
-            });
-
-            loadCategories();
-        });
-
-        window.openLightbox = openLightbox;
-        window.closeLightbox = closeLightbox;
-
-        // ============================================================
-        // FILTER PRODUCTS
-        // ============================================================
-        window.filterProducts = function () {
-            const searchTerm = globalSearch.value.toLowerCase().trim();
-            if (searchTerm === '') {
-                renderProducts(allProducts);
-                return;
-            }
-            const filtered = allProducts.filter(p =>
-                (p.name || '').toLowerCase().includes(searchTerm) ||
-                (p.category || '').toLowerCase().includes(searchTerm)
-            );
-            renderProducts(filtered);
-        };
-
-        // ============================================================
-        // REFRESH PRODUCTS
-        // ============================================================
-        window.refreshProducts = function () {
-            showToast('🔄 Syncing products...', 'info');
-            if (unsubscribeProducts) {
-                unsubscribeProducts();
-            }
-            if (unsubscribeOrders) {
-                unsubscribeOrders();
-            }
-            listenToProducts();
-        };
-
-        // ============================================================
-        // UPDATE SYNC STATUS
-        // ============================================================
-        function updateSyncStatus(isLive) {
-            const icon = document.getElementById('syncStatusIcon');
-            const text = document.getElementById('syncStatusText');
-            const dot = document.getElementById('statusDot');
-            const statusText = document.getElementById('statusText');
-
-            if (isLive) {
-                if (icon) icon.className = 'fas fa-circle live';
-                if (text) text.textContent = 'Live';
-                if (dot) dot.className = 'fas fa-circle live';
-                if (statusText) statusText.textContent = 'Live from Firebase';
-            } else {
-                if (icon) icon.className = 'fas fa-circle offline';
-                if (text) text.textContent = 'Offline';
-                if (dot) dot.className = 'fas fa-circle offline';
-                if (statusText) statusText.textContent = 'Offline — Retrying...';
-            }
-        }
-
-        // ============================================================
-        // TOAST NOTIFICATION
-        // ============================================================
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type} show`;
-            clearTimeout(toast._timeout);
-            toast._timeout = setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // ============================================================
-        // UI INTERACTIONS
-        // ============================================================
-        document.getElementById('hamburgerBtn').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.toggle('open');
-            document.getElementById('sidebarOverlay').classList.toggle('active');
-        });
-
-        document.getElementById('sidebarOverlay').addEventListener('click', () => {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('sidebarOverlay').classList.remove('active');
-        });
-
-        document.getElementById('globalSearch').addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                window.filterProducts();
-            }
-        });
-
-        // ============================================================
-        // INIT
-        // ============================================================
-        console.log('🚀 Loading admin products from Firebase...');
-        listenToProducts();
-
-        console.log('🌱 Q Crackers Admin Panel Ready with Dynamic Categories');
-        console.log('📦 Orders badge will update in real-time');
+                console.log('🌱 Q Crackers Admin Panel Ready with Dynamic Categories');
+                console.log('📦 Orders badge will update in real-time');
     </script>
 </body>
 
