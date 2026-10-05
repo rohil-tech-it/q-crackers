@@ -4408,7 +4408,7 @@
         import { initializeApp } from "firebase/app";
         import {
             getFirestore, collection, addDoc, getDocs, onSnapshot,
-            query, orderBy, serverTimestamp, updateDoc, doc, setDoc, getDoc
+            query, orderBy, serverTimestamp, updateDoc, doc, setDoc, getDoc, runTransaction
         } from "firebase/firestore";
         import { getStorage, ref, getDownloadURL, listAll } from "firebase/storage";
 
@@ -5139,56 +5139,50 @@
 
         async function saveOrderToFirebase(orderData) {
             try {
-                // ============================================================
-                // GENERATE SEQUENTIAL ORDER ID FROM FIREBASE COUNTER
-                // ============================================================
                 const counterRef = doc(db, 'settings', 'orderCounter');
-                let orderNumber = 1;
+                const newOrderRef = doc(collection(db, 'orders'));   // auto doc id
 
-                try {
-                    const counterSnap = await getDoc(counterRef);
-                    if (counterSnap.exists()) {
-                        orderNumber = (counterSnap.data().lastOrderNumber || 0) + 1;
-                    }
-                    await setDoc(counterRef, { lastOrderNumber: orderNumber }, { merge: true });
-                } catch (e) {
-                    console.error('Counter error:', e);
-                    // Fallback: use timestamp
-                    orderNumber = Math.floor(Date.now() / 1000) % 100000;
-                }
+                const { orderId, orderNumber } = await runTransaction(db, async (tx) => {
+                    const snap = await tx.get(counterRef);
+                    const next = (snap.exists() ? (snap.data().lastOrderNumber || 0) : 0) + 1;
+                    const orderId = 'QC' + String(next).padStart(3, '0');
 
-                // Format: QC001, QC002, ...
-                const formattedOrderId = 'QC' + String(orderNumber).padStart(3, '0');
+                    tx.set(counterRef, {
+                        lastOrderNumber: next,
+                        lastUpdated: serverTimestamp()
+                    }, { merge: true });
 
-                const ordersRef = collection(db, 'orders');
-                const order = {
-                    orderId: formattedOrderId,
-                    orderNumber: orderNumber,
-                    customerName: orderData.name,
-                    customerPhone: orderData.phone,
-                    customerEmail: orderData.email || '',
-                    customerAddress: orderData.address || '',
-                    customerState: orderData.state || 'TamilNadu & PY',
-                    items: orderData.items,
-                    totalItems: orderData.totalItems,
-                    totalAmount: orderData.totalAmount,
-                    orderDate: new Date().toISOString(),
-                    createdAt: serverTimestamp(),
-                    timestamp: serverTimestamp(),
-                    status: 'pending',
-                    source: 'website',
-                    whatsappSent: true,
+                    tx.set(newOrderRef, {
+                        orderId,
+                        orderNumber: next,
+                        customerName: orderData.name,
+                        customerPhone: orderData.phone,
+                        customerEmail: orderData.email || '',
+                        customerAddress: orderData.address || '',
+                        customerState: orderData.state || 'TamilNadu & PY',
+                        items: orderData.items,
+                        totalItems: orderData.totalItems,
+                        totalAmount: orderData.totalAmount,
+                        orderDate: new Date().toISOString(),
+                        createdAt: serverTimestamp(),
+                        timestamp: serverTimestamp(),
+                        status: 'pending',
+                        source: 'website',
+                        whatsappSent: true,
 
-                    // ---------- PICKUP DETAILS ----------
-                    pickupTransport: 'Mettur Transports',
-                    pickupBranchName: selectedPickupBranch ? selectedPickupBranch.name : '',
-                    pickupBranchAddress: selectedPickupBranch ? selectedPickupBranch.address : '',
-                    pickupBranchCity: selectedPickupBranch ? selectedPickupBranch.city : '',
-                    pickupBranchPhone: selectedPickupBranch ? selectedPickupBranch.phone : ''
-                };
-                const docRef = await addDoc(ordersRef, order);
-                return docRef.id;
+                        pickupTransport: 'Mettur Transports',
+                        pickupBranchName: selectedPickupBranch ? selectedPickupBranch.name : '',
+                        pickupBranchAddress: selectedPickupBranch ? selectedPickupBranch.address : '',
+                        pickupBranchCity: selectedPickupBranch ? selectedPickupBranch.city : '',
+                        pickupBranchPhone: selectedPickupBranch ? selectedPickupBranch.phone : ''
+                    });
+
+                    return { orderId, orderNumber: next };
+                });
+
+                return { docId: newOrderRef.id, orderId, orderNumber };
             } catch (error) {
+                console.error('Save order error:', error);
                 return null;
             }
         }
@@ -5358,13 +5352,13 @@
 
             generateOrderPDF(orderData).save(`${orderId}.pdf`);
         }
+        let isPlacingOrder = false;
 
         async function sendToWhatsApp() {
+            if (isPlacingOrder) return;                       // double click block
+
             const { cartItems, totalItems, totalAmount } = collectCartItems();
-            if (totalItems === 0) {
-                alert('Cart is empty!');
-                return;
-            }
+            if (totalItems === 0) { alert('Cart is empty!'); return; }
 
             const name = document.getElementById('client-name')?.value || 'Customer';
             const phone = document.getElementById('client-phone')?.value || '';
@@ -5377,51 +5371,34 @@
                 return;
             }
 
-            // ============================================================
-            // GENERATE SEQUENTIAL ORDER ID (QC001, QC002, ...)
-            // ============================================================
-            let orderId = 'QC001';
-            let orderNumber = 1;
+            isPlacingOrder = true;
+            const placeBtn = document.getElementById('cart-send-whatsapp');
+            placeBtn.disabled = true;
+            placeBtn.textContent = 'Placing Order...';
 
-            try {
-                const counterRef = doc(db, 'settings', 'orderCounter');
-                const counterSnap = await getDoc(counterRef);
-
-                if (counterSnap.exists()) {
-                    orderNumber = (counterSnap.data().lastOrderNumber || 0) + 1;
-                }
-
-                // Reserve the number in Firebase (atomic)
-                await setDoc(counterRef, {
-                    lastOrderNumber: orderNumber,
-                    lastUpdated: serverTimestamp()
-                }, { merge: true });
-
-                orderId = 'QC' + String(orderNumber).padStart(3, '0');
-            } catch (e) {
-                console.error('Counter error:', e);
-                // Fallback
-                orderId = 'QC' + String(Date.now()).slice(-6);
-            }
-
-            const now = new Date();
-            const timeStr = now.toLocaleString('en-IN', {
+            const timeStr = new Date().toLocaleString('en-IN', {
                 day: '2-digit', month: '2-digit', year: 'numeric',
                 hour: '2-digit', minute: '2-digit', hour12: true
             });
 
-            const orderData = {
-                orderId,
-                orderNumber,        // ✅ Save this too for sorting
+            const saved = await saveOrderToFirebase({
                 name, phone, email, address, state,
                 items: cartItems.map(item => ({
                     name: item.name, qty: item.qty, price: item.price, amount: item.amount
                 })),
-                totalItems, totalAmount, orderDate: timeStr,
-                pickupBranch: selectedPickupBranch
-            };
+                totalItems, totalAmount
+            });
 
-            currentOrderId = await saveOrderToFirebase(orderData);
+            if (!saved) {
+                alert('Order save aagala. Please try again.');
+                isPlacingOrder = false;
+                placeBtn.disabled = false;
+                placeBtn.textContent = 'Place Order';
+                return;
+            }
+
+            currentOrderId = saved.docId;
+            const orderId = saved.orderId;                    // same ID for Firebase + WhatsApp
 
             let message = `🧨 *Q Crackers - New Order*\n`;
             message += `━━━━━━━━━━━━━━━━━━━\n\n`;
@@ -5449,8 +5426,7 @@
             message += `*Total Amount:* ₹${totalAmount.toLocaleString('en-IN')}\n\n`;
             message += `_Thank you for ordering from Q Crackers!_ 🎆`;
 
-            const whatsappUrl = `https://wa.me/919655586461?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
+            window.open(`https://wa.me/919655586461?text=${encodeURIComponent(message)}`, '_blank');
 
             document.getElementById('order-summary-modal').classList.remove('active');
             document.getElementById('cart-modal').classList.remove('active');
